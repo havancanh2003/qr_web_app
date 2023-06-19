@@ -7,7 +7,8 @@
     display: flex;
     margin-top:33px ;
     height: 51px;
-    width: auto;
+    width: 100%;
+    box-shadow: 0 1px 1px rgb(0 0 0 /20%);
     img{
         height: 51px;
         max-width: 136px;
@@ -26,9 +27,20 @@
     height: 187px;
     background-color: antiquewhite;
     border-radius: 20px;
+    box-shadow: 0 5px 5px rgb(0 0 0 /20%);
 }
 .yourTable{
-    margin-bottom: -10px;
+    // margin-bottom: -10px;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 2px 0 rgb(0 0 0 /20%);
+    span{
+        margin-bottom: -12px;
+        position: relative;
+        color:#625B5B;
+        background-color: #FFFFFF;
+    }
 }
 
 .homeButton{
@@ -43,6 +55,7 @@
     color: #FE4D4D;
     display: flex;
     align-items: center;
+    box-shadow: 0 5px 5px rgb(0 0 0 /20%);
     img{
         width: 50px;
         height: 50px;
@@ -65,9 +78,9 @@
 p{  
     margin-top: 28px;
     font-size: 20px;
-    font-weight: 300;
     color: #939393;
 }
 #introduce{
-    margin-top: 30%;
+    margin-top: 160px;
+    
 }
