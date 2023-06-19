@@ -1,16 +1,10 @@
 
 import * as React from 'react';
-import { Routes, Route, useParams, Link } from 'react-router-dom';
 
 import './home.scss';
 import icon from '../../assets/image/icon.png'
 import logo192 from '../../assets/image/logo192.png'
 function Home() {
-  function ProfilePage() {
-    // Get the userId param from the URL.
-    let { userId } = useParams();
-    // ...
-  }
   return (
     <div className='homePage'>
       <div className='topBar'>
