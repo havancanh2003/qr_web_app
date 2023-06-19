@@ -1,0 +1,62 @@
+*{
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+}
+.topBar{
+    display: flex;
+    margin-top:33px ;
+    height: 51px;
+    width: auto;
+    img{
+        height: 51px;
+        width: 136px;
+        background-color: #121212;
+    }
+}
+.homePage{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+	
+}
+.adsBanner{
+    margin-top: 39px;
+    width: 324px;
+    height: 187px;
+    background-color: antiquewhite;
+    border-radius: 20px;
+}
+.yourTable{
+    margin-bottom: -10px;
+}
+
+.homeButton{
+    margin-top: 70px;
+    width: 324px;
+    height: 76px;
+    border-radius: 20px;
+    font-size: 24px;
+    font-weight: 600;
+    border: 1px solid #FE4D4D;
+    background-color: #FFFFFF;
+    color: #FE4D4D;
+}
+.homeButton img{
+    width: 50px;
+    height: 50px;
+    background-color: black;
+    color: #FFFFFF;
+}
+#secondButton{
+    margin-top: 18px;
+    background-color: #FE4D4D;
+    text-align: center;
+    color: #FFFFFF;
+}
+p{  
+    margin-top: 28px;
+    font-size: 20px;
+    font-weight: 300;
+    color: #939393;
+}
