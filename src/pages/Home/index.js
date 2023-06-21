@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Routes, Route, useParams, Link } from "react-router-dom";
+import { Routes, Route, useParams, useNavigate, Link } from "react-router-dom";
 
 import "./home.scss";
 import icon from "../../assets/image/icon.png";
@@ -14,6 +14,7 @@ function Home() {
     let { userId } = useParams();
     // ...
   }
+  const navigate = useNavigate()
   return (
     <div className={cx("homePage")}>
       <div className={cx("adsBanner")}></div>
@@ -26,7 +27,11 @@ function Home() {
         <img src={icon} alt="icon"></img>
         <span>Gọi Nhân Viên</span>
       </button>
-      <button className="homeButton" id="secondButton">
+      <button 
+        className="homeButton" 
+        id="secondButton"
+        onClick={() => navigate('Menu')}
+        >
         Xem Menu - Gọi Món
       </button>
       <p id="introduce">Powed by 4Flex</p>
