@@ -16,14 +16,12 @@ function Home() {
   }
   return (
     <div className={cx("homePage")}>
-      <div className={cx("topBar")}>
-        <img src={logo192} alt="LOGO"></img>
-      </div>
       <div className={cx("adsBanner")}></div>
       <p className={cx("yourTable")}>
         <span>Bạn đang ngồi bàn:</span>
+        <hr />
       </p>
-      <hr />
+
       <button className="homeButton">
         <img src={icon} alt="icon"></img>
         <span>Gọi Nhân Viên</span>

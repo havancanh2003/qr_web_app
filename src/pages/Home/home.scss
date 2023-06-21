@@ -1,45 +1,35 @@
-// *{
-//     box-sizing: border-box;
-//     margin-left: auto;
-//     margin-right: auto;
-// }
-.topBar{
-    display: flex;
-    margin-top:33px ;
-    height: 51px;
-    width: 100%;
-    box-shadow: 0 1px 1px rgb(0 0 0 /20%);
-    img{
-        height: 51px;
-        max-width: 136px;
-        background-color: #FE4D4D;
-    }
-}
+
 .homePage{
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-	
+    background-color: #f3f0f0;
 }
 .adsBanner{
     margin-top: 39px;
-    width: 324px;
-    height: 187px;
+    min-width: 320px;
+    max-width: fit-content;
+    min-height: 187px;
+    width: 86%;
+    height: 24%;
     background-color: antiquewhite;
     border-radius: 20px;
     box-shadow: 0 5px 5px rgb(0 0 0 /20%);
+    margin-left: auto;
+    margin-right: auto;
 }
 .yourTable{
-    // margin-bottom: -10px;
-    width: 80%;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     justify-content: center;
-    box-shadow: 0 2px 0 rgb(0 0 0 /20%);
+    box-shadow: 0 1px 0 rgb(0 0 0 /20%);
     span{
-        margin-bottom: -12px;
+        margin-bottom: -11px;
         position: relative;
         color:#625B5B;
-        background-color: #FFFFFF;
+        background-color: #f3f0f0;
     }
 }
 
@@ -56,17 +46,16 @@
     display: flex;
     align-items: center;
     box-shadow: 0 5px 5px rgb(0 0 0 /20%);
+    margin-left: auto;
+    margin-right: auto;
     img{
         width: 50px;
         height: 50px;
         background-color: black;
         color: #FFFFFF;
-        margin-right: 10px;
+        margin-right: 25px;
+        margin-left: 23px;
     }
-    span{
-        margin-left: 10px;
-    }   
-
 }
 
 #secondButton{
@@ -81,7 +70,9 @@ p{
     color: #939393;
 }
 #introduce{
-    margin-top: 190px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 170px;
     font-size: 20px;
     color: #939393;
 }
