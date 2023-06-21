@@ -4,23 +4,24 @@ import { BestDealFood } from "../../data/BestDealFood";
 
 import classNames from "classnames/bind";
 import style from "./Menu.module.scss";
+import { Link } from "react-router-dom";
 const cx = classNames.bind(style);
 
 function Menu() {
   console.log(BestDealFood);
   return (
     <section>
-      <div className={cx("header_container")}>
+      {/* <div className={cx("header_container")}>
         <div className={cx("filter")}>
           <FaAlignLeft />
         </div>
         <div className={cx("search")}>
           <input type="text" placeholder="Search..." />
         </div>
-      </div>
+      </div> */}
       <div className={cx("tiltle_container")}>
         <h3>Today's best deals</h3>
-        <a href="#">SHOW ALL</a>
+        <Link to={"/searchfood"}>SHOW ALL</Link>
       </div>
       <div className={cx("food_best_deal")}>
         {BestDealFood.map((food, index) => (
