@@ -45,17 +45,23 @@
     color: black;
 }
 .food_recommend{
-    display: flex;
-    width:500px;
-    overflow: hidden;
-    overflow-x: scroll;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    grid-auto-flow: column;
+    scroll-behavior: auto;
+    gap: 1.2rem;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+.food_recommend::-webkit-scrollbar{
+    display: none;
 }
 .food_1{
+    scroll-snap-align: start;
     background-color: #999999;
     border-radius: 10px;
-    width: 200px;
+    min-width: 250px;
     height: auto;
     display: flex;
     padding: 7px;
