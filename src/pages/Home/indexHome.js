@@ -1,9 +1,6 @@
 import * as React from "react";
-
 import { Routes, Route, useParams, useNavigate, Link } from "react-router-dom";
 import { Fragment } from "react";
-
-import "./home.scss";
 import icon from "../../assets/image/icon.png";
 import Headerhome from "../../components/DefaultLayout/Headerhome";
 import classNames from "classnames/bind";
@@ -25,8 +22,6 @@ function Home() {
           <span>Bạn đang ngồi bàn:</span>
           <hr />
         </p>
-
-
       <button className="homeButton">
         <img src={icon} alt="icon"></img>
         <span>Gọi Nhân Viên</span>
