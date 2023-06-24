@@ -12,11 +12,12 @@ function Menu() {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState(true);
   const [add, setAdd] = useState(false);
+  const [showdetail, setShowDetail] = useState(false);
 
-  function showDetail() {
-    setOpen(!open);
-    setName(!name);
-  }
+  // function showDetail() {
+  //   setOpen(!open);
+  //   setName(!name);
+  // }
   //console.log(BestDealFood);
   return (
     <Fragment>
@@ -25,6 +26,7 @@ function Menu() {
           setOpen(false);
           setName(true);
           setAdd(false);
+          setShowDetail(!showdetail);
         }}
       >
         <div className={cx("tiltle_container")}>
@@ -33,7 +35,11 @@ function Menu() {
         </div>
         <div className={cx("food_best_deal")}>
           {BestDealFood.map((food, index) => (
-            <div key={index} className={cx("box_food_1")}>
+            <div
+              onClick={() => setShowDetail(true)}
+              key={index}
+              className={cx("box_food_1")}
+            >
               <img src={food.src} alt="" />
               <div className={cx("about_food")}>
                 <p>
@@ -77,56 +83,82 @@ function Menu() {
           </div>
         ))}
       </section>
-      <div className={cx("footer")}>
-        {open && (
-          <div className={cx("show")}>
-            <div className={cx("box_note")}>
-              <div className={cx("container_note")}>
-                <label>Lemon</label>
-                <input type="checkbox" name="check" />
-              </div>
+      {showdetail && (
+        <div className={cx("footer")}>
+          {/* {open && ( */}
+
+          <div className={cx("box_note")}>
+            <div className={cx("container")}>
               <div className={cx("container_note")}>
                 <label>Olive</label>
                 <input type="checkbox" name="check" />
               </div>
-              {/* <div className={cx("container_note")}>
+              <div className={cx("container_note")}>
+                <label>Lemon</label>
+                <input type="checkbox" name="check" />
+              </div>
+            </div>
+
+            {/* <div className={cx("container_note")}>
                 <label>Mint</label>
                 <input type="checkbox" name="check" />
               </div> */}
+            <div>
+              <button>Order Now</button>
+              <button onClick={() => setAdd(true)}>Add to Cart</button>
             </div>
-            {/* <div className={cx("note")}>
+          </div>
+          {/* <div className={cx("note")}>
               <textarea placeholder="Note..."></textarea>
             </div> */}
-          </div>
-        )}
-        <div
-          style={{
-            cursor: "pointer",
-          }}
-          id={cx("push")}
-          onClick={showDetail}
-        >
-          <ion-icon
-            name={name ? "arrow-up-outline" : "arrow-down-outline"}
-          ></ion-icon>
-        </div>
-        {add && (
-          <div className={cx("showa")}>
+
+          {/* )} */}
+          {/* <div
+            style={{
+              cursor: "pointer",
+            }}
+            id={cx("push")}
+            onClick={showDetail}
+          >
             <ion-icon
-              className={cx("icon")}
-              onClick={() => (setAdd(false), setOpen(false), setName(true))}
-              name="close-outline"
+              name={name ? "arrow-up-outline" : "arrow-down-outline"}
             ></ion-icon>
-            <div className={cx("done")}>
-              <ion-icon name="checkmark-outline"></ion-icon>
+          </div> */}
+          {/* {add && (
+            <div className={cx("showa")}>
+              <ion-icon
+                className={cx("icon")}
+                onClick={() => (setAdd(false), setOpen(false), setName(true))}
+                name="close-outline"
+              ></ion-icon>
+              <div className={cx("done")}>
+                <ion-icon name="checkmark-outline"></ion-icon>
+              </div>
             </div>
-          </div>
-        )}
-        <div>
-          <button>Order Now</button>
-          <button onClick={() => setAdd(true)}>Add to Cart</button>
+          )} */}
+          {/* <div>
+            <button>Order Now</button>
+            <button onClick={() => setAdd(true)}>Add to Cart</button>
+          </div> */}
+          {add && (
+            <div className={cx("showa")}>
+              <ion-icon
+                className={cx("icon")}
+                onClick={() => (
+                  setAdd(false),
+                  setOpen(false),
+                  setName(true),
+                  setShowDetail(false)
+                )}
+                name="close-outline"
+              ></ion-icon>
+              <div className={cx("done")}>
+                <ion-icon name="checkmark-outline"></ion-icon>
+              </div>
+            </div>
+          )}
         </div>
-      </div>
+      )}
     </Fragment>
   );
 }
