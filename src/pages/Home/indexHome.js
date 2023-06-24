@@ -25,7 +25,7 @@ function Home() {
       <div className={cx("homePage")}>
         <div className={cx("adsBanner")}></div>
         <p className={cx("yourTable")}>
-          <span>Bạn đang ngồi bàn:</span>
+          <span>Bạn đang ngồi bàn: {table}</span>
           <hr />
         </p>
         <button className="homeButton">
