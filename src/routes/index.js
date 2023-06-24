@@ -6,7 +6,7 @@ import Home from "../pages/Home/indexHome";
 import { Fragment } from "react";
 
 export const publicRoutes = [
-  { path: "/", component: Home, layout: null },
+  { path: "/home/:table", component: Home, layout: null },
   { path: "/menu", component: Menu },
   { path: "/cart", component: Cart, layout:null },
   { path: "/searchfood", component: ShowSearchFood },
