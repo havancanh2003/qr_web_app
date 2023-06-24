@@ -11,10 +11,20 @@
 }
 html{
     font-size: 62.5%;
+    background-color: #f3f0f0;
+
 }
 body{
     font-family: 'Times New Roman', Times, serif;
     font-size: 1.6rem;
     line-height: 1.5;
     text-rendering: optimizeSpeed;
+    padding: 0 20px 0;
+    // overflow: hidden;
+    // overflow-y: scroll;
+    // height: 100vh;
+    // padding-left: 10%;
+    // padding-right: 10%;
+    // margin-left: 15%;
+    // margin-right: 15%;
 }

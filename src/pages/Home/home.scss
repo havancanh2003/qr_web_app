@@ -1,36 +1,43 @@
-*{
-    box-sizing: border-box;
-    margin-left: auto;
-    margin-right: auto;
-}
-.topBar{
-    display: flex;
-    margin-top:33px ;
-    height: 51px;
-    width: auto;
-    img{
-        height: 51px;
-        width: 136px;
-        background-color: #121212;
-    }
-}
+
 .homePage{
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-	
+    background-color: #f3f0f0;
 }
+// space for ads
 .adsBanner{
     margin-top: 39px;
-    width: 324px;
-    height: 187px;
+    min-width: 320px;
+    max-width: fit-content;
+    min-height: 187px;
+    width: 86%;
+    height: 24%;
     background-color: antiquewhite;
     border-radius: 20px;
+    box-shadow: 0 5px 5px rgb(0 0 0 /20%);
+    margin-left: auto;
+    margin-right: auto;
 }
+//display what your table number
 .yourTable{
-    margin-bottom: -10px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 1px 0 rgb(0 0 0 /20%);
+    span{
+        margin-top: 28px;
+        margin-bottom: -11px;
+        position: relative;
+        color:#625B5B;
+        background-color: #f3f0f0;
+        font-size: 20px;
+    color: #939393;
+    }
 }
-
+// for both 2 button
 .homeButton{
     margin-top: 70px;
     width: 324px;
@@ -41,22 +48,36 @@
     border: 1px solid #FE4D4D;
     background-color: #FFFFFF;
     color: #FE4D4D;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 5px 5px rgb(0 0 0 /20%);
+    margin-left: auto;
+    margin-right: auto;
+    img{
+        width: 50px;
+        height: 50px;
+        background-color: black;
+        color: #FFFFFF;
+        margin-right: 25px;
+        margin-left: 23px;
+    }
 }
-.homeButton img{
-    width: 50px;
-    height: 50px;
-    background-color: black;
-    color: #FFFFFF;
-}
+//overwrite for secondbutton
 #secondButton{
     margin-top: 18px;
     background-color: #FE4D4D;
-    text-align: center;
     color: #FFFFFF;
+    justify-content: center;
 }
-p{  
-    margin-top: 28px;
+// p{  
+//     margin-top: 28px;
+//     font-size: 20px;
+//     color: #939393;
+// }
+#introduce{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 170px;
     font-size: 20px;
-    font-weight: 300;
     color: #939393;
 }
