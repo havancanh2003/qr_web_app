@@ -1,4 +1,4 @@
-export const sessionStorage = [
+export const sessionStorageDummy = [
   {
     id: "6497f3d8207edcf74dd69c78",
     image_detail: {
@@ -15,7 +15,7 @@ export const sessionStorage = [
     id: "6497f2c1207edcf74dd69c5a",
     image_detail: {
       id: "6497f966ec184b7687b6cf87",
-      path: "http://117.4.194.207:3003/image/d471f63523c1b11371ebbc8fcbdb3f70.jpg"
+      path: "http://117.4.194.207:3003/image/d471f63523c1b11371ebbc8fcbdb3f70.jpg",
     },
     name: "Bánh mì",
     price: 15000,
@@ -32,6 +32,6 @@ export const sessionStorage = [
     name: "Coca",
     price: 15000,
     options: ["30% đá"],
-    number: "2",
+    number: 2,
   },
 ];
