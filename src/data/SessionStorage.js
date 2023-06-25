@@ -14,8 +14,8 @@ export const sessionStorage = [
   {
     id: "6497f2c1207edcf74dd69c5a",
     image_detail: {
-      id: "6497f2c1207edcf74dd69c55",
-      path: "http://localhost:3003/image/7592b70c8c313bd07102d93c645b0f675.jpg",
+      id: "6497f966ec184b7687b6cf87",
+      path: "http://117.4.194.207:3003/image/d471f63523c1b11371ebbc8fcbdb3f70.jpg"
     },
     name: "Bánh mì",
     price: 15000,

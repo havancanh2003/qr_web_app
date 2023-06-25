@@ -49,9 +49,13 @@ body{
             margin-bottom: auto;
             margin-right: 5%;
             margin-left: 5%;
+            height: 80px;
+            // width: 75px;              
             img{
-                height: 70px;
-                width: 70px;
+                height: 80px;
+                width: 80px;
+                object-fit: cover;
+                border-radius: 5px;
                 background-color: #1abc9c;
             }
         }
