@@ -8,9 +8,13 @@ import xIcon from "../../assets/image/x_icon_150997.png";
 import plusIcon from "../../assets/image/plus_icon-icons.com_66718.png";
 import minusIcon from "../../assets/image/free-minus-icon-3108-thumb.png";
 
+import { sessionStorage } from "../../data/SessionStorage";
+
 const cx = classNames.bind(style);
 function Cart() {
   const navigate = useNavigate()
+  let totalBillPrice = 0;
+  
   return (
     <div>
       <div className={cx("topCart")}>
@@ -23,18 +27,19 @@ function Cart() {
       </div>
       <hr />
       <div className={cx("cartBody")}>
-          <div className={cx("cartItem")}>
+        {sessionStorage.map((food, index) => (
+          <div className={cx("cartItem")} key = {index}>
             <div className={cx("cartImage")}>
-              <img src={cartImage}></img>
+              <img src={food.image_detail.path}></img>
             </div>
             <div className={cx("cartInfo")}>
-              <h3>CUA KÌ CỤC</h3>
-              <h5>chiên giòn sốt chua ngọt</h5>
+              <h3>{food.name}</h3>
+              <h5>{food.options}</h5>
               <div className={cx("itemQuantity")} >
-              <button className={cx("decrease")}>
+                <button className={cx("decrease")}>
                   <img src={minusIcon}></img>
                 </button>
-                <h4 className={cx("quantity")}>1</h4>
+                <h4 className={cx("quantity")}>{food.number}</h4>
                 <button className={cx("increase")}>
                   <img src={plusIcon}></img>
                 </button>
@@ -44,202 +49,19 @@ function Cart() {
               <button>
                 <img src={xIcon}></img>
               </button>
-              <h4>100.000đ</h4>
-            </div>
-          </div><div className={cx("cartItem")}>
-            <div className={cx("cartImage")}>
-              <img src={cartImage}></img>
-            </div>
-            <div className={cx("cartInfo")}>
-              <h3>CUA KÌ CỤC</h3>
-              <h5>chiên giòn sốt chua ngọt</h5>
-              <div className={cx("itemQuantity")} >
-              <button className={cx("decrease")}>
-                  <img src={minusIcon}></img>
-                </button>
-                <h4 className={cx("quantity")}>1</h4>
-                <button className={cx("increase")}>
-                  <img src={plusIcon}></img>
-                </button>
-              </div>
-            </div>
-            <div className={cx("cartAssets")}>
-              <button>
-                <img src={xIcon}></img>
-              </button>
-              <h4>100.000đ</h4>
-            </div>
-          </div><div className={cx("cartItem")}>
-            <div className={cx("cartImage")}>
-              <img src={cartImage}></img>
-            </div>
-            <div className={cx("cartInfo")}>
-              <h3>CUA KÌ CỤC</h3>
-              <h5>chiên giòn sốt chua ngọt</h5>
-              <div className={cx("itemQuantity")} >
-              <button className={cx("decrease")}>
-                  <img src={minusIcon}></img>
-                </button>
-                <h4 className={cx("quantity")}>1</h4>
-                <button className={cx("increase")}>
-                  <img src={plusIcon}></img>
-                </button>
-              </div>
-            </div>
-            <div className={cx("cartAssets")}>
-              <button>
-                <img src={xIcon}></img>
-              </button>
-              <h4>100.000đ</h4>
-            </div>
-          </div><div className={cx("cartItem")}>
-            <div className={cx("cartImage")}>
-              <img src={cartImage}></img>
-            </div>
-            <div className={cx("cartInfo")}>
-              <h3>CUA KÌ CỤC</h3>
-              <h5>chiên giòn sốt chua ngọt</h5>
-              <div className={cx("itemQuantity")} >
-              <button className={cx("decrease")}>
-                  <img src={minusIcon}></img>
-                </button>
-                <h4 className={cx("quantity")}>1</h4>
-                <button className={cx("increase")}>
-                  <img src={plusIcon}></img>
-                </button>
-              </div>
-            </div>
-            <div className={cx("cartAssets")}>
-              <button>
-                <img src={xIcon}></img>
-              </button>
-              <h4>100.000đ</h4>
-            </div>
-          </div><div className={cx("cartItem")}>
-            <div className={cx("cartImage")}>
-              <img src={cartImage}></img>
-            </div>
-            <div className={cx("cartInfo")}>
-              <h3>CUA KÌ CỤC</h3>
-              <h5>chiên giòn sốt chua ngọt</h5>
-              <div className={cx("itemQuantity")} >
-              <button className={cx("decrease")}>
-                  <img src={minusIcon}></img>
-                </button>
-                <h4 className={cx("quantity")}>1</h4>
-                <button className={cx("increase")}>
-                  <img src={plusIcon}></img>
-                </button>
-              </div>
-            </div>
-            <div className={cx("cartAssets")}>
-              <button>
-                <img src={xIcon}></img>
-              </button>
-              <h4>100.000đ</h4>
-            </div>
-          </div><div className={cx("cartItem")}>
-            <div className={cx("cartImage")}>
-              <img src={cartImage}></img>
-            </div>
-            <div className={cx("cartInfo")}>
-              <h3>CUA KÌ CỤC</h3>
-              <h5>chiên giòn sốt chua ngọt</h5>
-              <div className={cx("itemQuantity")} >
-              <button className={cx("decrease")}>
-                  <img src={minusIcon}></img>
-                </button>
-                <h4 className={cx("quantity")}>1</h4>
-                <button className={cx("increase")}>
-                  <img src={plusIcon}></img>
-                </button>
-              </div>
-            </div>
-            <div className={cx("cartAssets")}>
-              <button>
-                <img src={xIcon}></img>
-              </button>
-              <h4>100.000đ</h4>
-            </div>
-          </div><div className={cx("cartItem")}>
-            <div className={cx("cartImage")}>
-              <img src={cartImage}></img>
-            </div>
-            <div className={cx("cartInfo")}>
-              <h3>CUA KÌ CỤC</h3>
-              <h5>chiên giòn sốt chua ngọt</h5>
-              <div className={cx("itemQuantity")} >
-              <button className={cx("decrease")}>
-                  <img src={minusIcon}></img>
-                </button>
-                <h4 className={cx("quantity")}>1</h4>
-                <button className={cx("increase")}>
-                  <img src={plusIcon}></img>
-                </button>
-              </div>
-            </div>
-            <div className={cx("cartAssets")}>
-              <button>
-                <img src={xIcon}></img>
-              </button>
-              <h4>100.000đ</h4>
-            </div>
-          </div><div className={cx("cartItem")}>
-            <div className={cx("cartImage")}>
-              <img src={cartImage}></img>
-            </div>
-            <div className={cx("cartInfo")}>
-              <h3>CUA KÌ CỤC</h3>
-              <h5>chiên giòn sốt chua ngọt</h5>
-              <div className={cx("itemQuantity")} >
-              <button className={cx("decrease")}>
-                  <img src={minusIcon}></img>
-                </button>
-                <h4 className={cx("quantity")}>1</h4>
-                <button className={cx("increase")}>
-                  <img src={plusIcon}></img>
-                </button>
-              </div>
-            </div>
-            <div className={cx("cartAssets")}>
-              <button>
-                <img src={xIcon}></img>
-              </button>
-              <h4>100.000đ</h4>
+              <h4>{food.price*food.number}đ</h4>
             </div>
           </div>
-          <div className={cx("cartItem")}>
-            <div className={cx("cartImage")}>
-              <img src={cartImage}></img>
-            </div>
-            <div className={cx("cartInfo")}>
-              <h3>CUA KÌ CỤC</h3>
-              <h5>chiên giòn sốt chua ngọt</h5>
-              <div className={cx("itemQuantity")} >
-              <button className={cx("decrease")}>
-                  <img src={minusIcon}></img>
-                </button>
-                <h4 className={cx("quantity")}>1</h4>
-                <button className={cx("increase")}>
-                  <img src={plusIcon}></img>
-                </button>
-              </div>
-            </div>
-            <div className={cx("cartAssets")}>
-              <button>
-                <img src={xIcon}></img>
-              </button>
-              <h4>100.000đ</h4>
-            </div>
-          </div>
-
+        ))}
       </div>
       <div className={cx("cartTotal")}>
         <h2>Bạn đã chọn X món</h2>
         <hr />
         <div className={cx("totalBill")}>
           <p>Tổng hoá đơn</p>
-          <p id={cx("totalPrice")}>949.000 đ</p>
+          <p id={cx("totalPrice")}>
+            {totalBillPrice}đ
+          </p>
         </div>
         <div className={cx("cartNote")}>
           <p>Ghi chú:</p>
