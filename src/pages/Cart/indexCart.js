@@ -98,7 +98,7 @@ function Cart() {
   return (
     <div>
       <div className={cx("topCart")}>
-        <button className={cx("backButton")} onClick={() => navigate("")}>
+        <button className={cx("backButton")} onClick={() => navigate("/menu")}>
           <img src={leftArrow} alt="icon" />
         </button>
         <p className={cx("topTitle")}>Món Bạn Đã Chọn</p>
