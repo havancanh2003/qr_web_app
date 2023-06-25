@@ -11,7 +11,6 @@ const Header = () => {
 
   const handleClick = () => {
     const table = sessionStorage.getItem("table");
-    console.log(table);
     navigate(`/home/${table}`);
   };
 
