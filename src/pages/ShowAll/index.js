@@ -1,10 +1,49 @@
 import React from "react";
 import classNames from "classnames/bind";
-import style from "./ShowSearchFood.module.scss";
+import style from "./ShowAll.module.scss";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 // import { BestDealFood } from "../../data/BestDealFood";
 import { menuSalad } from "../../data/BestDealFood";
 const cx = classNames.bind(style);
-const ShowSearchFood = () => {
+function ShowAll() {
+  const [category, setCategory] = useState([]);
+  const [listDish, setListDish] = useState([]);
+  useEffect(() => {
+    axios
+    .get("http://117.4.194.207:3003/category/all")
+    .then((response) => {
+      console.log(response);
+      setCategory(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+    axios
+    .get("http://117.4.194.207:3003/dish/menu/all-actived")
+    .then((response) => {
+      console.log(response);
+      setListDish(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }, []);
+  
+  // const clickCategoryHandler = (categoryName) => {
+  //   axios
+  //     .get(`http://117.4.194.207:3003/dish/category/${categoryName}`)
+  //     .then((response) => {
+  //       console.log(response);
+  //       setListDish(true);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+  console.log(category);
+  console.log(listDish);
   return (
     <section>
       <div className={cx("filter")}>
@@ -28,21 +67,21 @@ const ShowSearchFood = () => {
       </div>
 
       <div className={cx("food_best_deal")}>
-        {menuSalad.map((food, index) => (
+        {listDish.map((food, index) => (
           <div key={index} className={cx("box_food_1")}>
-            <img src={food.src} alt="" />
+            <img src={food.image_detail.path} alt="" />
             <div className={cx("about_food")}>
               <p>
                 {food.name} <br />
-                <span>{food.about}</span>
+                <span>{food.description}</span>
               </p>
-              <span>{food.price}</span>
+              <span>{food.price}đ</span>
             </div>
           </div>
         ))}
       </div>
 
-      <section className={cx("recommend")}>
+      {/* <section className={cx("recommend")}>
         <h2>You might also like</h2>
         <div className={cx("food_recommend")}>
           <div className={cx("food_1")}>
@@ -72,9 +111,9 @@ const ShowSearchFood = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </section>
   );
 };
 
-export default ShowSearchFood;
+export default ShowAll;

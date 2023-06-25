@@ -31,7 +31,7 @@ function Menu() {
       >
         <div className={cx("tiltle_container")}>
           <h3>Today's best deals</h3>
-          <Link to={"/searchfood"}>SHOW ALL</Link>
+          <Link to={"/showall"}>SHOW ALL</Link>
         </div>
         <div className={cx("food_best_deal")}>
           {BestDealFood.map((food, index) => (
