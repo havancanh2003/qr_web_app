@@ -140,7 +140,7 @@ function Cart() {
         ))}
       </div>
       <div className={cx("cartTotal")}>
-        <h2>Bạn đã chọn {cartStored.length} món</h2>
+        <h2>Bạn đã chọn {cartStored.length} món(X sản phẩm)</h2>
         <hr />
         <div className={cx("totalBill")}>
           <p>Tổng hoá đơn:</p>
