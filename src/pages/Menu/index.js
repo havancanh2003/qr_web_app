@@ -9,24 +9,14 @@ import { Link } from "react-router-dom";
 const cx = classNames.bind(style);
 
 function Menu() {
-  const [open, setOpen] = useState(false);
-  const [name, setName] = useState(true);
+  const [overlay, setOverlay] = useState(false);
   const [add, setAdd] = useState(false);
   const [showdetail, setShowDetail] = useState(false);
-
-  // function showDetail() {
-  //   setOpen(!open);
-  //   setName(!name);
-  // }
-  //console.log(BestDealFood);
   return (
     <Fragment>
       <section
         onClick={() => {
-          setOpen(false);
-          setName(true);
-          setAdd(false);
-          setShowDetail(!showdetail);
+          //setAdd(false);
         }}
       >
         <div className={cx("tiltle_container")}>
@@ -36,7 +26,7 @@ function Menu() {
         <div className={cx("food_best_deal")}>
           {BestDealFood.map((food, index) => (
             <div
-              onClick={() => setShowDetail(true)}
+              onClick={() => (setShowDetail(true), setOverlay(true))}
               key={index}
               className={cx("box_food_1")}
             >
@@ -83,11 +73,36 @@ function Menu() {
           </div>
         ))}
       </section>
+      {overlay && (
+        <div
+          onClick={() => {
+            setOverlay(false);
+            setShowDetail(false);
+          }}
+          className={cx("overlay")}
+        ></div>
+      )}
       {showdetail && (
         <div className={cx("footer")}>
-          {/* {open && ( */}
-
           <div className={cx("box_note")}>
+            <div className={cx("product")}>
+              <div className={cx("img_product")}>
+                <img
+                  src="https://www.allrecipes.com/thmb/wQCrv01gJqlIFM1AnCjODW3fZ0g=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/14253-Taco-Salad-ddmfs-016-4x3-1-8c152400b3a2465fbaff684bdda0a264.jpg"
+                  alt=""
+                />
+              </div>
+              <div className={cx("about_product")}>
+                <h4>Salad ceaser</h4>
+                <p>React Hook useEffect has missing dependencies:</p>
+                <span>149.000d</span>
+                <div className={cx("quantity")}>
+                  <ion-icon name="add-circle"></ion-icon>
+                  <span>0</span>
+                  <ion-icon name="remove-circle"></ion-icon>
+                </div>
+              </div>
+            </div>
             <div className={cx("container")}>
               <div className={cx("container_note")}>
                 <label>Olive</label>
@@ -97,58 +112,33 @@ function Menu() {
                 <label>Lemon</label>
                 <input type="checkbox" name="check" />
               </div>
-            </div>
-
-            {/* <div className={cx("container_note")}>
-                <label>Mint</label>
+              <div className={cx("container_note")}>
+                <label>Olive</label>
                 <input type="checkbox" name="check" />
-              </div> */}
-            <div>
-              <button>Order Now</button>
+              </div>
+              <div className={cx("container_note")}>
+                <label>Lemon</label>
+                <input type="checkbox" name="check" />
+              </div>
+              <div className={cx("container_note")}>
+                <label>Olive</label>
+                <input type="checkbox" name="check" />
+              </div>
+              <div className={cx("container_note")}>
+                <label>Lemon</label>
+                <input type="checkbox" name="check" />
+              </div>
+            </div>
+            <div className={cx("addCart")}>
               <button onClick={() => setAdd(true)}>Add to Cart</button>
             </div>
           </div>
-          {/* <div className={cx("note")}>
-              <textarea placeholder="Note..."></textarea>
-            </div> */}
-
-          {/* )} */}
-          {/* <div
-            style={{
-              cursor: "pointer",
-            }}
-            id={cx("push")}
-            onClick={showDetail}
-          >
-            <ion-icon
-              name={name ? "arrow-up-outline" : "arrow-down-outline"}
-            ></ion-icon>
-          </div> */}
-          {/* {add && (
-            <div className={cx("showa")}>
-              <ion-icon
-                className={cx("icon")}
-                onClick={() => (setAdd(false), setOpen(false), setName(true))}
-                name="close-outline"
-              ></ion-icon>
-              <div className={cx("done")}>
-                <ion-icon name="checkmark-outline"></ion-icon>
-              </div>
-            </div>
-          )} */}
-          {/* <div>
-            <button>Order Now</button>
-            <button onClick={() => setAdd(true)}>Add to Cart</button>
-          </div> */}
           {add && (
             <div className={cx("showa")}>
               <ion-icon
                 className={cx("icon")}
                 onClick={() => (
-                  setAdd(false),
-                  setOpen(false),
-                  setName(true),
-                  setShowDetail(false)
+                  setAdd(false), setOverlay(false), setShowDetail(false)
                 )}
                 name="close-outline"
               ></ion-icon>

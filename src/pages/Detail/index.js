@@ -137,7 +137,7 @@ function Detail() {
       {/* <div className={cx("show")}>
         <div className={cx("a")}></div>
       </div> */}
-      <div className={cx("footer")}>
+      {/* <div className={cx("footer")}>
         {open && (
           <div className={cx("show")}>
             <div className={cx("box_note")}>
@@ -186,7 +186,7 @@ function Detail() {
           <button>Order Now</button>
           <button onClick={() => setAdd(true)}>Add to Cart</button>
         </div>
-      </div>
+      </div> */}
     </Fragment>
   );
 }
