@@ -1,8 +1,9 @@
 import { FaAlignLeft, FaAirFreshener } from "react-icons/fa";
+import { useState, useEffect } from "react";
+import { Fragment } from "react";
+import axios from "axios";
 import { MdOutlineFreeBreakfast, MdOutlineLunchDining } from "react-icons/md";
 import { BestDealFood } from "../../data/BestDealFood";
-import { useState } from "react";
-import { Fragment } from "react";
 import classNames from "classnames/bind";
 import style from "./Menu.module.scss";
 import { Link } from "react-router-dom";
@@ -12,6 +13,17 @@ function Menu() {
   const [overlay, setOverlay] = useState(false);
   const [add, setAdd] = useState(false);
   const [showdetail, setShowDetail] = useState(false);
+  const [dataMenu, setDataMenu] = useState([]);
+  const client = axios.create({
+    baseURL: "http://117.4.194.207:3003/dish/menu/best-seller",
+  });
+
+  useEffect(() => {
+    client.get("?_limit=4").then((response) => {
+      setDataMenu(response.data);
+    });
+  }, []);
+  //console.log(dataMenu);
   return (
     <Fragment>
       <section
@@ -24,17 +36,17 @@ function Menu() {
           <Link to={"/showall"}>SHOW ALL</Link>
         </div>
         <div className={cx("food_best_deal")}>
-          {BestDealFood.map((food, index) => (
+          {dataMenu.map((food) => (
             <div
               onClick={() => (setShowDetail(true), setOverlay(true))}
-              key={index}
+              key={food._id}
               className={cx("box_food_1")}
             >
-              <img src={food.src} alt="" />
+              <img src={food.image_detail.path} alt="" />
               <div className={cx("about_food")}>
                 <p>
                   {food.name} <br />
-                  <span>{food.about}</span>
+                  <span>{food.category}</span>
                 </p>
                 <span>{food.price}</span>
               </div>
