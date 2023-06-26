@@ -1,0 +1,163 @@
+nav.sticky{
+        // position: -webkit-sticky;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.6);
+        position: fixed;
+        top: 47px;
+        z-index: 100;
+        border-radius: 15px;
+}
+nav{
+    display: flex;
+    width: max-content;
+    .navBarBox {
+        background: #fff;
+        border-radius: 15px;
+        overflow-x: scroll;
+        white-space: nowrap;
+        padding-top: 1rem;
+        // -webkit-overflow-scrolling: ;
+        max-width: 90vw;
+        -ms-overflow-style: none;
+        /* IE and Edge */
+        scrollbar-width: none;
+
+        /* Firefox */
+        :first-child {
+            margin-left: 2%;
+        }
+
+        :last-child {
+            margin-right: 2rem;
+        }
+        span{
+            color: transparent;
+        }
+    }
+
+    .navBarBox::-webkit-scrollbar {
+        display: none;
+    }
+
+    .navBarElement {
+        text-align: center;
+        min-width: fit-content;
+        width: 18vw;
+        background-color: transparent;
+        display: inline-block;
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-left: 3rem;
+        overflow: hidden;
+        padding: 0.05rem;
+        position: relative;
+    }
+}
+
+.content {
+    .titleWrapper{
+        border-radius: 10px;
+        width: 100%;
+        background: rgb(254,77,77);
+        background: linear-gradient(165deg, rgba(254,77,77,1) 0%, rgba(243,240,240,1) 55%);
+    }
+    h2 {
+        border-radius: 15px;
+        margin-top: 2%;
+        margin-left: 2%;
+        color: #F3f0f0;
+        font-size: 2.5rem;
+    }
+}
+
+.showAllBody {
+    .boxFoodWrapper{
+        margin-top: 2%;
+        background-color: #fff;
+        border-radius: 15px;
+        display: flex;
+        box-shadow: 0 5px 5px rgb(0 0 0 /20%);
+        .box_food_1 {
+            height: 12vh;
+            border-radius: 10px;
+            margin: 3% 0% 2% 3%;
+            box-shadow: 0 5px 5px rgb(0 0 0 /20%);
+
+            img {
+                width: 30vw;
+                height: 12vh;
+                border-radius: 7px;
+                object-fit: cover;
+            }
+        }
+    }
+    .foodDescription {
+        height: 14vh;
+        width: 68vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        h3 {
+            width: 80%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: inline-block;
+            margin: 3% 0 0 7%;
+            font-size: 2rem;
+        }
+        p{  
+            width: 80%;
+            height: 9vh;
+            display: block;
+            margin: -1vh 0 0 7%;
+            font-size: 1.2rem;
+        }
+    }
+    .foodPrice {
+        color: #FE4D4D;
+        font-size: 1.5rem;
+        display: inline-block;
+        position: absolute;
+        right: 7vw;
+        margin-top: 11vh;
+    }  
+    
+}
+
+
+// .foodDescription p span{
+//     // font-weight: 70;
+//     font-size: 0.9rem;
+//     color: black;
+// }
+// .food_recommend{
+//     display: grid;
+//     grid-auto-flow: column;
+//     scroll-behavior: auto;
+//     gap: 1.2rem;
+//     overscroll-behavior-x: contain;
+//     scroll-snap-type: x mandatory;
+//     overflow-y: auto;
+//     scrollbar-width: none;
+// }
+// .food_recommend::-webkit-scrollbar{
+//     display: none;
+// }
+// .food_1{
+//     scroll-snap-align: start;
+//     background-color: #999999;
+//     border-radius: 10px;
+//     min-width: 250px;
+//     height: auto;
+//     display: flex;
+//     padding: 7px;
+//     justify-content: space-between;
+//     margin-right: 5px;
+// }
+// .food_img{
+//     width: 60%;
+// }
+// .food_img img{
+//     width: 100%;
+//     height: auto;
+// }
