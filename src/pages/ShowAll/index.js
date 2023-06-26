@@ -12,25 +12,25 @@ function ShowAll() {
   const [listDish, setListDish] = useState([]);
   useEffect(() => {
     axios
-    .get("http://117.4.194.207:3003/category/all")
-    .then((response) => {
-      console.log(response);
-      setCategory(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+      .get("http://117.4.194.207:3003/category/all")
+      .then((response) => {
+        console.log(response);
+        setCategory(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     axios
-    .get("http://117.4.194.207:3003/dish/menu/all-actived")
-    .then((response) => {
-      console.log(response);
-      setListDish(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+      .get("http://117.4.194.207:3003/dish/menu/all-actived")
+      .then((response) => {
+        console.log(response);
+        setListDish(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
-  
+
   // const clickCategoryHandler = (categoryName) => {
   //   axios
   //     .get(`http://117.4.194.207:3003/dish/category/${categoryName}`)
@@ -46,7 +46,32 @@ function ShowAll() {
   console.log(listDish);
   return (
     <section>
-      <div className={cx("filter")}>
+      <div className={cx("navBar")}>
+        <div className={cx("navBarBox")}>
+          <div className={cx("navBarElement")}>
+            <p>Tất Cả</p>
+          </div>
+          {category.map((food, index) => (
+            <div key={index} className={cx("navBarElement")}>
+              <p>{food.name}</p>
+            </div>
+          ))}
+          {/* decoy */}
+          <div className={cx("navBarElement")}>
+            <p>Tất Cả</p>
+          </div><div className={cx("navBarElement")}>
+            <p>Tất Cả</p>
+          </div><div className={cx("navBarElement")}>
+            <p>Tất Cả</p>
+          </div><div className={cx("navBarElement")}>
+            <p>Tất Cả</p>
+          </div> 
+          {/* decoy */}
+        </div>
+      </div>
+      {/* 2 selection box */}
+
+      {/* <div className={cx("filter")}>
         <select name="lang" id="lang-select">
           <option selected disabled>
             Price
@@ -64,18 +89,18 @@ function ShowAll() {
           <option value="5">13.00$$</option>
           <option value="6">13.00$$</option>
         </select>
-      </div>
+      </div> */}
 
-      <div className={cx("food_best_deal")}>
+      <div className={cx("showAllBody")}>
         {listDish.map((food, index) => (
           <div key={index} className={cx("box_food_1")}>
             <img src={food.image_detail.path} alt="" />
-            <div className={cx("about_food")}>
+            <div className={cx("foodDescription")}>
               <p>
                 {food.name} <br />
-                <span>{food.description}</span>
+                {/* <span>{food.description}</span> */}
               </p>
-              <span>{food.price}đ</span>
+              <span className={cx("foodPrice")}>{food.price}đ</span>
             </div>
           </div>
         ))}
