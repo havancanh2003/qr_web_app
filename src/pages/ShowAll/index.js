@@ -31,17 +31,18 @@ function ShowAll() {
       });
   }, []);
 
-  // const clickCategoryHandler = (categoryName) => {
+  // const categoryHandler = (categoryName) => {
   //   axios
   //     .get(`http://117.4.194.207:3003/dish/category/${categoryName}`)
   //     .then((response) => {
   //       console.log(response);
-  //       setListDish(true);
+  //       setListDish(response.data);
   //     })
   //     .catch((error) => {
   //       console.log(error);
   //     });
   // };
+
   console.log(category);
   console.log(listDish);
   return (
@@ -65,7 +66,7 @@ function ShowAll() {
             <p>Tất Cả</p>
           </div><div className={cx("navBarElement")}>
             <p>Tất Cả</p>
-          </div> 
+          </div>
           {/* decoy */}
         </div>
       </div>
@@ -90,22 +91,28 @@ function ShowAll() {
           <option value="6">13.00$$</option>
         </select>
       </div> */}
-
-      <div className={cx("showAllBody")}>
-        {listDish.map((food, index) => (
-          <div key={index} className={cx("box_food_1")}>
-            <img src={food.image_detail.path} alt="" />
-            <div className={cx("foodDescription")}>
-              <p>
-                {food.name} <br />
-                {/* <span>{food.description}</span> */}
-              </p>
-              <span className={cx("foodPrice")}>{food.price}đ</span>
-            </div>
+      {category.map((category, index) => (
+        <div key={index}>
+          <h2>{category.name}</h2>
+          <div className={cx("showAllBody")}>
+            {listDish
+              .filter((dish) => dish.category === category.name)
+              .map((food, index) => (
+                <div key={index} className={cx("box_food_1")}>
+                  <img src={food.image_detail.path} alt="" />
+                  <div className={cx("foodDescription")}>
+                    <p>
+                      {food.name} <br />
+                      {/* <span>{food.description}</span> */}
+                    </p>
+                    <span className={cx("foodPrice")}>{food.price}đ</span>
+                  </div>
+                </div>
+              ))}
           </div>
-        ))}
-      </div>
-
+        </div>
+      ))}
+      
       {/* <section className={cx("recommend")}>
         <h2>You might also like</h2>
         <div className={cx("food_recommend")}>
