@@ -1,19 +1,19 @@
-import { FaAlignLeft, FaAirFreshener } from "react-icons/fa";
+import { FaAirFreshener } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { Fragment } from "react";
-import axios from "axios";
+import { Link } from "react-router-dom";
 import { MdOutlineFreeBreakfast, MdOutlineLunchDining } from "react-icons/md";
-import { BestDealFood } from "../../data/BestDealFood";
+import axios from "axios";
 import classNames from "classnames/bind";
 import style from "./Menu.module.scss";
-import { Link } from "react-router-dom";
+import DetailButtonFood from "../../components/DetailButtonFood";
 const cx = classNames.bind(style);
 
 function Menu() {
+  const [detail, setDetail] = useState(false);
   const [overlay, setOverlay] = useState(false);
-  const [add, setAdd] = useState(false);
-  const [showdetail, setShowDetail] = useState(false);
   const [dataMenu, setDataMenu] = useState([]);
+
   const client = axios.create({
     baseURL: "http://117.4.194.207:3003/dish/menu/best-seller",
   });
@@ -23,14 +23,9 @@ function Menu() {
       setDataMenu(response.data);
     });
   }, []);
-  //console.log(dataMenu);
   return (
     <Fragment>
-      <section
-        onClick={() => {
-          //setAdd(false);
-        }}
-      >
+      <section>
         <div className={cx("tiltle_container")}>
           <h3>Today's best deals</h3>
           <Link to={"/showall"}>SHOW ALL</Link>
@@ -38,7 +33,7 @@ function Menu() {
         <div className={cx("food_best_deal")}>
           {dataMenu.map((food) => (
             <div
-              onClick={() => (setShowDetail(true), setOverlay(true))}
+              onClick={() => (setDetail(!detail), setOverlay(!overlay))}
               key={food._id}
               className={cx("box_food_1")}
             >
@@ -87,14 +82,13 @@ function Menu() {
       </section>
       {overlay && (
         <div
-          onClick={() => {
-            setOverlay(false);
-            setShowDetail(false);
-          }}
           className={cx("overlay")}
+          onClick={() => (setDetail(false), setOverlay(false))}
         ></div>
       )}
-      {showdetail && (
+      {detail && <DetailButtonFood />}
+
+      {/* {showdetail && (
         <div className={cx("footer")}>
           <div className={cx("box_note")}>
             <div className={cx("product")}>
@@ -160,7 +154,7 @@ function Menu() {
             </div>
           )}
         </div>
-      )}
+      )} */}
     </Fragment>
   );
 }
