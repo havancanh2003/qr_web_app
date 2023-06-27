@@ -97,12 +97,19 @@ function Cart() {
   };
   return (
     <div>
+      {isSucess && (
+        <div className={cx("sucessContainer")}>
+          <div className="sucessBox">
+            <h2 className={cx("sucessPopup")}>Gọi món thành công</h2>
+            <button>Trở về</button>
+          </div>
+        </div>
+      )}
       <div className={cx("topCart")}>
         <button className={cx("backButton")} onClick={() => navigate("/menu")}>
           <img src={leftArrow} alt="icon" />
         </button>
         <p className={cx("topTitle")}>Món Bạn Đã Chọn</p>
-        {isSucess && <h2>Gọi món thành công</h2>}
       </div>
       <hr />
       <div className={cx("cartBody")}>
@@ -140,7 +147,7 @@ function Cart() {
         ))}
       </div>
       <div className={cx("cartTotal")}>
-        <h2>Bạn đã chọn {cartStored.length} món(X sản phẩm)</h2>
+        <h2>Bạn đã chọn {cartStored.length} món</h2>
         <hr />
         <div className={cx("totalBill")}>
           <p>Tổng hoá đơn:</p>
