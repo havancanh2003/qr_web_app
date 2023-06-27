@@ -3,6 +3,8 @@ import classNames from "classnames/bind";
 import style from "./ShowAll.scss";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Fragment } from "react";
+import leftArrow from "../../assets/image/left-arrow.png";
 
 const cx = classNames.bind(style);
 
@@ -13,7 +15,7 @@ function ShowAll() {
   const [sticky, setSticky] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
-      setSticky(window.scrollY > 1)
+      setSticky(window.scrollY > 59)
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -41,23 +43,37 @@ function ShowAll() {
   const handleClick = (name) => {
     const element = document.getElementById(name);
     if (element) {
-      element.scrollIntoView({behavior:"smooth"});
-      // element.scrollTo({top: 0,behavior:"smooth"});
+      element.scrollIntoView({ behavior: "smooth" });
     }
   };
-
   if (category.length === 0 || listDish.length === 0) {
     return "loading...";
   }
-
-
+  const callToActionBtns = document.querySelectorAll(".mobile__CTA--btn");
+  callToActionBtns.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      callToActionBtns.forEach(f => f.classList.remove('active'));
+      e.target.classList.toggle("active");
+    });
+  });
   return (
-    <section>
+    <Fragment>
+      <div className={cx("topCart")}>
+        <button className={cx("backButton")} onClick={() => navigate("/menu")}>
+          <img src={leftArrow} alt="icon" />
+        </button>
+        <p className={cx("topTitle")}>SHOW ALL</p>
+      </div>
       <nav className={`${sticky ? "sticky" : ""}`}>
         <div className={cx("navBarBox")}>
           {category.map((cat, index) => (
             <div key={index} className={cx("navBarElement")}>
-              <p onClick={() => handleClick(cat.name)}>{cat.name}</p>
+              <button
+                id={cat.name + "-btn"}
+                onClick={() => handleClick(cat.name)}
+                className={cx("mobile__CTA--btn")}>
+                {cat.name}
+              </button>
             </div>
           ))}
           <div className={cx("navBarElement")}>
@@ -97,7 +113,7 @@ function ShowAll() {
           </div>
         ))}
       </div>
-    </section>
+    </Fragment>
   );
 }
 
