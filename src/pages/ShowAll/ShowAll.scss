@@ -64,7 +64,6 @@ nav {
         // :last-child {
         //     margin-right: 2rem;
         // }
-
         span {
             color: transparent;
         }
@@ -73,19 +72,30 @@ nav {
     .navBarBox::-webkit-scrollbar {
         display: none;
     }
-    button{
+
+    button {
         width: 29vw;
-        height: 3vh;
+        height: 4vh;
         border: none;
         background-color: transparent;
-        border-top-right-radius: 10px;
-        border-top-left-radius: 10px;
+        border-radius: 10px;
     }
-    .active{
+
+    .active {
         background-color: #FE4D4D;
         color: #F3f0f0;
+        font-size: 1.5rem;
     }
+
     .navBarElement {
+        :first-child {
+            :active {
+                background-color: #FE4D4D;
+                color: #F3f0f0;
+                font-size: 1.5rem;
+            }
+        }
+
         text-align: center;
         background-color: transparent;
         display: inline-block;
@@ -99,9 +109,10 @@ nav {
 
 .content {
     background-color: #F3f0f0;
-    margin-top: 5vh;
+    margin-top: 6vh;
     padding-left: 20px;
     padding-right: 20px;
+    margin-bottom: 80vh;
 
     .titleWrapper {
         border-radius: 10px;
@@ -111,7 +122,7 @@ nav {
     }
 
     h2 {
-        scroll-margin-block-start: 5vh;
+        scroll-margin-block-start: 6vh;
         border-radius: 15px;
         margin-top: 2%;
         margin-left: 2%;

@@ -49,6 +49,7 @@ function ShowAll() {
   if (category.length === 0 || listDish.length === 0) {
     return "loading...";
   }
+
   const callToActionBtns = document.querySelectorAll(".mobile__CTA--btn");
   callToActionBtns.forEach((btn) => {
     btn.addEventListener("click", (e) => {
@@ -56,6 +57,7 @@ function ShowAll() {
       e.target.classList.toggle("active");
     });
   });
+
   return (
     <Fragment>
       <div className={cx("topCart")}>
@@ -71,7 +73,7 @@ function ShowAll() {
               <button
                 id={cat.name + "-btn"}
                 onClick={() => handleClick(cat.name)}
-                className={cx("mobile__CTA--btn")}>
+                className={cx(`mobile__CTA--btn ${0 === index ? "active" : ""}`)}>
                 {cat.name}
               </button>
             </div>
@@ -118,3 +120,4 @@ function ShowAll() {
 }
 
 export default ShowAll;
+
