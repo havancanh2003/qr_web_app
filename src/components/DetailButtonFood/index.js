@@ -7,13 +7,46 @@ const cx = classNames.bind(style);
 
 const DetailButtonFood = (props) => {
   // console.log(props.obj);
-  const op = props.obj.options;
   //const [showDetail, setShowDetail] = useState(true);
+  const op = props.obj.options;
+  //console.log(op);
 
   const [add, setAdd] = useState(false);
+  const [quantity, setQuantity] = useState(0);
+  const [check, setCheck] = useState("");
+  const arrayFood = [];
+  //const [arrayFood, setArrFood] = useState([]);
+  //console.log(arrayFood);
   function addDetail() {
     setAdd(true);
-    sessionStorage.setItem("name", props.obj.name);
+    let food = {
+      id: props.obj._id,
+      img: props.obj.image_detail.path,
+      name: props.obj.name,
+      price: props.obj.price,
+      category: props.obj.category,
+      quantity: quantity,
+      note: check,
+    };
+    let data = JSON.parse(sessionStorage.getItem("obj"));
+    //console.log(data);
+    if (data === null) {
+      arrayFood.push(food);
+      console.log(arrayFood);
+      sessionStorage.setItem("obj", JSON.stringify(arrayFood));
+    } else {
+      let data = JSON.parse(sessionStorage.getItem("obj"));
+      data.push(food);
+      console.log(data);
+      sessionStorage.setItem("obj", JSON.stringify(data));
+    }
+  }
+  function remove() {
+    if (quantity === 0) {
+      setQuantity(0);
+    } else {
+      setQuantity(quantity - 1);
+    }
   }
   return (
     <Fragment>
@@ -34,17 +67,25 @@ const DetailButtonFood = (props) => {
                 <p>{props.obj.category}</p>
                 <span>{props.obj.price}</span>
                 <div className={cx("quantity")}>
-                  <ion-icon name="add-circle"></ion-icon>
-                  <span>0</span>
-                  <ion-icon name="remove-circle"></ion-icon>
+                  <ion-icon
+                    onClick={() => setQuantity(quantity + 1)}
+                    name="add-circle"
+                  ></ion-icon>
+                  <span>{quantity}</span>
+                  <ion-icon onClick={remove} name="remove-circle"></ion-icon>
                 </div>
               </div>
             </div>
             <div className={cx("container")}>
               {op.map((item) => (
-                <div className={cx("container_note")}>
+                <div key={item} className={cx("container_note")}>
                   <label>{item}</label>
-                  <input type="checkbox" name="check" />
+                  <input
+                    onClick={() => setCheck(item)}
+                    type="radio"
+                    name="check"
+                    value={item}
+                  />
                 </div>
               ))}
             </div>
