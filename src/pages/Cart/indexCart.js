@@ -134,7 +134,7 @@ function Cart() {
         {cartStored.map((food, index) => (
           <div className={cx("cartItem")} key={index}>
             <div className={cx("cartImage")}>
-              <img src={food.image_detail.path} />
+              <img src={food.image_detail.path} alt="ảnh"/>
             </div>
             <div className={cx("cartInfo")}>
               <h3>{food.name}</h3>

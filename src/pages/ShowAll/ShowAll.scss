@@ -42,7 +42,6 @@ nav {
     position: absolute;
     // display: flex;
     width: 100vw;
-
     .navBarBox {
         background: #fff;
         overflow-x: scroll;
@@ -68,11 +67,9 @@ nav {
             color: transparent;
         }
     }
-
     .navBarBox::-webkit-scrollbar {
         display: none;
     }
-
     button {
         width: 29vw;
         height: 4vh;
@@ -80,20 +77,11 @@ nav {
         background-color: transparent;
         border-radius: 10px;
     }
-
-    .active {
-        background-color: #FE4D4D;
-        color: #F3f0f0;
-        font-size: 1.5rem;
-    }
-
     .navBarElement {
-        :first-child {
-            :active {
-                background-color: #FE4D4D;
-                color: #F3f0f0;
-                font-size: 1.5rem;
-            }
+        .active {
+            background-color: #FE4D4D;
+            color: #F3f0f0;
+            font-size: 1.7rem;
         }
 
         text-align: center;
@@ -106,27 +94,26 @@ nav {
         position: relative;
     }
 }
-
 .content {
     background-color: #F3f0f0;
     margin-top: 6vh;
     padding-left: 20px;
     padding-right: 20px;
-    margin-bottom: 80vh;
-
+    // margin-bottom: 80vh;
+    .targetScroll{
+        scroll-margin-block-start: 6vh;
+    }
     .titleWrapper {
         border-radius: 10px;
         width: 100%;
         background: rgb(254, 77, 77);
-        background: linear-gradient(165deg, rgba(254, 77, 77, 1) 0%, transparent 55%);
+        background: linear-gradient(165deg, rgba(254, 77, 77, 1) 0%, transparent 70%);
     }
-
     h2 {
-        scroll-margin-block-start: 6vh;
         border-radius: 15px;
         margin-top: 2%;
         margin-left: 2%;
-        color: #F3f0f0;
+        color: #Fff;
         font-size: 2.5rem;
     }
 }
@@ -140,6 +127,9 @@ nav {
         box-shadow: 0 5px 5px rgb(0 0 0 /20%);
 
         .box_food_1 {
+            :last-child{
+                margin-bottom: 80vh;
+            }
             height: 12vh;
             border-radius: 10px;
             margin: 3% 0% 2% 3%;
@@ -160,7 +150,6 @@ nav {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-
         h3 {
             width: 50vw;
             white-space: nowrap;
