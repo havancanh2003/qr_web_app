@@ -13,7 +13,7 @@ function Menu() {
   const [detail, setDetail] = useState(false);
   const [overlay, setOverlay] = useState(false);
   const [dataMenu, setDataMenu] = useState([]);
-
+  const [obj, setObj] = useState({});
   const client = axios.create({
     baseURL: "http://117.4.194.207:3003/dish/menu/best-seller",
   });
@@ -33,7 +33,13 @@ function Menu() {
         <div className={cx("food_best_deal")}>
           {dataMenu.map((food) => (
             <div
-              onClick={() => (setDetail(!detail), setOverlay(!overlay))}
+              onClick={() => (
+                //(food_id = food),
+                setObj(food),
+                //console.log(obj),
+                setDetail(!detail),
+                setOverlay(!overlay)
+              )}
               key={food._id}
               className={cx("box_food_1")}
             >
@@ -86,7 +92,8 @@ function Menu() {
           onClick={() => (setDetail(false), setOverlay(false))}
         ></div>
       )}
-      {detail && <DetailButtonFood />}
+
+      {detail && <DetailButtonFood obj={obj} />}
 
       {/* {showdetail && (
         <div className={cx("footer")}>
