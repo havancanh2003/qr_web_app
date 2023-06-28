@@ -116,7 +116,7 @@ function Cart() {
         </div>
       )}
       {isSucess && (
-        <div className={cx("sucessContainer")} onClick={cancelHandler}>
+        <div className={cx("sucessContainer")}>
           <div className="sucessBox">
             <h2 className={cx("sucessPopup")}>Gọi món thành công</h2>
             <button onClick={() => navigate("/showall")}>Trở về</button>
