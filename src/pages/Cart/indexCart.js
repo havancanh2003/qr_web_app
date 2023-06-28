@@ -14,6 +14,7 @@ function Cart() {
   const navigate = useNavigate();
   const [cartStored, setCartStored] = useState([]);
   const [isSucess, setIsSucess] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false)
   const [pushData, setPushData] = useState({
     note: "",
     total: "",
@@ -83,7 +84,12 @@ function Cart() {
     return <div>Loading...</div>;
   }
   console.log(pushData);
-
+  const confirmHandler = () => {
+    setIsConfirm(true);
+  }
+  const cancelHandler = () => {
+    setIsConfirm(false);
+  }
   const submitHandler = () => {
     axios
       .post("http://117.4.194.207:3003/cart/create", pushData)
@@ -97,11 +103,23 @@ function Cart() {
   };
   return (
     <div>
+      {isConfirm && (
+        <div className={cx("sucessContainer")}>
+          <div className="sucessBox">
+            <h2 className={cx("sucessPopup")}>Xác Nhận Đặt Món</h2>
+            <div className="confirmButtonGroup">
+              <button onClick={cancelHandler}>Huỷ</button>
+              <button onClick={submitHandler}>Xác Nhận</button>
+            </div>
+
+          </div>
+        </div>
+      )}
       {isSucess && (
         <div className={cx("sucessContainer")}>
           <div className="sucessBox">
             <h2 className={cx("sucessPopup")}>Gọi món thành công</h2>
-            <button>Trở về</button>
+            <button onClick={() => navigate("/showall")}>Trở về</button>
           </div>
         </div>
       )}
@@ -165,7 +183,7 @@ function Cart() {
             }
           />
         </div>
-        <button className={cx("totalBillButton")} onClick={submitHandler}>
+        <button className={cx("totalBillButton")} onClick={confirmHandler}>
           Gọi Món
         </button>
       </div>

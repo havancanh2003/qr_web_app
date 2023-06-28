@@ -198,6 +198,15 @@ body {
       font-size: 2.1rem;
       width: 100%;
     }
+    .confirmButtonGroup{
+      display: flex;
+      position: relative;
+      justify-content: space-around;
+      top: 28%;
+      button{
+        margin: 0;
+      }
+    }
     button {
       position: relative;
       top: 33%;
