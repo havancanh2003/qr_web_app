@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import classNames from "classnames/bind";
 import style from "./Cart.scss";
-import axios from "axios";
+import axios, { all } from "axios";
 import leftArrow from "../../assets/image/left-arrow.png";
 import xIcon from "../../assets/image/x_icon_150997.png";
 import plusIcon from "../../assets/image/plus_icon-icons.com_66718.png";
@@ -13,8 +13,13 @@ const cx = classNames.bind(style);
 function Cart() {
   const navigate = useNavigate();
   const [cartStored, setCartStored] = useState([]);
-  const [isSucess, setIsSucess] = useState(false);
-  const [isConfirm, setIsConfirm] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
+  const [isFail, setIsFail] = useState(false);
+  const [allActive, setAllActive] = useState([]);
+  const [canPushData, setCanPushData] = useState(true);
+  const [foodFailName, setFoodFailName] = useState("")
+  const [amoutRemain, setAmountRemain] = useState(0)
   const [pushData, setPushData] = useState({
     note: "",
     total: "",
@@ -27,6 +32,17 @@ function Cart() {
       },
     ],
   });
+
+  useEffect(() => {
+    axios
+      .get("http://117.4.194.207:3003/dish/menu/all-actived")
+      .then((response) => {
+        setAllActive(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   // const tableStored = sessionStorage.getItem("table");
   const tableStored = 5;
@@ -49,6 +65,7 @@ function Cart() {
   };
   // Function to increase the quantity of an item
   const increaseQuantity = (index) => {
+    // if([cartStored <= amount]){}
     const updatedCart = [...cartStored];
     updatedCart[index].number += 1;
     setCartStored(updatedCart);
@@ -77,13 +94,13 @@ function Cart() {
     }));
   }, [cartStored, tableStored]);
   useEffect(() => {
-    setIsSucess(false);
+    setIsSuccess(false);
   }, [pushData]);
 
-  if (!cartStored) {
+  if (!cartStored || allActive.length === 0) {
     return <div>Loading...</div>;
   }
-  console.log(pushData);
+  // console.log(pushData);
   const confirmHandler = () => {
     setIsConfirm(true);
   }
@@ -91,34 +108,71 @@ function Cart() {
     setIsConfirm(false);
   }
   const submitHandler = () => {
-    axios
-      .post("http://117.4.194.207:3003/cart/create", pushData)
-      .then((response) => {
-        console.log(response);
-        setIsSucess(true);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // let canPushData = true; // Flag variable
+    setIsFail(false)
+    setCanPushData(true)
+    for (const cartItem of cartStored) {
+      for (const activeItem of allActive) {
+        if (cartItem.id === activeItem._id) {
+          const element = document.getElementById(cartItem.id);
+          let MaxAmount = activeItem.amount;
+          if (element.innerHTML < MaxAmount) {
+            setCanPushData(false); // Set flag to false if any element is less than MaxAmount
+            break;
+          }
+          setFoodFailName(cartItem.name)
+          setAmountRemain(activeItem.amount)
+        }
+      }
+  
+      if (!canPushData) {
+        break;
+      }
+    }
+  
+    if (canPushData) {
+      axios
+        .post("http://117.4.194.207:3003/cart/create", pushData)
+        .then((response) => {
+          setIsSuccess(true);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      setIsFail(true);
+    }
   };
+  // console.log(allActive);
   return (
     <div>
+      {isFail &&
+        <div className={cx("successContainer")} onClick={cancelHandler}>
+          <div className="failBox">
+            <h2 className={cx("failPopup")}>Món {foodFailName} còn {amoutRemain} món</h2>
+            <h2 className={cx("failPopup")}>Bạn có muốn điều chỉnh?</h2>
+            <div className="confirmButtonGroup">
+              <button onClick={() => {setIsFail(false)}}>Huỷ</button>
+              <button onClick={() => {setIsFail(false)}}>Xác Nhận</button>
+            </div>
+          </div>
+        </div>
+      }
       {isConfirm && (
-        <div className={cx("sucessContainer")} onClick={cancelHandler}>
-          <div className="sucessBox">
-            <h2 className={cx("sucessPopup")}>Xác Nhận Đặt Món</h2>
+        <div className={cx("successContainer")} onClick={cancelHandler}>
+          <div className="successBox">
+            <h2 className={cx("successPopup")}>Xác Nhận Đặt Món</h2>
             <div className="confirmButtonGroup">
               <button onClick={cancelHandler}>Huỷ</button>
               <button onClick={submitHandler}>Xác Nhận</button>
             </div>
-
           </div>
         </div>
       )}
-      {isSucess && (
-        <div className={cx("sucessContainer")}>
-          <div className="sucessBox">
-            <h2 className={cx("sucessPopup")}>Gọi món thành công</h2>
+      {isSuccess && (
+        <div className={cx("successContainer")}>
+          <div className="successBox">
+            <h2 className={cx("successPopup")}>Gọi món thành công</h2>
             <button onClick={() => navigate("/showall")}>Trở về</button>
           </div>
         </div>
@@ -134,7 +188,7 @@ function Cart() {
         {cartStored.map((food, index) => (
           <div className={cx("cartItem")} key={index}>
             <div className={cx("cartImage")}>
-              <img src={food.image_detail.path} alt="ảnh"/>
+              <img src={food.image_detail.path} alt="ảnh" />
             </div>
             <div className={cx("cartInfo")}>
               <h3>{food.name}</h3>
@@ -146,7 +200,7 @@ function Cart() {
                 >
                   <img src={minusIcon} alt="minus" />
                 </button>
-                <h4 className={cx("quantity")}>{food.number}</h4>
+                <h4 className={cx("quantity")} id={cx(food.id)} >{food.number}</h4>
                 <button
                   className={cx("increase")}
                   onClick={() => increaseQuantity(index)}
