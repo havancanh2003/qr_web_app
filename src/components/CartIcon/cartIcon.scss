@@ -1,0 +1,37 @@
+.iconBorder{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    // background-color: #ecf0f1;
+    button{
+        position: fixed;
+        top: 88vh;
+        right: 6vw;
+        border-radius: 30px;
+        height: 60px;
+        width: 60px;
+        border: 2px solid #FE4D4D;
+        display: flex;
+        z-index: 51;
+        .notificationCart{
+            height: 21px;
+            width: 21px;
+            margin: -2px 0px 0 41px;
+            background-color: #FE4D4D;
+            border-radius: 11px;
+            position: absolute;
+            z-index: 51;
+            p{
+                margin:3px 0 0 2px ;
+                color: #fff;
+            }
+        }
+        img{
+            height: 35px;
+            width: 55px;
+            border-radius: 25px;
+            // padding-left: 1px;
+            align-self: center;
+        }
+    }
+}
