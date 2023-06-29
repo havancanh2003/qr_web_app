@@ -16,7 +16,6 @@ function Cart() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isConfirm, setIsConfirm] = useState(false);
   const [isFail, setIsFail] = useState(false);
-
   const [allActive, setAllActive] = useState([]);
   // const [canPushData, setCanPushData] = useState(true);
   const [foodFailName, setFoodFailName] = useState("");
@@ -33,6 +32,7 @@ function Cart() {
       },
     ],
   });
+  let storedSession = JSON.parse(sessionStorage.getItem("obj")) || [];
 
   useEffect(() => {
     axios
@@ -45,11 +45,17 @@ function Cart() {
       });
   }, []);
 
-  // const tableStored = sessionStorage.getItem("table");
-  const tableStored = 5;
+  const tableStored = sessionStorage.getItem("table") || 0;
+  // const tableStored = 5;
   useEffect(() => {
-    setCartStored(sessionStorageDummy);
+    setCartStored(storedSession);
   }, []);
+
+  useEffect(() => {
+    sessionStorage.setItem("obj", JSON.stringify(cartStored));
+  }, [cartStored]);
+
+  console.log(cartStored);
 
   const getTotalBill = () => {
     return cartStored.reduce(
@@ -68,13 +74,19 @@ function Cart() {
   const increaseQuantity = (index) => {
     const updatedCart = [...cartStored];
     const food = updatedCart[index];
-    const activeItem = allActive.find((item) => item._id === food.id);
-
-    if (!activeItem || activeItem.amount < food.number + 1) {
+    const { id } = food;
+    const totalQuantity = cartStored.reduce((total, item) => {
+      if (item.id === id) {
+        return total + item.number;
+      }
+      return total;
+    }, 0);
+    const activeItem = allActive.find((item) => item._id === id);
+    if (!activeItem || activeItem.amount < totalQuantity + 1) {
       setIsFail(true);
       setFoodFailName(food.name);
-      setAmountRemain(activeItem ? activeItem.amount : 0);
-      return; // Dừng lại nếu món ăn không đủ số lượng
+      setAmountRemain(activeItem.amount);
+      return;
     }
 
     food.number += 1;
@@ -131,11 +143,17 @@ function Cart() {
         const unavailableItems = [];
 
         for (const cartItem of cartStored) {
+          const totalQuantity = cartStored.reduce((total, item) => {
+            if (item.id === cartItem.id) {
+              return total + item.number;
+            }
+            return total;
+          }, 0);
           const activeItem = availableDishes.find(
             (item) => item._id === cartItem.id
           );
 
-          if (!activeItem || activeItem.amount < cartItem.number) {
+          if (!activeItem || activeItem.amount < totalQuantity) {
             unavailableItems.push(cartItem);
           }
         }
@@ -225,7 +243,7 @@ function Cart() {
         {cartStored.map((food, index) => (
           <div className={cx("cartItem")} key={index}>
             <div className={cx("cartImage")}>
-              <img src={food.image_detail.path} alt="ảnh" />
+              <img src={food.img} alt="ảnh" />
             </div>
             <div className={cx("cartInfo")}>
               <h3>{food.name}</h3>

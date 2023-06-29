@@ -27,8 +27,8 @@ const DetailButtonFood = (props) => {
             name: props.obj.name,
             price: props.obj.price,
             category: props.obj.category,
-            quantity: quantity,
-            note: check,
+            number: quantity,
+            options: check,
         };
         let data = JSON.parse(sessionStorage.getItem("obj"));
         //console.log(data);
