@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import classNames from "classnames/bind";
 import style from "./Cart.scss";
-import axios, { all } from "axios";
+import axios from "axios";
 import leftArrow from "../../assets/image/left-arrow.png";
 import xIcon from "../../assets/image/x_icon_150997.png";
 import plusIcon from "../../assets/image/plus_icon-icons.com_66718.png";
@@ -16,10 +16,11 @@ function Cart() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isConfirm, setIsConfirm] = useState(false);
   const [isFail, setIsFail] = useState(false);
+
   const [allActive, setAllActive] = useState([]);
-  const [canPushData, setCanPushData] = useState(true);
-  const [foodFailName, setFoodFailName] = useState("")
-  const [amoutRemain, setAmountRemain] = useState(0)
+  // const [canPushData, setCanPushData] = useState(true);
+  const [foodFailName, setFoodFailName] = useState("");
+  const [amoutRemain, setAmountRemain] = useState(0);
   const [pushData, setPushData] = useState({
     note: "",
     total: "",
@@ -65,9 +66,18 @@ function Cart() {
   };
   // Function to increase the quantity of an item
   const increaseQuantity = (index) => {
-    // if([cartStored <= amount]){}
     const updatedCart = [...cartStored];
-    updatedCart[index].number += 1;
+    const food = updatedCart[index];
+    const activeItem = allActive.find((item) => item._id === food.id);
+
+    if (!activeItem || activeItem.amount < food.number + 1) {
+      setIsFail(true);
+      setFoodFailName(food.name);
+      setAmountRemain(activeItem ? activeItem.amount : 0);
+      return; // Dừng lại nếu món ăn không đủ số lượng
+    }
+
+    food.number += 1;
     setCartStored(updatedCart);
   };
 
@@ -93,6 +103,8 @@ function Cart() {
       table: tableStored,
     }));
   }, [cartStored, tableStored]);
+
+  console.log(pushData);
   useEffect(() => {
     setIsSuccess(false);
   }, [pushData]);
@@ -103,61 +115,86 @@ function Cart() {
   // console.log(pushData);
   const confirmHandler = () => {
     setIsConfirm(true);
-  }
+  };
   const cancelHandler = () => {
     setIsConfirm(false);
-  }
-  const submitHandler = () => {
-    // let canPushData = true; // Flag variable
-    setIsFail(false)
-    setCanPushData(true)
-    for (const cartItem of cartStored) {
-      for (const activeItem of allActive) {
-        if (cartItem.id === activeItem._id) {
-          const element = document.getElementById(cartItem.id);
-          let MaxAmount = activeItem.amount;
-          if (element.innerHTML < MaxAmount) {
-            setCanPushData(false); // Set flag to false if any element is less than MaxAmount
-            break;
-          }
-          setFoodFailName(cartItem.name)
-          setAmountRemain(activeItem.amount)
-        }
-      }
-  
-      if (!canPushData) {
-        break;
-      }
-    }
-  
-    if (canPushData) {
-      axios
-        .post("http://117.4.194.207:3003/cart/create", pushData)
-        .then((response) => {
-          setIsSuccess(true);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      setIsFail(true);
-    }
   };
-  // console.log(allActive);
+  const cancelHandler2 = () => {
+    setIsFail(false);
+  };
+
+  const submitHandler = () => {
+    axios
+      .get("http://117.4.194.207:3003/dish/menu/all-actived")
+      .then((response) => {
+        const availableDishes = response.data;
+        const unavailableItems = [];
+
+        for (const cartItem of cartStored) {
+          const activeItem = availableDishes.find(
+            (item) => item._id === cartItem.id
+          );
+
+          if (!activeItem || activeItem.amount < cartItem.number) {
+            unavailableItems.push(cartItem);
+          }
+        }
+
+        if (unavailableItems.length > 0) {
+          const firstUnavailableItem = unavailableItems[0];
+          const foodFailName = firstUnavailableItem.name;
+          const amountRemain =
+            availableDishes.find((item) => item._id === firstUnavailableItem.id)
+              ?.amount || 0;
+
+          setFoodFailName(foodFailName);
+          setAmountRemain(amountRemain);
+          setIsFail(true);
+        } else {
+          axios
+            .post("http://117.4.194.207:3003/cart/create", pushData)
+            .then((response) => {
+              setIsSuccess(true);
+              console.log(response);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div>
-      {isFail &&
-        <div className={cx("successContainer")} onClick={cancelHandler}>
+      {isFail && (
+        <div className={cx("successContainer")} onClick={cancelHandler2}>
           <div className="failBox">
-            <h2 className={cx("failPopup")}>Món {foodFailName} còn {amoutRemain} món</h2>
+            <h2 className={cx("failPopup")}>
+              Món {foodFailName} còn {amoutRemain} món
+            </h2>
             <h2 className={cx("failPopup")}>Bạn có muốn điều chỉnh?</h2>
             <div className="confirmButtonGroup">
-              <button onClick={() => {setIsFail(false)}}>Huỷ</button>
-              <button onClick={() => {setIsFail(false)}}>Xác Nhận</button>
+              <button
+                onClick={() => {
+                  setIsFail(false);
+                }}
+              >
+                Huỷ
+              </button>
+              <button
+                onClick={() => {
+                  setIsFail(false);
+                }}
+              >
+                Xác Nhận
+              </button>
             </div>
           </div>
         </div>
-      }
+      )}
       {isConfirm && (
         <div className={cx("successContainer")} onClick={cancelHandler}>
           <div className="successBox">
@@ -200,7 +237,9 @@ function Cart() {
                 >
                   <img src={minusIcon} alt="minus" />
                 </button>
-                <h4 className={cx("quantity")} id={cx(food.id)} >{food.number}</h4>
+                <h4 className={cx("quantity")} id={cx(food.id)}>
+                  {food.number}
+                </h4>
                 <button
                   className={cx("increase")}
                   onClick={() => increaseQuantity(index)}
