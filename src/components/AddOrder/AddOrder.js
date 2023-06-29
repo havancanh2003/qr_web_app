@@ -7,18 +7,14 @@ import plusIcon from "../../assets/image/plus_icon-icons.com_66718.png";
 import minusIcon from "../../assets/image/free-minus-icon-3108-thumb.png";
 const cx = classNames.bind(style);
 
-const DetailButtonFood = (props) => {
-    // console.log(props.obj);
-    //const [showDetail, setShowDetail] = useState(true);
-    const op = props.obj.options;
-    //console.log(op);
+const AddOrder = (props) => {
 
+    const op = props.obj.options;
     const [add, setAdd] = useState(false);
     const [quantity, setQuantity] = useState(0);
     const [check, setCheck] = useState("");
     const arrayFood = [];
-    //const [arrayFood, setArrFood] = useState([]);
-    //console.log(arrayFood);
+
     function addDetail() {
         setAdd(true);
         let food = {
@@ -31,7 +27,7 @@ const DetailButtonFood = (props) => {
             note: check,
         };
         let data = JSON.parse(sessionStorage.getItem("obj"));
-        //console.log(data);
+
         if (data === null) {
             arrayFood.push(food);
             console.log(arrayFood);
@@ -66,9 +62,9 @@ const DetailButtonFood = (props) => {
                                 {/* <span>{props.obj.price}đ</span> */}
                                 <div className={cx("quantity")}>
                                     <button
-                                     onClick={decrease} name="remove-circle">
+                                        onClick={decrease} name="remove-circle">
                                         -
-                                     </button>
+                                    </button>
                                     <span>{quantity}</span>
                                     <button
                                         onClick={() => setQuantity(quantity + 1)}
@@ -83,7 +79,7 @@ const DetailButtonFood = (props) => {
                         <div className={cx("optionContainer")}>
                             {op.map((item, index) => (
                                 <div key={item} className={cx("optionCheck")}>
-                                     
+
                                     <label htmlFor={index}>{item}</label>
                                     <input
                                         onClick={() => setCheck(item)}
@@ -99,14 +95,14 @@ const DetailButtonFood = (props) => {
                             <button onClick={addDetail}>Add to Cart</button>
                         </div>
                     </div>
-{/* 
+                    
                     {add && (
-                        <div className={cx("showa")}>
-                            <div className={cx("done")}>
+                        <div className={cx("successOrder")}>
+                            <div className={cx("successBox")}>
                                 <ion-icon name="checkmark-outline"></ion-icon>
                             </div>
                         </div>
-                    )} */}
+                    )}
                 </div>
             </div>
             {/* )} */}
@@ -114,4 +110,4 @@ const DetailButtonFood = (props) => {
     );
 };
 
-export default DetailButtonFood;
+export default AddOrder;

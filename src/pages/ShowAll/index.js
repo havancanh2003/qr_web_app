@@ -6,7 +6,7 @@ import axios from "axios";
 import { Fragment } from "react";
 import leftArrow from "../../assets/image/left-arrow.png";
 import AddOrder from "../../components/AddOrder/AddOrder";
-
+import CartIcon from "../../components/CartIcon/index";
 const cx = classNames.bind(style);
 
 function ShowAll() {
@@ -18,6 +18,7 @@ function ShowAll() {
   const [detail, setDetail] = useState(false);
   const [overlay, setOverlay] = useState(false);
   const [obj, setObj] = useState({});
+  const [cartIcon, setCartIcon] = useState(true);
 
   useEffect(() => {
     axios
@@ -40,7 +41,7 @@ function ShowAll() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if(window.scrollY >70){
+      if (window.scrollY > 70) {
         setDetail(false);
         setOverlay(false);
       }
@@ -91,6 +92,7 @@ function ShowAll() {
 
   return (
     <Fragment>
+      {cartIcon && <CartIcon/>}
       <div className={cx("topCart")}>
         <button className={cx("backButton")} onClick={() => navigate("/menu")}>
           <img src={leftArrow} alt="icon" />
@@ -127,12 +129,12 @@ function ShowAll() {
               {listDish
                 .filter((dish) => dish.category === cat.name)
                 .map((food, index) => (
-                  <div 
+                  <div
                     key={index}
-                    className={cx("boxFoodWrapper")} 
+                    className={cx("boxFoodWrapper")}
                     onClick={() => (
                       setObj(food), setDetail(!detail), setOverlay(!overlay)
-                      )
+                    )
                     }>
                     <div className={cx("box_food_1")}>
                       <img src={food.image_detail.path} alt="" />
@@ -154,7 +156,7 @@ function ShowAll() {
           onClick={() => (setDetail(false), setOverlay(false))}
         ></div>
       )}
-      {detail && <AddOrder obj={obj}/>}
+      {detail && <AddOrder obj={obj} />}
     </Fragment>
   );
 }
