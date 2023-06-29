@@ -9,10 +9,13 @@ const cx = classNames.bind(style);
 
 const AddOrder = (props) => {
   const op = props.obj.options;
+  const lishDish = props.listDish;
   const [add, setAdd] = useState(false);
-  const [quantity, setQuantity] = useState(0);
-  const [noQuantity, setNoQuantity] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const [notEnoughQuantity, setNotEnoughQuantity] = useState(false);
   const [check, setCheck] = useState("");
+  const [foodFailName, setFoodFailName] = useState("");
+  const [amoutRemain, setAmountRemain] = useState(0);
   const arrayFood = [];
 
   function addDetail() {
@@ -26,13 +29,8 @@ const AddOrder = (props) => {
       options: check,
     };
     let data = JSON.parse(sessionStorage.getItem("obj"));
-
     if (data === null) {
-      if (food.number === 0) {
-        setNoQuantity(true);
-      }
       arrayFood.push(food);
-      console.log(arrayFood);
       sessionStorage.setItem("obj", JSON.stringify(arrayFood));
     } else {
       let existingItem = data.find(
@@ -41,27 +39,50 @@ const AddOrder = (props) => {
       if (existingItem) {
         existingItem.number += food.number;
       } else {
-        if (food.number === 0) {
-          setNoQuantity(true);
-        } else {
-          data.push(food);
-        }
+        data.push(food);
       }
-      console.log(data);
       sessionStorage.setItem("obj", JSON.stringify(data));
     }
-
     setAdd(true);
   }
 
   function decrease() {
-    if (quantity === 0) {
-      setQuantity(0);
+    if (quantity === 1) {
+      setQuantity(1);
     } else {
       setQuantity(quantity - 1);
     }
   }
 
+  function increase(id) {
+    let data = JSON.parse(sessionStorage.getItem("obj"));
+    let dish = lishDish.find((item) => item._id === id);
+    let availableQuantity = dish.amount;
+    let existingItems = data.filter((item) => item.id === id); // Lọc ra tất cả các existingItem có cùng id
+    if (existingItems) {
+      let totalExistingQuantity = 0;
+      existingItems.forEach((existingItem) => {
+        totalExistingQuantity += existingItem.number; // Cộng dồn số lượng của từng existingItem
+      });
+      if (quantity + totalExistingQuantity >= availableQuantity) {
+        const foodFailName = dish.name;
+        setFoodFailName(foodFailName);
+        setAmountRemain(availableQuantity);
+        setNotEnoughQuantity(true);
+      } else {
+        setQuantity(quantity + 1);
+      }
+    } else {
+      if (quantity > availableQuantity) {
+        const foodFailName = dish.name;
+        setFoodFailName(foodFailName);
+        setAmountRemain(availableQuantity);
+        setNotEnoughQuantity(true);
+      } else {
+        setQuantity(quantity + 1);
+      }
+    }
+  }
   return (
     <Fragment>
       <div>
@@ -81,7 +102,8 @@ const AddOrder = (props) => {
                   </button>
                   <span>{quantity}</span>
                   <button
-                    onClick={() => setQuantity(quantity + 1)}
+                    // onClick={() => setQuantity(quantity + 1)}
+                    onClick={() => increase(props.obj._id)}
                     name="add-circle"
                   >
                     +
@@ -115,10 +137,13 @@ const AddOrder = (props) => {
               </div>
             </div>
           )}
-          {noQuantity && (
+          {notEnoughQuantity && (
             <div className={cx("successOrder")}>
               <div className={cx("successBox")}>
-                <p>Thêm số lượng</p>
+                <p>
+                  Món {foodFailName} còn {amoutRemain} món
+                </p>
+                <p>Bạn có muốn điều chỉnh?</p>{" "}
               </div>
             </div>
           )}

@@ -154,7 +154,7 @@ function ShowAll() {
           onClick={() => (setDetail(false), setOverlay(false))}
         ></div>
       )}
-      {detail && <AddOrder obj={obj} />}
+      {detail && <AddOrder obj={obj} listDish={listDish} />}
     </Fragment>
   );
 }

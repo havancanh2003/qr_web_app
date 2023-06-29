@@ -32,6 +32,7 @@ function Cart() {
       },
     ],
   });
+  
   let storedSession = JSON.parse(sessionStorage.getItem("obj")) || [];
 
   useEffect(() => {
