@@ -62,8 +62,8 @@ const DetailButtonFood = (props) => {
                             </div>
                             <div className={cx("about_product")}>
                                 <h4>{props.obj.name}</h4>
-                                <p>{props.obj.category}</p>
-                                <span>{props.obj.price}đ</span>
+                                <p>{props.obj.description}</p>
+                                {/* <span>{props.obj.price}đ</span> */}
                                 <div className={cx("quantity")}>
                                     <button
                                      onClick={decrease} name="remove-circle">
@@ -87,7 +87,7 @@ const DetailButtonFood = (props) => {
                                     <label htmlFor={index}>{item}</label>
                                     <input
                                         onClick={() => setCheck(item)}
-                                        type="checkbox"
+                                        type="radio"
                                         name="check"
                                         value={item}
                                         id={index}

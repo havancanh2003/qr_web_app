@@ -40,9 +40,12 @@ function ShowAll() {
 
   useEffect(() => {
     const handleScroll = () => {
+      if(window.scrollY >70){
+        setDetail(false);
+        setOverlay(false);
+      }
       setSticky(window.scrollY > 59);
-      setDetail(false);
-      setOverlay(false);
+
       const currentPosition =
         document.documentElement.scrollTop + 300;
 
