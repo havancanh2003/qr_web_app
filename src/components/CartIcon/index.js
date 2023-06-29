@@ -16,8 +16,7 @@ const Giohang = () => {
         console.log(storedSession);
         let delta = 0;
         for(const item in storedSession){
-            console.log(storedSession[item].quantity);
-            delta = delta + storedSession[item].quantity
+            delta = delta + storedSession[item].number
         }
         setNum(delta)
     }, []);
