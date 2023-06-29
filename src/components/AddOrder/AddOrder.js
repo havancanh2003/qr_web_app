@@ -8,106 +8,126 @@ import minusIcon from "../../assets/image/free-minus-icon-3108-thumb.png";
 const cx = classNames.bind(style);
 
 const AddOrder = (props) => {
+  const op = props.obj.options;
+  const [add, setAdd] = useState(false);
+  const [quantity, setQuantity] = useState(0);
+  const [noQuantity, setNoQuantity] = useState(false);
+  const [check, setCheck] = useState("");
+  const arrayFood = [];
 
-    const op = props.obj.options;
-    const [add, setAdd] = useState(false);
-    const [quantity, setQuantity] = useState(0);
-    const [check, setCheck] = useState("");
-    const arrayFood = [];
+  function addDetail() {
+    let food = {
+      id: props.obj._id,
+      img: props.obj.image_detail.path,
+      name: props.obj.name,
+      price: props.obj.price,
+      category: props.obj.category,
+      number: quantity,
+      options: check,
+    };
+    let data = JSON.parse(sessionStorage.getItem("obj"));
 
-    function addDetail() {
-        setAdd(true);
-        let food = {
-            id: props.obj._id,
-            img: props.obj.image_detail.path,
-            name: props.obj.name,
-            price: props.obj.price,
-            category: props.obj.category,
-            quantity: quantity,
-            note: check,
-        };
-        let data = JSON.parse(sessionStorage.getItem("obj"));
-
-        if (data === null) {
-            arrayFood.push(food);
-            console.log(arrayFood);
-            sessionStorage.setItem("obj", JSON.stringify(arrayFood));
+    if (data === null) {
+      if (food.number === 0) {
+        setNoQuantity(true);
+      }
+      arrayFood.push(food);
+      console.log(arrayFood);
+      sessionStorage.setItem("obj", JSON.stringify(arrayFood));
+    } else {
+      let existingItem = data.find(
+        (item) => item.id === food.id && item.options === food.options
+      );
+      if (existingItem) {
+        existingItem.number += food.number;
+      } else {
+        if (food.number === 0) {
+          setNoQuantity(true);
         } else {
-            let data = JSON.parse(sessionStorage.getItem("obj"));
-            data.push(food);
-            console.log(data);
-            sessionStorage.setItem("obj", JSON.stringify(data));
+          data.push(food);
         }
-    }
-    function decrease() {
-        if (quantity === 0) {
-            setQuantity(0);
-        } else {
-            setQuantity(quantity - 1);
-        }
+      }
+      console.log(data);
+      sessionStorage.setItem("obj", JSON.stringify(data));
     }
 
-    return (
-        <Fragment>
-            <div>
-                <div className={cx("addOrderBox")}>
-                    <div className={cx("itemContent")}>
-                        <div className={cx("product")}>
-                            <div className={cx("img_product")}>
-                                <img src={props.obj.image_detail.path} alt="" />
-                            </div>
-                            <div className={cx("about_product")}>
-                                <h4>{props.obj.name}</h4>
-                                <p>{props.obj.description}</p>
-                                {/* <span>{props.obj.price}đ</span> */}
-                                <div className={cx("quantity")}>
-                                    <button
-                                        onClick={decrease} name="remove-circle">
-                                        -
-                                    </button>
-                                    <span>{quantity}</span>
-                                    <button
-                                        onClick={() => setQuantity(quantity + 1)}
-                                        name="add-circle"
-                                    >
-                                        +
-                                    </button>
+    setAdd(true);
+  }
 
-                                </div>
-                            </div>
-                        </div>
-                        <div className={cx("optionContainer")}>
-                            {op.map((item, index) => (
-                                <div key={item} className={cx("optionCheck")}>
+  function decrease() {
+    if (quantity === 0) {
+      setQuantity(0);
+    } else {
+      setQuantity(quantity - 1);
+    }
+  }
 
-                                    <label htmlFor={index}>{item}</label>
-                                    <input
-                                        onClick={() => setCheck(item)}
-                                        type="radio"
-                                        name="check"
-                                        value={item}
-                                        id={index}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                        <div className={cx("addCart")}>
-                            <button onClick={addDetail}>Add to Cart</button>
-                        </div>
-                    </div>
-                    
-                    {add && (
-                        <div className={cx("successOrder")}>
-                            <div className={cx("successBox")}>
-                                <ion-icon name="checkmark-outline"></ion-icon>
-                            </div>
-                        </div>
-                    )}
+  return (
+    <Fragment>
+      <div>
+        <div className={cx("addOrderBox")}>
+          <div className={cx("itemContent")}>
+            <div className={cx("product")}>
+              <div className={cx("img_product")}>
+                <img src={props.obj.image_detail.path} alt="" />
+              </div>
+              <div className={cx("about_product")}>
+                <h4>{props.obj.name}</h4>
+                <p>{props.obj.description}</p>
+                {/* <span>{props.obj.price}đ</span> */}
+                <div className={cx("quantity")}>
+                  <button onClick={decrease} name="remove-circle">
+                    -
+                  </button>
+                  <span>{quantity}</span>
+                  <button
+                    onClick={() => setQuantity(quantity + 1)}
+                    name="add-circle"
+                  >
+                    +
+                  </button>
                 </div>
+              </div>
             </div>
-            {/* )} */}
-        </Fragment>
-    );
+            <div className={cx("optionContainer")}>
+              {op.map((item, index) => (
+                <div key={item} className={cx("optionCheck")}>
+                  <label htmlFor={index}>{item}</label>
+                  <input
+                    onClick={() => setCheck(item)}
+                    type="radio"
+                    name="check"
+                    value={item}
+                    id={index}
+                  />
+                </div>
+              ))}
+            </div>
+            <div className={cx("addCart")}>
+              <button onClick={addDetail}>Add to Cart</button>
+            </div>
+          </div>
+
+          {add && (
+            <div className={cx("successOrder")}>
+              <div className={cx("successBox")}>
+                <ion-icon name="checkmark-outline"></ion-icon>
+              </div>
+            </div>
+          )}
+          {noQuantity && (
+            <div className={cx("successOrder")}>
+              <div className={cx("successBox")}>
+                <p>Thêm số lượng</p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* )} */}
+    </Fragment>
+  );
 };
 
 export default AddOrder;
