@@ -27,6 +27,8 @@ function Menu() {
       })
       .catch((error) => console.log(error));
   }, []);
+
+
   return (
     <Fragment>
       <section>

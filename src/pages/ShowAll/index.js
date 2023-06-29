@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Fragment } from "react";
 import leftArrow from "../../assets/image/left-arrow.png";
+import AddOrder from "../../components/AddOrder/AddOrder";
 
 const cx = classNames.bind(style);
 
@@ -14,6 +15,9 @@ function ShowAll() {
   const [listDish, setListDish] = useState([]);
   const [sticky, setSticky] = useState(false);
   const activeSectionRef = useRef(null);
+  const [detail, setDetail] = useState(false);
+  const [overlay, setOverlay] = useState(false);
+  const [obj, setObj] = useState({});
 
   useEffect(() => {
     axios
@@ -37,6 +41,8 @@ function ShowAll() {
   useEffect(() => {
     const handleScroll = () => {
       setSticky(window.scrollY > 59);
+      setDetail(false);
+      setOverlay(false);
       const currentPosition =
         document.documentElement.scrollTop + 300;
 
@@ -78,6 +84,7 @@ function ShowAll() {
     return <div>Loading...</div>;
   }
 
+  console.log(obj, detail);
 
   return (
     <Fragment>
@@ -120,7 +127,10 @@ function ShowAll() {
                   <div 
                     key={index}
                     className={cx("boxFoodWrapper")} 
-                    onClick={() => {console.log("bbbb")}}>
+                    onClick={() => (
+                      setObj(food), setDetail(!detail), setOverlay(!overlay)
+                      )
+                    }>
                     <div className={cx("box_food_1")}>
                       <img src={food.image_detail.path} alt="" />
                     </div>
@@ -135,6 +145,13 @@ function ShowAll() {
           </div>
         ))}
       </div>
+      {overlay && (
+        <div
+          className={cx("overlay")}
+          onClick={() => (setDetail(false), setOverlay(false))}
+        ></div>
+      )}
+      {detail && <AddOrder obj={obj}/>}
     </Fragment>
   );
 }
