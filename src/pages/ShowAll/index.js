@@ -88,7 +88,7 @@ function ShowAll() {
     return <div>Loading...</div>;
   }
 
-  console.log(obj, detail);
+  // console.log(obj, detail);
 
   return (
     <Fragment>
