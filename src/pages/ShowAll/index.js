@@ -88,8 +88,6 @@ function ShowAll() {
     return <div>Loading...</div>;
   }
 
-  console.log(obj, detail);
-
   return (
     <Fragment>
       {cartIcon && <CartIcon/>}
