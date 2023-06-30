@@ -8,6 +8,7 @@ import xIcon from "../../assets/image/x_icon_150997.png";
 import plusIcon from "../../assets/image/plus_icon-icons.com_66718.png";
 import minusIcon from "../../assets/image/free-minus-icon-3108-thumb.png";
 import { sessionStorageDummy } from "../../data/SessionStorage";
+import meowLoading from "../../assets/image/barkLoading.jpg";
 const cx = classNames.bind(style);
 
 function Cart() {
@@ -123,7 +124,20 @@ function Cart() {
   }, [pushData]);
 
   if (!cartStored || allActive.length === 0) {
-    return <div>Loading...</div>;
+    return(
+    <div>
+        <div className={cx("topCart")}>
+          <button className={cx("backButton")} onClick={() => navigate("/showall")}>
+            <img src={leftArrow} alt="icon" />
+          </button>
+          <p className={cx("topTitle")}>Món Bạn Đã Chọn</p>
+        </div>
+        <div className={cx("loadNote")}>
+          <img src={meowLoading} alt="LOADING..."></img>
+          <p>LOADING...</p>
+          </div>
+      </div>
+    )
   }
   // console.log(pushData);
   const confirmHandler = () => {

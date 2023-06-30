@@ -46,6 +46,10 @@ const AddOrder = (props) => {
     setAdd(true);
   }
 
+  function cancelHandler(){
+    setNotEnoughQuantity(false)
+  }
+
   function decrease() {
     if (quantity === 1) {
       setQuantity(1);
@@ -139,11 +143,16 @@ const AddOrder = (props) => {
           )}
           {notEnoughQuantity && (
             <div className={cx("successOrder")}>
-              <div className={cx("successBox")}>
-                <p>
+              <div className={cx("notEnoughBox")}>
+                <p className={cx("notEnoughNote")}>
                   Món {foodFailName} còn {amoutRemain} món
                 </p>
-                <p>Bạn có muốn điều chỉnh?</p>
+                <p className={cx("notEnoughNote")}>
+                  Bạn có muốn điều chỉnh?
+                  </p>
+                  <button onClick={cancelHandler}>
+                    Trở về
+                  </button>
               </div>
             </div>
           )}

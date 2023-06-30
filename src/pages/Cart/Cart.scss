@@ -4,6 +4,8 @@ body {
 
 //top bar of cart
 .topCart {
+  position: fixed;
+  z-index: 100;
   width: 100%;
   height: 60px;
   padding-top: 20px;
@@ -35,7 +37,7 @@ body {
 }
 
 .cartBody {
-  margin-top: 5%;
+  margin-top: 9vh;
   min-height: 100%;
   height: auto !important;
   height: 100%;
