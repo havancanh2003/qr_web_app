@@ -85,12 +85,23 @@ function ShowAll() {
   };
 
   if (category.length === 0 || listDish.length === 0) {
-    return <div>Loading...</div>;
+    return
+    (
+      <>
+        <div className={cx("topCart")}>
+          <button className={cx("backButton")} onClick={() => navigate("/menu")}>
+            <img src={leftArrow} alt="icon" />
+          </button>
+          <p className={cx("topTitle")}>SHOW ALL</p>
+        </div>
+        <div className={cx("loadNote")}>Loading...</div>;
+      </>
+    )
   }
 
   return (
     <Fragment>
-      {cartIcon && <CartIcon/>}
+      {cartIcon && <CartIcon />}
       <div className={cx("topCart")}>
         <button className={cx("backButton")} onClick={() => navigate("/menu")}>
           <img src={leftArrow} alt="icon" />

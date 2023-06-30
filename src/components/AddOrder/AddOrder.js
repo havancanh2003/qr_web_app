@@ -126,7 +126,7 @@ const AddOrder = (props) => {
               ))}
             </div>
             <div className={cx("addCart")}>
-              <button onClick={addDetail}>Add to Cart</button>
+              <button onClick={addDetail}>Thêm Vào Giỏ Hàng</button>
             </div>
           </div>
 
@@ -143,7 +143,7 @@ const AddOrder = (props) => {
                 <p>
                   Món {foodFailName} còn {amoutRemain} món
                 </p>
-                <p>Bạn có muốn điều chỉnh?</p>{" "}
+                <p>Bạn có muốn điều chỉnh?</p>
               </div>
             </div>
           )}
