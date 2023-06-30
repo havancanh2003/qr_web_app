@@ -13,7 +13,6 @@ const Giohang = () => {
 
     useEffect(() => {
         setState(storedSession);
-        console.log(storedSession);
         let delta = 0;
         for(const item in storedSession){
             delta = delta + storedSession[item].number
