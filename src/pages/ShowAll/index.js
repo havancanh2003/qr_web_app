@@ -49,6 +49,7 @@ function ShowAll() {
       if (window.scrollY > 70) {
         setDetail(false);
         setOverlay(false);
+        setCartIcon(true);
       }
       setSticky(window.scrollY > 59);
 
@@ -158,7 +159,7 @@ function ShowAll() {
                     key={index}
                     className={cx("boxFoodWrapper")}
                     onClick={() => (
-                      setObj(food), setDetail(!detail), setOverlay(!overlay)
+                      setObj(food), setDetail(!detail), setOverlay(!overlay), setCartIcon(false)
                     )
                     }>
                     <div className={cx("box_food_1")}>
@@ -178,7 +179,7 @@ function ShowAll() {
       {overlay && (
         <div
           className={cx("overlay")}
-          onClick={() => (setDetail(false), setOverlay(false))}
+          onClick={() => (setDetail(false), setOverlay(false), setCartIcon(true))}
         ></div>
       )}
       {detail && <AddOrder obj={obj} listDish={listDish} />}
