@@ -7,6 +7,7 @@ import { Fragment } from "react";
 import leftArrow from "../../assets/image/left-arrow.png";
 import AddOrder from "../../components/AddOrder/AddOrder";
 import CartIcon from "../../components/CartIcon/index";
+import meowLoading from "../../assets/image/meo-loading.jpg"
 const cx = classNames.bind(style);
 
 function ShowAll() {
@@ -19,6 +20,10 @@ function ShowAll() {
   const [overlay, setOverlay] = useState(false);
   const [obj, setObj] = useState({});
   const [cartIcon, setCartIcon] = useState(true);
+  const [activeButton, setActiveButton] = useState(null);
+
+  const [tester, setTester] = useState(false);
+
 
   useEffect(() => {
     axios
@@ -75,7 +80,7 @@ function ShowAll() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [category]);
 
-  const [activeButton, setActiveButton] = useState(null);
+
 
   const handleClick = (name) => {
     const element = document.getElementById(name);
@@ -84,25 +89,36 @@ function ShowAll() {
     }
   };
 
+  const handleClickTest = () => {
+    setTester(!tester);
+  };
+
+  if(tester){
+    
+  }
+
   if (category.length === 0 || listDish.length === 0) {
-    return
-    (
-      <>
-        <div className={cx("topCart")}>
-          <button className={cx("backButton")} onClick={() => navigate("/menu")}>
+    return (
+      <div>
+        <div className={cx("topShowAll")}>
+          <button className={cx("backButton")} onClick={() => navigate("/showall")}>
             <img src={leftArrow} alt="icon" />
           </button>
           <p className={cx("topTitle")}>SHOW ALL</p>
         </div>
-        <div className={cx("loadNote")}>Loading...</div>;
-      </>
+        <div className={cx("loadNote")}>
+          <img src={meowLoading} alt="LOADING..."></img>
+          <p>LOADING...</p>
+          </div>;
+      </div>
     )
   }
 
+  // onClick={() => navigate("/menu")
   return (
     <Fragment>
       {cartIcon && <CartIcon />}
-      <div className={cx("topCart")}>
+      <div className={cx("topShowAll")}>
         <button className={cx("backButton")} onClick={() => navigate("/menu")}>
           <img src={leftArrow} alt="icon" />
         </button>

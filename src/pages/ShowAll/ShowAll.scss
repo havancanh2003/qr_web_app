@@ -1,4 +1,22 @@
-.topCart {
+.loadNote{
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: #ecf0f1;
+    img{
+        height: 200px;
+        width: 200px;
+        top: 35vh;
+        left: 24vw;
+        position: absolute;
+    }
+    p{
+        position: absolute;
+        top: 32vh;
+        left: 25vw;
+    }
+}
+.topShowAll {
     width: 100%;
     height: 60px;
     padding-top: 20px;
