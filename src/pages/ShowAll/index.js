@@ -7,7 +7,7 @@ import { Fragment } from "react";
 import leftArrow from "../../assets/image/left-arrow.png";
 import AddOrder from "../../components/AddOrder/AddOrder";
 import CartIcon from "../../components/CartIcon/index";
-import meowLoading from "../../assets/image/meo-loading.jpg"
+import meowLoading from "../../assets/image/meo-loading.jpg";
 const cx = classNames.bind(style);
 
 function ShowAll() {
@@ -21,11 +21,10 @@ function ShowAll() {
   const [obj, setObj] = useState({});
   const [cartIcon, setCartIcon] = useState(true);
   const [activeButton, setActiveButton] = useState(null);
-  const [notEnoughDish, setNotEnoughDish] = useState([]);
+  const [dishClass, setDishClass] = useState([]);
   const [hideDish, setHideDish] = useState([]);
 
   const [tester, setTester] = useState(false);
-
 
   useEffect(() => {
     axios
@@ -47,17 +46,40 @@ function ShowAll() {
   }, []);
 
   useEffect(() => {
-    setNotEnoughDish([]);
     setHideDish([]);
-    const zeroAmount = listDish.filter((dish) => dish.amount === 0)
-    for (const zeroItem in zeroAmount) {
-      setNotEnoughDish(currentNotEnoughtDish => [...currentNotEnoughtDish, zeroAmount[zeroItem].name])
-    }
-    for (const item in listDish) {
-      setHideDish(currentHideDish => [...currentHideDish, zeroAmount.includes(listDish[item])])
-    }
-    
+
+    const hideDishAmounts = category.map((cat) =>
+      listDish
+        .filter((dish) => dish.category === cat.name)
+        .map((food) => food.amount)
+    );
+
+    setHideDish(hideDishAmounts.flat());
+    // console.log(hideDish);
   }, [listDish]);
+
+  useEffect(() => {
+    setDishClass([]);
+    hideDish.forEach((item) => {
+      if (item === 0) {
+        setDishClass((currentDishClass) => [...currentDishClass, "boxFoodWrapperZero"]);
+      } else {
+        setDishClass((currentDishClass) => [...currentDishClass, "boxFoodWrapper"]);
+      }
+    });
+
+    const changeClass = () => {
+      const boxFoodWrapperElements = document.getElementsByClassName("boxFoodWrapper");
+      for (let i = 0; i < boxFoodWrapperElements.length; i++) {
+        boxFoodWrapperElements[i].classList.add(dishClass[i]);
+      }
+    };
+
+    if (dishClass.length > 0) {
+      setTimeout(changeClass, 0);
+    }
+
+  }, [hideDish]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -68,8 +90,7 @@ function ShowAll() {
       }
       setSticky(window.scrollY > 59);
 
-      const currentPosition =
-        document.documentElement.scrollTop + 300;
+      const currentPosition = document.documentElement.scrollTop + 300;
 
       for (let i = 0; i < category.length; i++) {
         const cat = category[i];
@@ -95,8 +116,6 @@ function ShowAll() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [category]);
-
-
 
   const handleClick = (name) => {
     const element = document.getElementById(name);
@@ -130,6 +149,11 @@ function ShowAll() {
     )
   }
 
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+  });
 
   return (
     <Fragment>
@@ -182,14 +206,18 @@ function ShowAll() {
                       setObj(food), setDetail(!detail), setOverlay(!overlay), setCartIcon(false)
                     )
                     }>
+                    {/* <div className={cx("coverZero")}
+                    ></div> */}
                     <div className={cx("box_food_1")}>
                       <img src={food.image_detail.path} alt="" />
                     </div>
                     <div className={cx("foodDescription")}>
                       <h3>{food.name}</h3>
                       <p>{food.description}</p>
-                      <span className={cx("foodPrice")}>{food.price}đ</span>
+                      <span className={cx("ZeroAmount")}>Hết Món</span>
+                      <span className={cx("foodPrice")}>{food.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
                     </div>
+
                   </div>
                 ))}
             </div>
