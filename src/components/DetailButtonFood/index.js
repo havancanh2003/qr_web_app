@@ -6,6 +6,7 @@ import style from "./DetailButtonFood.module.scss";
 const cx = classNames.bind(style);
 
 const DetailButtonFood = (props) => {
+  //console.log(props);
   const op = props.obj.options;
   const [add, setAdd] = useState(false);
   const [quantity, setQuantity] = useState(1);
@@ -14,7 +15,7 @@ const DetailButtonFood = (props) => {
   function addDetail() {
     setAdd(true);
     let food = {
-      id: props.obj._id,
+      id: props.obj.id,
       img: props.obj.image_detail.path,
       name: props.obj.name,
       price: props.obj.price,
@@ -72,17 +73,19 @@ const DetailButtonFood = (props) => {
               </div>
             </div>
             <div className={cx("container")}>
-              {op.map((item) => (
-                <div key={item} className={cx("container_note")}>
-                  <label>{item}</label>
-                  <input
-                    onClick={() => setCheck(item)}
-                    type="radio"
-                    name="check"
-                    value={item}
-                  />
-                </div>
-              ))}
+              {op != null
+                ? op.map((item) => (
+                    <div key={item} className={cx("container_note")}>
+                      <label>{item}</label>
+                      <input
+                        onClick={() => setCheck(item)}
+                        type="radio"
+                        name="check"
+                        value={item}
+                      />
+                    </div>
+                  ))
+                : props.obj.description}
             </div>
             <div className={cx("addCart")}>
               <button onClick={addDetail}>Add to Cart</button>

@@ -11,11 +11,12 @@ const cx = classNames.bind(style);
 
 function Menu() {
   const [detail, setDetail] = useState(false);
-  const [type, setType] = useState(false);
+  const [type, setType] = useState("Cơm");
   const [overlay, setOverlay] = useState(false);
   const [dataMenu, setDataMenu] = useState([]);
+  const [category, setCategory] = useState([]);
   const [obj, setObj] = useState({});
-
+  const categorys = ["Cơm", "Đồ ăn nhanh", "Nước"];
   const client = axios.create({
     baseURL: "http://117.4.194.207:3003/dish/menu/best-seller",
   });
@@ -28,7 +29,16 @@ function Menu() {
       })
       .catch((error) => console.log(error));
   }, []);
-
+  useEffect(() => {
+    axios
+      .get(`http://117.4.194.207:3003/dish/category/${type}`)
+      .then((response) => {
+        //console.log(response.data);
+        setCategory(response.data);
+      })
+      .catch((error) => console.log(error));
+  }, [type]);
+  //console.log(obj);
   return (
     <Fragment>
       <section>
@@ -41,6 +51,7 @@ function Menu() {
             <div
               key={food._id}
               onClick={() => (
+                // console.log(food),
                 setObj(food), setDetail(!detail), setOverlay(!overlay)
               )}
               className={cx("box_food_1")}
@@ -61,7 +72,7 @@ function Menu() {
         <div className={cx("title_choose")}>
           <h3>Choose by Category</h3>
         </div>
-        <div className={cx("recomment_categorys")}>
+        {/* <div className={cx("recomment_categorys")}>
           <div className={cx("category")}>
             <MdOutlineFreeBreakfast />
             <span>Breakfast</span>
@@ -74,16 +85,44 @@ function Menu() {
             <FaAirFreshener />
             <span>Drink</span>
           </div>
+        </div> */}
+        <div className={cx("Category_chose")}>
+          {categorys.map((category) => (
+            <button
+              //className="Category"
+              key={category}
+              onClick={() => setType(category)}
+              style={
+                type === category
+                  ? {
+                      color: "#fff",
+                      backgroundColor: "#333",
+                    }
+                  : {}
+              }
+            >
+              {category}
+            </button>
+          ))}
         </div>
-        {combos.map((combo) => (
-          <div key={combo.id} className={cx("combo")}>
+        {category.map((combo) => (
+          <div
+            key={combo.id}
+            onClick={() => (
+              console.log(combo),
+              setObj(combo),
+              setDetail(!detail),
+              setOverlay(!overlay)
+            )}
+            className={cx("combo")}
+          >
             <div className={cx("combo_img")}>
-              <img src={combo.src_img} alt="" />
+              <img src={combo.image_detail.path} alt="" />
             </div>
             <div className={cx("combo_about")}>
-              <h4>{combo.tile}</h4>
-              <p>{combo.about}</p>
-              <span>{combo.price}</span>
+              <h4>{combo.name}</h4>
+              <p>{combo.description}</p>
+              <span>{combo.createAt}</span>
             </div>
           </div>
         ))}
@@ -101,21 +140,21 @@ function Menu() {
 }
 
 export default Menu;
-const combos = [
-  {
-    id: "cb1",
-    src_img:
-      "https://www.allrecipes.com/thmb/AYZbeG_jbkslFw0ZdVap62wD86Y=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/7499125-baked-caesar-chicken-DDMFS-beauty-4x3-BG-9353-6aae9a89fac546a8b5f3ed38c3f44cb8.jpg",
-    tile: "Lunch",
-    about: "The href attribute requires a valid value to be accessible.",
-    price: "199.000",
-  },
-  {
-    id: "cb2",
-    src_img:
-      "https://www.allrecipes.com/thmb/AYZbeG_jbkslFw0ZdVap62wD86Y=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/7499125-baked-caesar-chicken-DDMFS-beauty-4x3-BG-9353-6aae9a89fac546a8b5f3ed38c3f44cb8.jpg",
-    tile: "Breakfast",
-    about: "The href attribute requires a valid value to be accessible.",
-    price: "199.000",
-  },
-];
+// const combos = [
+//   {
+//     id: "cb1",
+//     src_img:
+//       "https://www.allrecipes.com/thmb/AYZbeG_jbkslFw0ZdVap62wD86Y=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/7499125-baked-caesar-chicken-DDMFS-beauty-4x3-BG-9353-6aae9a89fac546a8b5f3ed38c3f44cb8.jpg",
+//     tile: "Lunch",
+//     about: "The href attribute requires a valid value to be accessible.",
+//     price: "199.000",
+//   },
+//   {
+//     id: "cb2",
+//     src_img:
+//       "https://www.allrecipes.com/thmb/AYZbeG_jbkslFw0ZdVap62wD86Y=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/7499125-baked-caesar-chicken-DDMFS-beauty-4x3-BG-9353-6aae9a89fac546a8b5f3ed38c3f44cb8.jpg",
+//     tile: "Breakfast",
+//     about: "The href attribute requires a valid value to be accessible.",
+//     price: "199.000",
+//   },
+// ];

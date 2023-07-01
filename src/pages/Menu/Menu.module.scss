@@ -173,6 +173,16 @@ section{
 .container{
     min-height: 3000vh;
 }
+.Category_chose{
+    display: flex;
+    justify-content: space-around;
+    button{
+        padding: 10px;
+        border-radius: 5px;
+        min-width: 100px;
+    }
+    //background-color: #000000;
+}
 // .showa{
 //     padding: 10px;
 //     position: absolute;
