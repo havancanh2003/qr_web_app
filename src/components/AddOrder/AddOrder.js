@@ -59,7 +59,7 @@ const AddOrder = (props) => {
   }
 
   function increase(id) {
-    let data = JSON.parse(sessionStorage.getItem("obj"));
+    let data = JSON.parse(sessionStorage.getItem("obj")) || [];
     let dish = lishDish.find((item) => item._id === id);
     let availableQuantity = dish.amount;
     let existingItems = data.filter((item) => item.id === id); // Lọc ra tất cả các existingItem có cùng id
