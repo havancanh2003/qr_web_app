@@ -21,6 +21,8 @@ function ShowAll() {
   const [obj, setObj] = useState({});
   const [cartIcon, setCartIcon] = useState(true);
   const [activeButton, setActiveButton] = useState(null);
+  const [notEnoughDish, setNotEnoughDish] = useState([]);
+  const [hideDish, setHideDish] = useState([]);
 
   const [tester, setTester] = useState(false);
 
@@ -43,6 +45,19 @@ function ShowAll() {
         console.log(error);
       });
   }, []);
+
+  useEffect(() => {
+    setNotEnoughDish([]);
+    setHideDish([]);
+    const zeroAmount = listDish.filter((dish) => dish.amount === 0)
+    for (const zeroItem in zeroAmount) {
+      setNotEnoughDish(currentNotEnoughtDish => [...currentNotEnoughtDish, zeroAmount[zeroItem].name])
+    }
+    for (const item in listDish) {
+      setHideDish(currentHideDish => [...currentHideDish, zeroAmount.includes(listDish[item])])
+    }
+    
+  }, [listDish]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -94,8 +109,8 @@ function ShowAll() {
     setTester(!tester);
   };
 
-  if(tester){
-    
+  if (tester) {
+
   }
 
   if (category.length === 0 || listDish.length === 0) {
@@ -110,12 +125,12 @@ function ShowAll() {
         <div className={cx("loadNote")}>
           <img src={meowLoading} alt="LOADING..."></img>
           <p>LOADING...</p>
-          </div>;
+        </div>;
       </div>
     )
   }
 
-  // onClick={() => navigate("/menu")
+
   return (
     <Fragment>
       {cartIcon && <CartIcon />}
@@ -152,6 +167,11 @@ function ShowAll() {
               <h2>{cat.name}</h2>
             </div>
             <div className={cx("showAllBody")}>
+              {/* {hideDish.map((ind) => (
+                {if(ind){
+                  <div>afv</div>
+                }}
+              ))} */}
               {listDish
                 .filter((dish) => dish.category === cat.name)
                 .map((food, index) => (
