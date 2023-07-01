@@ -33,7 +33,7 @@ function Cart() {
       },
     ],
   });
-  
+
   let storedSession = JSON.parse(sessionStorage.getItem("obj")) || [];
 
   useEffect(() => {
@@ -124,8 +124,8 @@ function Cart() {
   }, [pushData]);
 
   if (!cartStored || allActive.length === 0) {
-    return(
-    <div>
+    return (
+      <div>
         <div className={cx("topCart")}>
           <button className={cx("backButton")} onClick={() => navigate("/showall")}>
             <img src={leftArrow} alt="icon" />
@@ -135,7 +135,7 @@ function Cart() {
         <div className={cx("loadNote")}>
           <img src={meowLoading} alt="LOADING..."></img>
           <p>LOADING...</p>
-          </div>
+        </div>
       </div>
     )
   }
@@ -285,7 +285,7 @@ function Cart() {
               <button onClick={() => removeItem(index)}>
                 <img src={xIcon} alt="remove" />
               </button>
-              <h4>{food.price * food.number}đ</h4>
+              <h4>{`${(food.price * food.number).toLocaleString('vi-VN')}đ`}</h4>
             </div>
           </div>
         ))}
@@ -295,7 +295,7 @@ function Cart() {
         <hr />
         <div className={cx("totalBill")}>
           <p>Tổng hoá đơn:</p>
-          <p id={cx("totalPrice")}>{pushData.total} đ</p>
+          <p id={cx("totalPrice")}>{pushData.total.toLocaleString('vi-VN')} đ</p>
         </div>
         <div className={cx("cartNote")}>
           <p>Ghi chú:</p>

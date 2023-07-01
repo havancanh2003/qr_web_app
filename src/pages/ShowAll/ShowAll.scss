@@ -1,21 +1,24 @@
-.loadNote{
+.loadNote {
     padding: 0;
     height: 100vh;
     width: 100vw;
     background-color: #ecf0f1;
-    img{
+
+    img {
         height: 200px;
         width: 200px;
         top: 35vh;
         left: 24vw;
         position: absolute;
     }
-    p{
+
+    p {
         position: absolute;
         top: 32vh;
         left: 25vw;
     }
 }
+
 .topShowAll {
     width: 100%;
     height: 60px;
@@ -60,6 +63,7 @@ nav {
     position: absolute;
     // display: flex;
     width: 100vw;
+
     .navBarBox {
         background: #fff;
         overflow-x: scroll;
@@ -85,9 +89,11 @@ nav {
             color: transparent;
         }
     }
+
     .navBarBox::-webkit-scrollbar {
         display: none;
     }
+
     button {
         width: 29vw;
         height: 4vh;
@@ -95,6 +101,7 @@ nav {
         background-color: transparent;
         border-radius: 10px;
     }
+
     .navBarElement {
         .active {
             background-color: #FE4D4D;
@@ -112,21 +119,25 @@ nav {
         position: relative;
     }
 }
+
 .content {
     background-color: #F3f0f0;
     margin-top: 6vh;
     padding-left: 20px;
     padding-right: 20px;
     position: relative;
-    .targetScroll{
+
+    .targetScroll {
         scroll-margin-block-start: 6vh;
     }
+
     .titleWrapper {
         border-radius: 10px;
         width: 100%;
         background: rgb(254, 77, 77);
         background: linear-gradient(165deg, rgba(254, 77, 77, 1) 0%, transparent 70%);
     }
+
     h2 {
         border-radius: 15px;
         margin-top: 2%;
@@ -144,10 +155,20 @@ nav {
         display: flex;
         box-shadow: 0 5px 5px rgb(0 0 0 /20%);
 
+        .ZeroAmount {
+            color: transparent;
+            font-size: 1.5rem;
+            display: inline-block;
+            position: absolute;
+            right: 45vw;
+            margin-top: 11vh;
+        }
+
         .box_food_1 {
-            :last-child{
+            :last-child {
                 margin-bottom: 80vh;
             }
+
             height: 12vh;
             border-radius: 10px;
             margin: 3% 0% 2% 3%;
@@ -162,12 +183,31 @@ nav {
         }
     }
 
+    .boxFoodWrapperZero {
+        // background-color: #000;
+        background-color: #bdc3c7;
+        opacity: 0.6;
+        box-shadow: none;
+        pointer-events: none;
+
+        .ZeroAmount {
+            color: #FE4D4D;
+            font-size: 1.7rem;
+            display: inline-block;
+            position: absolute;
+            left: 42vw;
+            right: auto;
+            margin-top: 10.5vh;
+        }
+    }
+
     .foodDescription {
         height: 14vh;
         width: 66vw;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+
         h3 {
             width: 50vw;
             white-space: nowrap;
@@ -186,6 +226,7 @@ nav {
             font-size: 1.2rem;
         }
     }
+
 
     .foodPrice {
         color: #FE4D4D;
