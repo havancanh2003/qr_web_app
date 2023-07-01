@@ -57,7 +57,7 @@ function Cart() {
     sessionStorage.setItem("obj", JSON.stringify(cartStored));
   }, [cartStored]);
 
-  console.log(cartStored);
+  // console.log(cartStored); 
 
   const getTotalBill = () => {
     return cartStored.reduce(
@@ -118,7 +118,7 @@ function Cart() {
     }));
   }, [cartStored, tableStored]);
 
-  console.log(pushData);
+  // console.log(pushData);
   useEffect(() => {
     setIsSuccess(false);
   }, [pushData]);
@@ -149,6 +149,13 @@ function Cart() {
   const cancelHandler2 = () => {
     setIsFail(false);
   };
+
+  const finishHandler = () => {
+    navigate("/showall")
+    sessionStorage.removeItem("obj")
+  };
+
+  
 
   const submitHandler = () => {
     axios
@@ -243,7 +250,7 @@ function Cart() {
         <div className={cx("successContainer")}>
           <div className="successBox">
             <h2 className={cx("successPopup")}>Gọi món thành công</h2>
-            <button onClick={() => navigate("/showall")}>Trở về</button>
+            <button onClick={finishHandler}>Trở về</button>
           </div>
         </div>
       )}
