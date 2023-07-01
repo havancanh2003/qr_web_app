@@ -1,3 +1,29 @@
+.successContainer{
+    .staffBox{
+        position: absolute;
+        display: block;
+        z-index: 100;
+        height: 18vh;
+        width: 70vw;
+        background-color: #f0f0f0;
+        top: auto;
+        bottom: 40vh;
+        right: auto;
+        left: 15vw;
+        border-radius: 15px;
+        .staffPopup{
+            position: relative;
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            top: 18%;
+            text-align: center;
+            font-size: 2.1rem;
+            width: 100%;
+        }
+    }
+}
 
 .homePage{
     display: flex;
