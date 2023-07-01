@@ -12,17 +12,18 @@ const cx = classNames.bind(style);
 
 function ShowAll() {
   const navigate = useNavigate();
-  const [category, setCategory] = useState([]);
-  const [listDish, setListDish] = useState([]);
-  const [sticky, setSticky] = useState(false);
   const activeSectionRef = useRef(null);
+  const [sticky, setSticky] = useState(false);
   const [detail, setDetail] = useState(false);
   const [overlay, setOverlay] = useState(false);
-  const [obj, setObj] = useState({});
   const [cartIcon, setCartIcon] = useState(true);
-  const [activeButton, setActiveButton] = useState(null);
+  const [category, setCategory] = useState([]);
+  const [listDish, setListDish] = useState([]);
   const [dishClass, setDishClass] = useState([]);
   const [hideDish, setHideDish] = useState([]);
+  const [obj, setObj] = useState({});
+  const [activeButton, setActiveButton] = useState(null);
+
 
   const [tester, setTester] = useState(false);
 
@@ -149,12 +150,6 @@ function ShowAll() {
     )
   }
 
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-  });
-
   return (
     <Fragment>
       {cartIcon && <CartIcon />}
@@ -191,11 +186,6 @@ function ShowAll() {
               <h2>{cat.name}</h2>
             </div>
             <div className={cx("showAllBody")}>
-              {/* {hideDish.map((ind) => (
-                {if(ind){
-                  <div>afv</div>
-                }}
-              ))} */}
               {listDish
                 .filter((dish) => dish.category === cat.name)
                 .map((food, index) => (
@@ -206,8 +196,6 @@ function ShowAll() {
                       setObj(food), setDetail(!detail), setOverlay(!overlay), setCartIcon(false)
                     )
                     }>
-                    {/* <div className={cx("coverZero")}
-                    ></div> */}
                     <div className={cx("box_food_1")}>
                       <img src={food.image_detail.path} alt="" />
                     </div>
