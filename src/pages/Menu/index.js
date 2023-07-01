@@ -11,10 +11,11 @@ const cx = classNames.bind(style);
 
 function Menu() {
   const [detail, setDetail] = useState(false);
-  //const [show, setShow] = useState(false);
+  const [type, setType] = useState(false);
   const [overlay, setOverlay] = useState(false);
   const [dataMenu, setDataMenu] = useState([]);
   const [obj, setObj] = useState({});
+
   const client = axios.create({
     baseURL: "http://117.4.194.207:3003/dish/menu/best-seller",
   });
@@ -27,7 +28,6 @@ function Menu() {
       })
       .catch((error) => console.log(error));
   }, []);
-
 
   return (
     <Fragment>
@@ -88,6 +88,7 @@ function Menu() {
           </div>
         ))}
       </section>
+
       {overlay && (
         <div
           className={cx("overlay")}
