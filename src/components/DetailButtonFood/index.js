@@ -6,17 +6,11 @@ import style from "./DetailButtonFood.module.scss";
 const cx = classNames.bind(style);
 
 const DetailButtonFood = (props) => {
-  // console.log(props.obj);
-  //const [showDetail, setShowDetail] = useState(true);
   const op = props.obj.options;
-  //console.log(op);
-
   const [add, setAdd] = useState(false);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const [check, setCheck] = useState("");
   const arrayFood = [];
-  //const [arrayFood, setArrFood] = useState([]);
-  //console.log(arrayFood);
   function addDetail() {
     setAdd(true);
     let food = {
@@ -29,33 +23,34 @@ const DetailButtonFood = (props) => {
       options: check,
     };
     let data = JSON.parse(sessionStorage.getItem("obj"));
-    //console.log(data);
     if (data === null) {
       arrayFood.push(food);
       console.log(arrayFood);
       sessionStorage.setItem("obj", JSON.stringify(arrayFood));
     } else {
       let data = JSON.parse(sessionStorage.getItem("obj"));
-      data.push(food);
+      const foodID = data.find(
+        (item) => item.id === food.id && item.options === food.options
+      );
+      if (foodID) {
+        foodID.number += food.number;
+      } else {
+        data.push(food);
+      }
       console.log(data);
       sessionStorage.setItem("obj", JSON.stringify(data));
     }
   }
   function remove() {
-    if (quantity === 0) {
-      setQuantity(0);
+    if (quantity === 1) {
+      setQuantity(1);
     } else {
       setQuantity(quantity - 1);
     }
   }
   return (
     <Fragment>
-      {/* {showDetail && ( */}
       <Fragment>
-        {/* <div
-            className={cx("overlay")}
-            onClick={() => setShowDetail(false)}
-          ></div> */}
         <div className={cx("footer")}>
           <div className={cx("box_note")}>
             <div className={cx("product")}>
