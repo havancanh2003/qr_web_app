@@ -73,19 +73,21 @@ const DetailButtonFood = (props) => {
               </div>
             </div>
             <div className={cx("container")}>
-              {op != null
-                ? op.map((item) => (
-                    <div key={item} className={cx("container_note")}>
-                      <label>{item}</label>
-                      <input
-                        onClick={() => setCheck(item)}
-                        type="radio"
-                        name="check"
-                        value={item}
-                      />
-                    </div>
-                  ))
-                : props.obj.description}
+              {op != null ? (
+                op.map((item) => (
+                  <div key={item} className={cx("container_note")}>
+                    <label>{item}</label>
+                    <input
+                      onClick={() => setCheck(item)}
+                      type="radio"
+                      name="check"
+                      value={item}
+                    />
+                  </div>
+                ))
+              ) : (
+                <p>{props.obj.description}</p>
+              )}
             </div>
             <div className={cx("addCart")}>
               <button onClick={addDetail}>Add to Cart</button>
