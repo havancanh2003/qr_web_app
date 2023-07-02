@@ -1,8 +1,8 @@
-import { FaAirFreshener } from "react-icons/fa";
+//import { FaAirFreshener } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { MdOutlineFreeBreakfast, MdOutlineLunchDining } from "react-icons/md";
+//import { MdOutlineFreeBreakfast, MdOutlineLunchDining } from "react-icons/md";
 import axios from "axios";
 import classNames from "classnames/bind";
 import style from "./Menu.module.scss";
@@ -11,21 +11,36 @@ const cx = classNames.bind(style);
 
 function Menu() {
   const [detail, setDetail] = useState(false);
-  const [type, setType] = useState("Cơm");
   const [overlay, setOverlay] = useState(false);
   const [dataMenu, setDataMenu] = useState([]);
   const [category, setCategory] = useState([]);
+  const [cate, setCate] = useState([]);
   const [obj, setObj] = useState({});
-  const categorys = ["Cơm", "Đồ ăn nhanh", "Nước"];
+  const categorys = [];
   const client = axios.create({
     baseURL: "http://117.4.194.207:3003/dish/menu/best-seller",
   });
+  for (var i = 0; i < cate.length; i++) {
+    categorys.push(cate[i].name);
+  }
+  const [type, setType] = useState(categorys[0]);
+  console.log(type);
 
   useEffect(() => {
     client
       .get("?_limit=4")
       .then((response) => {
+        //console.log(response.data);
         setDataMenu(response.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+  useEffect(() => {
+    axios
+      .get("http://117.4.194.207:3003/category/all")
+      .then((response) => {
+        //console.log(response.data);
+        setCate(response.data);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -41,6 +56,7 @@ function Menu() {
   //console.log(obj);
   return (
     <Fragment>
+      {/* {setType(categorys[0])} */}
       <section>
         <div className={cx("tiltle_container")}>
           <h3>Today's best deals</h3>
@@ -68,24 +84,9 @@ function Menu() {
           ))}
         </div>
 
-        {/* recommend */}
         <div className={cx("title_choose")}>
           <h3>Choose by Category</h3>
         </div>
-        {/* <div className={cx("recomment_categorys")}>
-          <div className={cx("category")}>
-            <MdOutlineFreeBreakfast />
-            <span>Breakfast</span>
-          </div>
-          <div className={cx("category")}>
-            <MdOutlineLunchDining />
-            <span>Lunch</span>
-          </div>
-          <div className={cx("category")}>
-            <FaAirFreshener />
-            <span>Drink</span>
-          </div>
-        </div> */}
         <div className={cx("Category_chose")}>
           {categorys.map((category) => (
             <button
@@ -122,7 +123,7 @@ function Menu() {
             <div className={cx("combo_about")}>
               <h4>{combo.name}</h4>
               <p>{combo.description}</p>
-              <span>{combo.createAt}</span>
+              <span>{combo.price}</span>
             </div>
           </div>
         ))}
@@ -140,21 +141,3 @@ function Menu() {
 }
 
 export default Menu;
-// const combos = [
-//   {
-//     id: "cb1",
-//     src_img:
-//       "https://www.allrecipes.com/thmb/AYZbeG_jbkslFw0ZdVap62wD86Y=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/7499125-baked-caesar-chicken-DDMFS-beauty-4x3-BG-9353-6aae9a89fac546a8b5f3ed38c3f44cb8.jpg",
-//     tile: "Lunch",
-//     about: "The href attribute requires a valid value to be accessible.",
-//     price: "199.000",
-//   },
-//   {
-//     id: "cb2",
-//     src_img:
-//       "https://www.allrecipes.com/thmb/AYZbeG_jbkslFw0ZdVap62wD86Y=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/7499125-baked-caesar-chicken-DDMFS-beauty-4x3-BG-9353-6aae9a89fac546a8b5f3ed38c3f44cb8.jpg",
-//     tile: "Breakfast",
-//     about: "The href attribute requires a valid value to be accessible.",
-//     price: "199.000",
-//   },
-// ];
