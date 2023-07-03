@@ -66,7 +66,7 @@ function Menu() {
               onClick={() => (
                 setObj(food), setDetail(!detail), setOverlay(!overlay)
               )}
-              className={cx("box_food_1")}
+              className={cx("box_food_1", {"boxFoodWrapperZero" : food.amount === 0 || ""}) }
             >
               <div className={cx("imageBorder")}>
                 <img src={food.image_detail.path} alt="" />
@@ -76,6 +76,7 @@ function Menu() {
                   {food.name}
                 </p>
                 <span>{food.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
+                <span className={cx("ZeroAmount")}>Hết Món</span>
               </div>
             </div>
           ))}
@@ -107,7 +108,7 @@ function Menu() {
               onClick={() => (
                 setObj(food), setDetail(!detail), setOverlay(!overlay)
               )}
-              className={cx("boxFoodWrapper")}
+              className={cx("boxFoodWrapper", {"boxFoodWrapperZero" : food.amount === 0 || ""})}
             >
               <div className={cx("boxFoodImage")}>
                 <img src={food.image_detail.path} alt="" />
@@ -116,6 +117,7 @@ function Menu() {
                 <h4>{food.name}</h4>
                 <p>{food.description}</p>
                 <span>{food.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
+                <span className={cx("ZeroAmount")}>Hết Món</span>
               </div>
             </div>
           ))}
