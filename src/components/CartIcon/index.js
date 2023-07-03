@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import classNames from "classnames/bind";
 import style from "./cartIcon.scss";
-import cartIcon from "../../assets/image/cart-icon.jpg";
+// import cartIcon from "../../assets/image/cart-icon.jpg";
+import cartIcon2 from "../../assets/image/shopping-cart.png";
+
 const cx = classNames.bind(style);
 const Giohang = () => {
     const navigate = useNavigate();
@@ -20,14 +22,13 @@ const Giohang = () => {
         setNum(delta)
     }, []);
 
-    
     return (
         <div className={cx("iconBorder")}>
             <button onClick={() => navigate("/cart")}>
                 <div className={cx("notificationCart")}>
                     <p>{num}</p>
                 </div>
-                <img src={cartIcon}></img>
+                <img src={cartIcon2}></img>
             </button>
         </div>
     )

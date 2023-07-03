@@ -7,67 +7,60 @@ import axios from "axios";
 import classNames from "classnames/bind";
 import style from "./Menu.module.scss";
 import DetailButtonFood from "../../components/DetailButtonFood";
+import AddOrder from "../../components/AddOrder/AddOrder";
 const cx = classNames.bind(style);
 
 function Menu() {
   const [detail, setDetail] = useState(false);
   const [overlay, setOverlay] = useState(false);
-  const [dataMenu, setDataMenu] = useState([]);
-  const [category, setCategory] = useState([]);
-  const [cate, setCate] = useState([]);
+  const [listBestSeller, setLishBestSeller] = useState([]);
+  const [categories, setCategories] = useState([]);
+  // const [cate, setCate] = useState([]);
   const [obj, setObj] = useState({});
-  const categorys = [];
-  const client = axios.create({
-    baseURL: "http://117.4.194.207:3003/dish/menu/best-seller",
-  });
-  for (var i = 0; i < cate.length; i++) {
-    categorys.push(cate[i].name);
-  }
-  const [type, setType] = useState(categorys[0]);
-  console.log(type);
+  const [listDish, setListDish] = useState([]);
+  const [type, setType] = useState();
 
   useEffect(() => {
-    client
-      .get("?_limit=4")
+    axios
+      .get("http://117.4.194.207:3003/dish/menu/best-seller")
       .then((response) => {
-        //console.log(response.data);
-        setDataMenu(response.data);
+        setLishBestSeller(response.data);
       })
       .catch((error) => console.log(error));
-  }, []);
-  useEffect(() => {
+    axios
+      .get("http://117.4.194.207:3003/dish/menu/all-actived")
+      .then((response) => {
+        setListDish(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     axios
       .get("http://117.4.194.207:3003/category/all")
       .then((response) => {
-        //console.log(response.data);
-        setCate(response.data);
+        const data = response.data;
+        setCategories(data);
+        setType(data[0]);
       })
       .catch((error) => console.log(error));
   }, []);
-  useEffect(() => {
-    axios
-      .get(`http://117.4.194.207:3003/dish/category/${type}`)
-      .then((response) => {
-        //console.log(response.data);
-        setCategory(response.data);
-      })
-      .catch((error) => console.log(error));
-  }, [type]);
-  //console.log(obj);
+
+  // if (categories.length === 0 || listDish.length === 0) {
+  //   return <p>LOADING...</p>;
+  // }
+
   return (
     <Fragment>
-      {/* {setType(categorys[0])} */}
       <section>
         <div className={cx("tiltle_container")}>
           <h3>Today's best deals</h3>
-          <Link to={"/showall"}>SHOW ALL</Link>
+          <Link to={"/showall"}>Xem thêm</Link>
         </div>
         <div className={cx("food_best_deal")}>
-          {dataMenu.map((food) => (
+          {listBestSeller.map((food) => (
             <div
               key={food._id}
               onClick={() => (
-                // console.log(food),
                 setObj(food), setDetail(!detail), setOverlay(!overlay)
               )}
               className={cx("box_food_1")}
@@ -85,16 +78,16 @@ function Menu() {
         </div>
 
         <div className={cx("title_choose")}>
-          <h3>Choose by Category</h3>
+          <h3>Các thể loại:</h3>
         </div>
         <div className={cx("Category_chose")}>
-          {categorys.map((category) => (
+          {categories.map((cate) => (
             <button
               //className="Category"
-              key={category}
-              onClick={() => setType(category)}
+              key={cate._id}
+              onClick={() => setType(cate)}
               style={
-                type === category
+                type === cate
                   ? {
                       color: "#fff",
                       backgroundColor: "#333",
@@ -102,31 +95,30 @@ function Menu() {
                   : {}
               }
             >
-              {category}
+              {cate.name}
             </button>
           ))}
         </div>
-        {category.map((combo) => (
-          <div
-            key={combo.id}
-            onClick={() => (
-              console.log(combo),
-              setObj(combo),
-              setDetail(!detail),
-              setOverlay(!overlay)
-            )}
-            className={cx("combo")}
-          >
-            <div className={cx("combo_img")}>
-              <img src={combo.image_detail.path} alt="" />
+        {listDish
+          .filter((dish) => dish.category === type.name)
+          .map((food, index) => (
+            <div
+              key={index}
+              onClick={() => (
+                setObj(food), setDetail(!detail), setOverlay(!overlay)
+              )}
+              className={cx("combo")}
+            >
+              <div className={cx("combo_img")}>
+                <img src={food.image_detail.path} alt="" />
+              </div>
+              <div className={cx("combo_about")}>
+                <h4>{food.name}</h4>
+                <p>{food.description}</p>
+                <span>{food.price}</span>
+              </div>
             </div>
-            <div className={cx("combo_about")}>
-              <h4>{combo.name}</h4>
-              <p>{combo.description}</p>
-              <span>{combo.price}</span>
-            </div>
-          </div>
-        ))}
+          ))}
       </section>
 
       {overlay && (
@@ -135,7 +127,8 @@ function Menu() {
           onClick={() => (setDetail(false), setOverlay(false))}
         ></div>
       )}
-      {detail && <DetailButtonFood obj={obj} />}
+      {/* {detail && <AddOrder obj={obj} />} */}
+      {detail && <AddOrder obj={obj} listDish={listDish} />}
     </Fragment>
   );
 }
