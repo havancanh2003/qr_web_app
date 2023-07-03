@@ -218,6 +218,7 @@ function Cart() {
             </h2>
             <div className="confirmButtonGroup">
               <button
+                className={cx("cancelButton")}
                 onClick={() => {
                   setIsFail(false);
                 }}
@@ -237,10 +238,10 @@ function Cart() {
       )}
       {isConfirm && (
         <div className={cx("successContainer")} onClick={cancelHandler}>
-          <div className="successBox">
+          <div className={cx("successBox")}>
             <h2 className={cx("successPopup")}>Xác Nhận Đặt Món</h2>
-            <div className="confirmButtonGroup">
-              <button onClick={cancelHandler}>Huỷ</button>
+            <div className={cx("confirmButtonGroup")}>
+              <button className={cx("cancelButton")} onClick={cancelHandler}>Huỷ</button>
               <button onClick={submitHandler}>Xác Nhận</button>
             </div>
           </div>

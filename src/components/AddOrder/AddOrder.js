@@ -101,16 +101,16 @@ const AddOrder = (props) => {
                 <p>{props.obj.description}</p>
                 {/* <span>{props.obj.price}đ</span> */}
                 <div className={cx("quantity")}>
-                  <button onClick={decrease} name="remove-circle">
-                    -
+                  <button onClick={decrease} 
+                  >
+                    <img src={minusIcon} alt="minus"></img>
                   </button>
                   <span>{quantity}</span>
                   <button
                     // onClick={() => setQuantity(quantity + 1)}
                     onClick={() => increase(props.obj._id)}
-                    name="add-circle"
                   >
-                    +
+                    <img src={plusIcon} alt="plus"></img>
                   </button>
                 </div>
               </div>
