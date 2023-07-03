@@ -35,12 +35,11 @@
     font-size: 1.5rem;
     font-weight: 200;
     width: 90vw;
-
+    height: fit-content;
     .img_product {
         height: 12vh;
         border-radius: 10px;
-        margin: 3% 0% 2% 3%;
-
+        margin: auto 0% auto 3%;
         img {
             width: 30vw;
             height: 12vh;
@@ -54,15 +53,14 @@
         flex-direction: column;
         // flex-wrap: nowrap;
         justify-content: space-between;
-        width: 50vw;
-        height: 13.5vh;
+        width: 55vw;
 
         h4 {
             font-size: 2rem;
-            display: inline-block;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            // display: inline-block;
+            // white-space: nowrap;
+            // overflow: hidden;
+            // text-overflow: ellipsis;
         }
 
         p {
@@ -110,14 +108,17 @@
         width: 100%;
         padding-bottom: 3px;
         border-bottom: 1px solid #7f8c8d;
-
         label {
             display: block;
             width: 100%;
             font-size: 1.7rem;
         }
 
-        input {}
+        input {
+            height: 100%;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
     }
 }
 

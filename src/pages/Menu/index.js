@@ -45,9 +45,9 @@ function Menu() {
       .catch((error) => console.log(error));
   }, []);
 
-  // if (categories.length === 0 || listDish.length === 0) {
-  //   return <p>LOADING...</p>;
-  // }
+  if (categories.length === 0 || listDish.length === 0) {
+    return <p>LOADING...</p>;
+  }
 
   return (
     <Fragment>
@@ -65,13 +65,14 @@ function Menu() {
               )}
               className={cx("box_food_1")}
             >
-              <img src={food.image_detail.path} alt="" />
+              <div className={cx("imageBorder")}>
+                <img src={food.image_detail.path} alt="" />
+              </div>
               <div className={cx("about_food")}>
                 <p>
-                  {food.name} <br />
-                  <span>{food.category}</span>
+                  {food.name}
                 </p>
-                <span>{food.price}</span>
+                <span>{food.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
               </div>
             </div>
           ))}
@@ -89,9 +90,9 @@ function Menu() {
               style={
                 type === cate
                   ? {
-                      color: "#fff",
-                      backgroundColor: "#333",
-                    }
+                    color: "#fff",
+                    backgroundColor: "#333",
+                  }
                   : {}
               }
             >
