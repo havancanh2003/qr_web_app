@@ -213,9 +213,9 @@ function Cart() {
         <div className={cx("successContainer")} onClick={cancelHandler2}>
           <div className="failBox">
             <h2 className={cx("failPopup")}>
-              Món {foodFailName} còn {amoutRemain} món
+              Món {foodFailName} còn {amoutRemain} món <br/>
+              Bạn có muốn điều chỉnh?
             </h2>
-            <h2 className={cx("failPopup")}>Bạn có muốn điều chỉnh?</h2>
             <div className="confirmButtonGroup">
               <button
                 onClick={() => {

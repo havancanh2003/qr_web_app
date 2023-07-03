@@ -46,41 +46,41 @@ function ShowAll() {
       });
   }, []);
 
-  useEffect(() => {
-    setHideDish([]);
+  // useEffect(() => {
+  //   setHideDish([]);
 
-    const hideDishAmounts = category.map((cat) =>
-      listDish
-        .filter((dish) => dish.category === cat.name)
-        .map((food) => food.amount)
-    );
+  //   const hideDishAmounts = category.map((cat) =>
+  //     listDish
+  //       .filter((dish) => dish.category === cat.name)
+  //       .map((food) => food.amount)
+  //   );
 
-    setHideDish(hideDishAmounts.flat());
-    // console.log(hideDish);
-  }, [listDish]);
+  //   setHideDish(hideDishAmounts.flat());
+  //   // console.log(hideDish);
+  // }, [listDish]);
 
-  useEffect(() => {
-    setDishClass([]);
-    hideDish.forEach((item) => {
-      if (item === 0) {
-        setDishClass((currentDishClass) => [...currentDishClass, "boxFoodWrapperZero"]);
-      } else {
-        setDishClass((currentDishClass) => [...currentDishClass, "boxFoodWrapper"]);
-      }
-    });
+  // useEffect(() => {
+  //   setDishClass([]);
+  //   hideDish.forEach((item) => {
+  //     if (item === 0) {
+  //       setDishClass((currentDishClass) => [...currentDishClass, "boxFoodWrapperZero"]);
+  //     } else {
+  //       setDishClass((currentDishClass) => [...currentDishClass, "boxFoodWrapper"]);
+  //     }
+  //   });
 
-    const changeClass = () => {
-      const boxFoodWrapperElements = document.getElementsByClassName("boxFoodWrapper");
-      for (let i = 0; i < boxFoodWrapperElements.length; i++) {
-        boxFoodWrapperElements[i].classList.add(dishClass[i]);
-      }
-    };
+  //   const changeClass = () => {
+  //     const boxFoodWrapperElements = document.getElementsByClassName("boxFoodWrapper");
+  //     for (let i = 0; i < boxFoodWrapperElements.length; i++) {
+  //       boxFoodWrapperElements[i].classList.add(dishClass[i]);
+  //     }
+  //   };
 
-    if (dishClass.length > 0) {
-      setTimeout(changeClass, 0);
-    }
+  //   if (dishClass.length > 0) {
+  //     setTimeout(changeClass, 0);
+  //   }
 
-  }, [hideDish]);
+  // }, [hideDish]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -145,7 +145,7 @@ function ShowAll() {
         <div className={cx("loadNote")}>
           <img src={meowLoading} alt="LOADING..."></img>
           <p>LOADING...</p>
-        </div>;
+        </div>
       </div>
     )
   }
@@ -192,7 +192,7 @@ function ShowAll() {
                 .map((food, index) => (
                   <div
                     key={index}
-                    className={cx("boxFoodWrapper")}
+                    className={cx("boxFoodWrapper", {"boxFoodWrapperZero" : food.amount === 0 || ""})}
                     onClick={() => (
                       setObj(food), setDetail(!detail), setOverlay(!overlay), setCartIcon(false)
                     )
