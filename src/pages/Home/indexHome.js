@@ -50,9 +50,11 @@ function Home() {
       {isConfirm && (
         <div className={cx("successContainer")} onClick={cancelHandler}>
           <div className="staffBox">
-            <h2 className={cx("staffPopup")}>Bạn Muốn Gọi Nhân Viên?</h2>
-            <div className="confirmButtonGroup">
-              <button onClick={cancelHandler}>Huỷ</button>
+
+            <h2 className={cx("staffPopup")}>Bạn Muốn Gọi Hỗ Trợ?</h2>
+            <div className="confirmButtonGroup homeGroup">
+              <button className="cancelButton" onClick={cancelHandler}>Huỷ</button>
+
               {/* chưa hoàn thiện */}
               <button onClick={submitHandler}>Xác Nhận</button>
               {/* chưa hoàn thiện  */}

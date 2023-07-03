@@ -1,24 +1,23 @@
-//import { FaAirFreshener } from "react-icons/fa";
+
 import { useState, useEffect } from "react";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
-//import { MdOutlineFreeBreakfast, MdOutlineLunchDining } from "react-icons/md";
 import axios from "axios";
 import classNames from "classnames/bind";
 import style from "./Menu.module.scss";
-import DetailButtonFood from "../../components/DetailButtonFood";
 import AddOrder from "../../components/AddOrder/AddOrder";
 import meowLoading from "../../assets/image/meo-loading.jpg";
+import CartIcon from "../../components/CartIcon/index";
 const cx = classNames.bind(style);
 
 function Menu() {
   const [detail, setDetail] = useState(false);
   const [overlay, setOverlay] = useState(false);
+  const [cartIcon, setCartIcon] = useState(true);
   const [listBestSeller, setLishBestSeller] = useState([]);
   const [categories, setCategories] = useState([]);
-  // const [cate, setCate] = useState([]);
-  const [obj, setObj] = useState({});
   const [listDish, setListDish] = useState([]);
+  const [obj, setObj] = useState({});
   const [type, setType] = useState();
 
   useEffect(() => {
@@ -123,14 +122,13 @@ function Menu() {
         </div>
        
       </section>
-
+      {cartIcon && <CartIcon />}
       {overlay && (
         <div
           className={cx("overlay")}
           onClick={() => (setDetail(false), setOverlay(false))}
         ></div>
       )}
-      {/* {detail && <AddOrder obj={obj} />} */}
       {detail && <AddOrder obj={obj} listDish={listDish} />}
     </Fragment>
   );

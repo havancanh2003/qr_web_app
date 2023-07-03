@@ -5,10 +5,10 @@ body {
 //top bar of cart
 .topCart {
   position: fixed;
-  z-index: 100;
+  z-index: 50;
   width: 100%;
   height: 60px;
-  padding-top: 15px;
+  // padding-top: 15px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -38,19 +38,22 @@ body {
 }
 
 .cartBody {
-  margin-top: 7vh;
+  margin-top: 60px;
   padding-top: 2%;
   min-height: 100vh;
   height: auto !important;
-  width: 100%;
+  // width: 110%;
+  min-width: 330px;
   margin-bottom: 299px;
   background-color: #f3f0f0;
   .cartItem {
     display: flex;
-    // justify-content: space-between;
     width: 90%;
+    min-width: 320px;
     min-height: 100px;
-    margin: 3% auto 0 auto;
+    margin-top: 3%;
+    margin-left: auto;
+    margin-right: auto;
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 5px 5px rgb(0 0 0 /20%);
@@ -80,6 +83,11 @@ body {
       flex-direction: column;
       justify-content: space-between;
       h3 {
+        width: 45vw;
+        min-width: 30px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         display: inline-block;
       }
 
@@ -93,11 +101,11 @@ body {
         bottom: 0;
         button {
           border: none;
-          height: 20px;
-          width: 20px;
-          background-color: #fe4d4d;
+          height: 24px;
+          width: 24px;
+          background-color: #fff;
+          border: #fe4d4d 1px solid;
           border-radius: 5px;
-
           img {
             padding-top: 3px;
             height: 14px;
@@ -196,7 +204,6 @@ body {
 .totalBillButton {
   background-color: #fe4d4d;
   color: #ffffff;
-  justify-content: center;
   border-radius: 10px;
   border: none;
   font-size: 23px;
@@ -212,8 +219,6 @@ body {
   top: 0;
   background-color: rgb(0, 0, 0, 0.5);
   z-index: 100;
-  align-items: center;
-
   .failBox {
     min-height: fit-content;
     position: absolute;
@@ -253,26 +258,26 @@ body {
   }
 
   .successPopup {
-    position: relative;
     display: inline-block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    top: 18%;
     text-align: center;
     font-size: 2.1rem;
     width: 100%;
+    height: 60px;
+    margin-top: 7%;
   }
 
   .confirmButtonGroup {
     display: flex;
-    position: relative;
     justify-content: space-around;
-    bottom:-20%;
     margin-bottom: 5%;
     button {
       margin: 0;
     }
+    .cancelButton{
+      background-color: #ffffff;
+      border: 1px solid #fe4d4d;
+      color: #fe4d4d;
+    } 
   }
 
   button {

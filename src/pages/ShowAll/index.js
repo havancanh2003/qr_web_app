@@ -19,8 +19,6 @@ function ShowAll() {
   const [cartIcon, setCartIcon] = useState(true);
   const [category, setCategory] = useState([]);
   const [listDish, setListDish] = useState([]);
-  const [dishClass, setDishClass] = useState([]);
-  const [hideDish, setHideDish] = useState([]);
   const [obj, setObj] = useState({});
   const [activeButton, setActiveButton] = useState(null);
 
@@ -45,42 +43,6 @@ function ShowAll() {
         console.log(error);
       });
   }, []);
-
-  // useEffect(() => {
-  //   setHideDish([]);
-
-  //   const hideDishAmounts = category.map((cat) =>
-  //     listDish
-  //       .filter((dish) => dish.category === cat.name)
-  //       .map((food) => food.amount)
-  //   );
-
-  //   setHideDish(hideDishAmounts.flat());
-  //   // console.log(hideDish);
-  // }, [listDish]);
-
-  // useEffect(() => {
-  //   setDishClass([]);
-  //   hideDish.forEach((item) => {
-  //     if (item === 0) {
-  //       setDishClass((currentDishClass) => [...currentDishClass, "boxFoodWrapperZero"]);
-  //     } else {
-  //       setDishClass((currentDishClass) => [...currentDishClass, "boxFoodWrapper"]);
-  //     }
-  //   });
-
-  //   const changeClass = () => {
-  //     const boxFoodWrapperElements = document.getElementsByClassName("boxFoodWrapper");
-  //     for (let i = 0; i < boxFoodWrapperElements.length; i++) {
-  //       boxFoodWrapperElements[i].classList.add(dishClass[i]);
-  //     }
-  //   };
-
-  //   if (dishClass.length > 0) {
-  //     setTimeout(changeClass, 0);
-  //   }
-
-  // }, [hideDish]);
 
   useEffect(() => {
     const handleScroll = () => {
