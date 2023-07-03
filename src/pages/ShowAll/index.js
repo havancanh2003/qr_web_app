@@ -174,7 +174,8 @@ function ShowAll() {
             </div>
           ))}
           <div className={cx("navBarElement")}>
-            <span>Thêm để không cần sửa</span>
+            {/* <span>Thêm để không cần sửa</span> */}
+            {/* <span>ws</span> */}
           </div>
         </div>
       </nav>
