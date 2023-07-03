@@ -5,10 +5,13 @@ import icon from "../../assets/image/icon.png";
 import Headerhome from "../../components/DefaultLayout/Headerhome";
 import classNames from "classnames/bind";
 import style from "./home.scss";
+import axios from "axios";
+
 const cx = classNames.bind(style);
 function Home() {
   const { table } = useParams();
   const [isConfirm, setIsConfirm] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   function ProfilePage() {
     // Get the userId param from the URL.
     // let { table } = useParams();
@@ -18,15 +21,28 @@ function Home() {
   useEffect(() => {
     sessionStorage.setItem("table", table);
   }, [table]);
-
+  console.log({ table: table });
   const confirmHandler = () => {
     setIsConfirm(true);
   };
   const cancelHandler = () => {
     setIsConfirm(false);
   };
+  const cancelSuccesHandler = () => {
+    setIsSuccess(false);
+  };
 
-
+  const submitHandler = () => {
+    axios
+      .post("http://117.4.194.207:3003/call-staff/create", { table: table })
+      .then((response) => {
+        setIsSuccess(true);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const navigate = useNavigate();
   return (
     <Fragment>
@@ -34,11 +50,24 @@ function Home() {
       {isConfirm && (
         <div className={cx("successContainer")} onClick={cancelHandler}>
           <div className="staffBox">
-            <h2 className={cx("staffPopup")}>Bạn Muốn Gọi Hỗ Trợ?</h2>
+            <h2 className={cx("staffPopup")}>Bạn Muốn Gọi Nhân Viên?</h2>
             <div className="confirmButtonGroup">
               <button onClick={cancelHandler}>Huỷ</button>
               {/* chưa hoàn thiện */}
-              <button onClick={cancelHandler}>Xác Nhận</button>
+              <button onClick={submitHandler}>Xác Nhận</button>
+              {/* chưa hoàn thiện  */}
+            </div>
+          </div>
+        </div>
+      )}
+      {isSuccess && (
+        <div className={cx("successContainer")} onClick={cancelHandler}>
+          <div className="staffBox">
+            <h2 className={cx("staffPopup")}>Gửi yêu cầu của bạn thành công</h2>
+            <div className="confirmButtonGroup">
+              <button onClick={cancelSuccesHandler}>Huỷ</button>
+              {/* chưa hoàn thiện */}
+              <button onClick={cancelSuccesHandler}>Xác Nhận</button>
               {/* chưa hoàn thiện  */}
             </div>
           </div>
@@ -57,7 +86,7 @@ function Home() {
         <button
           className="homeButton"
           id="secondButton"
-          onClick={() => navigate('/menu')}
+          onClick={() => navigate("/menu")}
         >
           Xem Menu - Gọi Món
         </button>

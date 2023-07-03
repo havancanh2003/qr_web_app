@@ -57,7 +57,7 @@ function Menu() {
     <Fragment>
       <section className={cx("MenuBody")}>
         <div className={cx("tiltle_container")}>
-          <h3>Today's best deals</h3>
+          <h3>Best seller:</h3>
           <Link to={"/showall"}>Xem thêm</Link>
         </div>
         <div className={cx("food_best_deal")}>
