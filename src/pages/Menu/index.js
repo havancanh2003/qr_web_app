@@ -8,6 +8,7 @@ import classNames from "classnames/bind";
 import style from "./Menu.module.scss";
 import DetailButtonFood from "../../components/DetailButtonFood";
 import AddOrder from "../../components/AddOrder/AddOrder";
+import meowLoading from "../../assets/image/meo-loading.jpg";
 const cx = classNames.bind(style);
 
 function Menu() {
@@ -46,12 +47,15 @@ function Menu() {
   }, []);
 
   if (categories.length === 0 || listDish.length === 0) {
-    return <p>LOADING...</p>;
+    <div className={cx("loadNote")}>
+      <img src={meowLoading} alt="LOADING..."></img>
+      <p>LOADING...</p>
+    </div>
   }
 
   return (
     <Fragment>
-      <section>
+      <section className={cx("MenuBody")}>
         <div className={cx("tiltle_container")}>
           <h3>Today's best deals</h3>
           <Link to={"/showall"}>Xem thêm</Link>
@@ -81,25 +85,21 @@ function Menu() {
         <div className={cx("title_choose")}>
           <h3>Các thể loại:</h3>
         </div>
+        <nav>
         <div className={cx("Category_chose")}>
           {categories.map((cate) => (
             <button
               //className="Category"
               key={cate._id}
               onClick={() => setType(cate)}
-              style={
-                type === cate
-                  ? {
-                    color: "#fff",
-                    backgroundColor: "#333",
-                  }
-                  : {}
-              }
+              className={cx({active: type === cate})}
             >
               {cate.name}
             </button>
           ))}
         </div>
+        </nav>
+        <div className={cx("categoryContent")}>
         {listDish
           .filter((dish) => dish.category === type.name)
           .map((food, index) => (
@@ -108,18 +108,20 @@ function Menu() {
               onClick={() => (
                 setObj(food), setDetail(!detail), setOverlay(!overlay)
               )}
-              className={cx("combo")}
+              className={cx("boxFoodWrapper")}
             >
-              <div className={cx("combo_img")}>
+              <div className={cx("boxFoodImage")}>
                 <img src={food.image_detail.path} alt="" />
               </div>
-              <div className={cx("combo_about")}>
+              <div className={cx("boxFoodAbout")}>
                 <h4>{food.name}</h4>
                 <p>{food.description}</p>
-                <span>{food.price}</span>
+                <span>{food.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
               </div>
             </div>
           ))}
+        </div>
+       
       </section>
 
       {overlay && (
