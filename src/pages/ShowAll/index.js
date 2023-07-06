@@ -112,6 +112,12 @@ function ShowAll() {
     )
   }
 
+  const handleDetailState = () => {
+    setDetail(false);
+    setOverlay(false);
+    setCartIcon(true)
+  };
+
   return (
     <Fragment>
       {cartIcon && <CartIcon />}
@@ -154,7 +160,7 @@ function ShowAll() {
                 .map((food, index) => (
                   <div
                     key={index}
-                    className={cx("boxFoodWrapper", {"boxFoodWrapperZero" : food.amount === 0 || ""})}
+                    className={cx("boxFoodWrapper", { "boxFoodWrapperZero": food.amount === 0 || "" })}
                     onClick={() => (
                       setObj(food), setDetail(!detail), setOverlay(!overlay), setCartIcon(false)
                     )
@@ -181,7 +187,7 @@ function ShowAll() {
           onClick={() => (setDetail(false), setOverlay(false), setCartIcon(true))}
         ></div>
       )}
-      {detail && <AddOrder obj={obj} listDish={listDish} />}
+      {detail && <AddOrder obj={obj} listDish={listDish} onAddSuccess={handleDetailState} />}
     </Fragment>
   );
 }

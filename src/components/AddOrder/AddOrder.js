@@ -1,10 +1,11 @@
 import React from "react";
 import { Fragment } from "react";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import classNames from "classnames/bind";
 import style from "./AddOrder.scss";
 import plusIcon from "../../assets/image/plus_icon-icons.com_66718.png";
 import minusIcon from "../../assets/image/free-minus-icon-3108-thumb.png";
+import tickIcon from "../../assets/image/Flat_tick_icon.svg.png";
 const cx = classNames.bind(style);
 
 const AddOrder = (props) => {
@@ -17,6 +18,19 @@ const AddOrder = (props) => {
   const [foodFailName, setFoodFailName] = useState("");
   const [amoutRemain, setAmountRemain] = useState(0);
   const arrayFood = [];
+
+  useEffect(() => {
+    let timer;
+    if (add) {
+      timer = setTimeout(() => {
+        props.onAddSuccess(); 
+      }, 1000);
+    }
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [add, props]);
+
 
   function addDetail() {
     let food = {
@@ -137,7 +151,7 @@ const AddOrder = (props) => {
           {add && (
             <div className={cx("successOrder")}>
               <div className={cx("successBox")}>
-                <ion-icon name="checkmark-outline"></ion-icon>
+                <img src={tickIcon}></img>
               </div>
             </div>
           )}
