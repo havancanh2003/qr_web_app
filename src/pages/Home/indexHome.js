@@ -12,16 +12,30 @@ function Home() {
   const { table } = useParams();
   const [isConfirm, setIsConfirm] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  function ProfilePage() {
-    // Get the userId param from the URL.
-    // let { table } = useParams();
-    // ...
-  }
+  const [isActive, setIsActive] = useState(true);
+  const [isNeedHelp, setIsNeedHelp] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    axios
+    .get(`http://117.4.194.207:3003/table/detail/${table}`)
+    .then((response) => {
+      if(response.data.isActive === true){
+        setIsActive(true)
+        // setIsActive(false)
+      }else{
+        setIsActive(false)
+        // setIsActive(true)
+      }
+      
+    })
+    .catch((error) => {
+      console.log(error);
+    });
     sessionStorage.setItem("table", table);
   }, [table]);
-  console.log({ table: table });
+  
+  console.log(isActive);
   const confirmHandler = () => {
     setIsConfirm(true);
   };
@@ -30,6 +44,16 @@ function Home() {
   };
   const cancelSuccesHandler = () => {
     setIsSuccess(false);
+  };
+  const cancelNeedHelpHandler = () => {
+    setIsNeedHelp(false);
+  };
+  const checkActiveHandler = () => {
+    if(isActive){
+      navigate("/menu")
+    }else{
+      setIsNeedHelp(true)
+    }
   };
 
   const submitHandler = () => {
@@ -43,10 +67,27 @@ function Home() {
         console.log(error);
       });
   };
-  const navigate = useNavigate();
+  
+
+
   return (
     <Fragment>
       <Headerhome />
+      {isNeedHelp && (
+        <div className={cx("successContainer")} onClick={cancelNeedHelpHandler}>
+        <div className="needHelpBox">
+
+          <h2 className={cx("needHelpPopup")}>Bàn Chưa Được Kích Hoạt <br /> Vui Lòng Gọi Nhân Viên</h2>
+          <div className="confirmButtonGroup homeGroup">
+            <button className="cancelButton" onClick={cancelNeedHelpHandler}>Huỷ</button>
+
+            {/* chưa hoàn thiện */}
+            <button onClick={cancelNeedHelpHandler}>Xác Nhận</button>
+            {/* chưa hoàn thiện  */}
+          </div>
+        </div>
+      </div>
+      )}
       {isConfirm && (
         <div className={cx("successContainer")} onClick={cancelHandler}>
           <div className="staffBox">
@@ -63,7 +104,7 @@ function Home() {
         </div>
       )}
       {isSuccess && (
-        <div className={cx("successContainer")} onClick={cancelHandler}>
+        <div className={cx("successContainer")} onClick={cancelSuccesHandler}>
           <div className="staffBox">
             <h2 className={cx("staffPopup")}>Gửi yêu cầu thành công</h2>
             <div className="confirmButtonGroup">
@@ -90,7 +131,7 @@ function Home() {
         <button
           className="homeButton"
           id="secondButton"
-          onClick={() => navigate("/menu")}
+          onClick={checkActiveHandler}
         >
           Xem Menu - Gọi Món
         </button>

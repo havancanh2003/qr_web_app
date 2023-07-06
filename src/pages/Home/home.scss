@@ -19,6 +19,32 @@
             width: 100%;
         }
     }
+    .needHelpBox{
+        position: absolute;
+        display: block;
+        z-index: 100;
+        min-height: 150px;
+        height: fit-content;
+        width: 70vw;
+        background-color: #f0f0f0;
+        top: auto;
+        bottom: 40vh;
+        right: auto;
+        left: 15vw;
+        border-radius: 15px;
+        .needHelpPopup{
+            height: 60px;
+            margin-top: 12%;
+            text-align: center;
+            font-size: 2.1rem;
+            width: 100%;
+            // padding-bottom: 10px;
+        }
+        .confirmButtonGroup{
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+    }
 }
 
 .homePage{
