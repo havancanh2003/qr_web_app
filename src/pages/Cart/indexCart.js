@@ -17,6 +17,7 @@ function Cart() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isConfirm, setIsConfirm] = useState(false);
   const [isFail, setIsFail] = useState(false);
+  const [isUnable, setIsUnable] = useState(false);
   const [allActive, setAllActive] = useState([]);
   // const [canPushData, setCanPushData] = useState(true);
   const [foodFailName, setFoodFailName] = useState("");
@@ -55,6 +56,9 @@ function Cart() {
 
   useEffect(() => {
     sessionStorage.setItem("obj", JSON.stringify(cartStored));
+    if(cartStored.length === 0 ){
+      setIsUnable(true);
+    }
   }, [cartStored]);
 
   // console.log(cartStored); 
@@ -155,10 +159,14 @@ function Cart() {
     sessionStorage.removeItem("obj")
   };
 
-  
 
   const submitHandler = () => {
-    axios
+    if(cartStored.length === 0){
+      setIsUnable(true);
+      console.log(isUnable);
+    }
+    if(!isUnable){
+      axios
       .get("http://117.4.194.207:3003/dish/menu/all-actived")
       .then((response) => {
         const availableDishes = response.data;
@@ -205,10 +213,19 @@ function Cart() {
       .catch((error) => {
         console.log(error);
       });
+    }
   };
 
   return (
     <div>
+      {isUnable && (
+                <div className={cx("successContainer")}>
+                <div className="successBox">
+                  <h2 className={cx("successPopup")}>Giỏ hàng trống <br /> Vui lòng chọn món</h2>
+                  <button className={cx("UnableReturnButton")} onClick={finishHandler}>Trở về</button>
+                </div>
+              </div>
+      )}
       {isFail && (
         <div className={cx("successContainer")} onClick={cancelHandler2}>
           <div className="failBox">
