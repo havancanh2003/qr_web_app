@@ -65,7 +65,7 @@ function Home() {
       {isSuccess && (
         <div className={cx("successContainer")} onClick={cancelHandler}>
           <div className="staffBox">
-            <h2 className={cx("staffPopup")}>Gửi yêu cầu của bạn thành công</h2>
+            <h2 className={cx("staffPopup")}>Gửi yêu cầu thành công</h2>
             <div className="confirmButtonGroup">
               <button
                 className="cancelButton"
