@@ -55,7 +55,7 @@ function Cart() {
   }, []);
 
   useEffect(() => {
-    console.log(cartStored);
+    // console.log(cartStored);
     sessionStorage.setItem("obj", JSON.stringify(cartStored));
     if(cartStored.length === 0 ){
       setIsUnable(true);
@@ -171,9 +171,7 @@ function Cart() {
   const submitHandler = () => {
     if(cartStored.length === 0){
       setIsUnable(true);
-      console.log(isUnable);
-    }
-    if(!isUnable){
+    }else{
       axios
       .get("http://117.4.194.207:3003/dish/menu/all-actived")
       .then((response) => {
