@@ -102,7 +102,7 @@ function ShowAll() {
           <button className={cx("backButton")} onClick={() => navigate("/showall")}>
             <img src={leftArrow} alt="icon" />
           </button>
-          <p className={cx("topTitle")}>SHOW ALL</p>
+          <p className={cx("topTitle")}>Tất Cả Các Món</p>
         </div>
         <div className={cx("loadNote")}>
           <img src={meowLoading} alt="LOADING..."></img>

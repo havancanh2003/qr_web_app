@@ -163,7 +163,7 @@ function Cart() {
   };
 
   const finishHandler = () => {
-    navigate("/showall")
+    navigate("/menu")
     sessionStorage.removeItem("obj")
   };
 
@@ -279,7 +279,7 @@ function Cart() {
         </div>
       )}
       <div className={cx("topCart")}>
-        <button className={cx("backButton")} onClick={() => navigate("/showall")}>
+        <button className={cx("backButton")} onClick={() => navigate("/menu")}>
           <img src={leftArrow} alt="icon" />
         </button>
         <p className={cx("topTitle")}>Món Bạn Đã Chọn</p>
