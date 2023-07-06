@@ -55,9 +55,13 @@ function Cart() {
   }, []);
 
   useEffect(() => {
+    console.log(cartStored);
     sessionStorage.setItem("obj", JSON.stringify(cartStored));
     if(cartStored.length === 0 ){
       setIsUnable(true);
+      // console.log(cartStored);
+    }else{
+      setIsUnable(false);
     }
   }, [cartStored]);
 
@@ -154,6 +158,10 @@ function Cart() {
     setIsFail(false);
   };
 
+  const cancelHandler3 = () => {
+    setIsUnable(false);
+  };
+
   const finishHandler = () => {
     navigate("/showall")
     sessionStorage.removeItem("obj")
@@ -222,7 +230,7 @@ function Cart() {
                 <div className={cx("successContainer")}>
                 <div className="successBox">
                   <h2 className={cx("successPopup")}>Giỏ hàng trống <br /> Vui lòng chọn món</h2>
-                  <button className={cx("UnableReturnButton")} onClick={finishHandler}>Trở về</button>
+                  <button className={cx("UnableReturnButton")} onClick={cancelHandler3}>Trở về</button>
                 </div>
               </div>
       )}
