@@ -125,7 +125,7 @@ function ShowAll() {
         <button className={cx("backButton")} onClick={() => navigate("/menu")}>
           <img src={leftArrow} alt="icon" />
         </button>
-        <p className={cx("topTitle")}>SHOW ALL</p>
+        <p className={cx("topTitle")}>Tất Cả Các Món</p>
       </div>
 
       <nav className={`${sticky ? "sticky" : ""}`}>
@@ -166,12 +166,13 @@ function ShowAll() {
                     )
                     }>
                     <div className={cx("box_food_1")}>
+                      <div className={cx("ZeroAmountBanner")}>Hết Món</div>
                       <img src={food.image_detail.path} alt="" />
                     </div>
                     <div className={cx("foodDescription")}>
                       <h3>{food.name}</h3>
                       <p>{food.description}</p>
-                      <span className={cx("ZeroAmount")}>Hết Món</span>
+                      {/* <span className={cx("ZeroAmount")}>Hết Món</span> */}
                       <span className={cx("foodPrice")}>{food.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
                     </div>
 

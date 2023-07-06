@@ -67,7 +67,9 @@ function Home() {
           <div className="staffBox">
             <h2 className={cx("staffPopup")}>Gửi yêu cầu của bạn thành công</h2>
             <div className="confirmButtonGroup">
-              <button onClick={cancelSuccesHandler}>Huỷ</button>
+              <button
+                className="cancelButton"
+                onClick={cancelSuccesHandler}>Huỷ</button>
               {/* chưa hoàn thiện */}
               <button onClick={cancelSuccesHandler}>Xác Nhận</button>
               {/* chưa hoàn thiện  */}

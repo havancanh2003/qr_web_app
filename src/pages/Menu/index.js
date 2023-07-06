@@ -64,7 +64,7 @@ function Menu() {
     <Fragment>
       <section className={cx("MenuBody")}>
         <div className={cx("tiltle_container")}>
-          <h3>Best seller:</h3>
+          <h3>Đề Xuất Cho Bạn:</h3>
           <Link to={"/showall"}>Xem thêm</Link>
         </div>
         <div className={cx("food_best_deal")}>
@@ -92,7 +92,7 @@ function Menu() {
         </div>
 
         <div className={cx("title_choose")}>
-          <h3>Các thể loại:</h3>
+          {/* <h3>Các Thể Loại:</h3> */}
         </div>
         <nav>
           <div className={cx("Category_chose")}>

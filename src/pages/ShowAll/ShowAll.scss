@@ -163,7 +163,11 @@ nav {
             border-radius: 10px;
             margin: 3% 0% 2% 3%;
             // box-shadow: 0 5px 5px rgb(0 0 0 /20%);
-
+            .ZeroAmountBanner{
+                color: transparent;
+                background-color: transparent;
+                position: absolute;
+            }
             img {
                 width: 30vw;
                 height: 12vh;
@@ -179,16 +183,32 @@ nav {
         opacity: 0.6;
         box-shadow: none;
         pointer-events: none;
-
-        .ZeroAmount {
-            color: #FE4D4D;
-            font-size: 1.7rem;
-            display: inline-block;
-            position: absolute;
-            left: 42vw;
-            right: auto;
-            margin-top: 10.5vh;
+        
+        .box_food_1{
+            position: relative;
+            overflow: hidden;
+            .ZeroAmountBanner{
+                color: #fff;
+                background-color: #f04d4d;
+                position: absolute;
+                width: 100px;
+                text-align: center;
+                rotate: -45deg;
+                margin-top: 12px;
+                margin-left: -28px;
+                font-size: 1.3rem;
+            }
         }
+        
+        // .ZeroAmount {
+        //     color: #FE4D4D;
+        //     font-size: 1.7rem;
+        //     display: inline-block;
+        //     position: absolute;
+        //     left: 42vw;
+        //     right: auto;
+        //     margin-top: 10.5vh;
+        // }
     }
 
     .foodDescription {

@@ -251,7 +251,7 @@ function Cart() {
         <div className={cx("successContainer")}>
           <div className="successBox">
             <h2 className={cx("successPopup")}>Gọi món thành công</h2>
-            <button onClick={finishHandler}>Trở về</button>
+            <button className={cx("returnButton")} onClick={finishHandler}>Trở về</button>
           </div>
         </div>
       )}
