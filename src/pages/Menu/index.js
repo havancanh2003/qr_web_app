@@ -46,11 +46,19 @@ function Menu() {
   }, []);
 
   if (categories.length === 0 || listDish.length === 0) {
+    return(
     <div className={cx("loadNote")}>
       <img src={meowLoading} alt="LOADING..."></img>
       <p>LOADING...</p>
-    </div>
+    </div>  
+    )
   }
+
+  const handleDetailState = () => {
+    setDetail(false);
+    setOverlay(false);
+    setCartIcon(true);
+  };
 
   return (
     <Fragment>
@@ -64,19 +72,20 @@ function Menu() {
             <div
               key={food._id}
               onClick={() => (
-                setObj(food), setDetail(!detail), setOverlay(!overlay)
+                setObj(food), setDetail(!detail), setOverlay(!overlay), setCartIcon(false)
               )}
-              className={cx("box_food_1", {"boxFoodWrapperZero" : food.amount === 0 || ""}) }
+              className={cx("box_food_1", { "boxFoodWrapperZero": food.amount === 0 || "" })}
             >
               <div className={cx("imageBorder")}>
+                <div className={cx("ZeroAmountBanner")}>Hết Món</div>
                 <img src={food.image_detail.path} alt="" />
+
               </div>
               <div className={cx("about_food")}>
                 <p>
                   {food.name}
                 </p>
                 <span>{food.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
-                <span className={cx("ZeroAmount")}>Hết Món</span>
               </div>
             </div>
           ))}
@@ -86,52 +95,52 @@ function Menu() {
           <h3>Các thể loại:</h3>
         </div>
         <nav>
-        <div className={cx("Category_chose")}>
-          {categories.map((cate) => (
-            <button
-              //className="Category"
-              key={cate._id}
-              onClick={() => setType(cate)}
-              className={cx({active: type === cate})}
-            >
-              {cate.name}
-            </button>
-          ))}
-        </div>
+          <div className={cx("Category_chose")}>
+            {categories.map((cate) => (
+              <button
+                //className="Category"
+                key={cate._id}
+                onClick={() => setType(cate)}
+                className={cx({ active: type === cate })}
+              >
+                {cate.name}
+              </button>
+            ))}
+          </div>
         </nav>
         <div className={cx("categoryContent")}>
-        {listDish
-          .filter((dish) => dish.category === type.name)
-          .map((food, index) => (
-            <div
-              key={index}
-              onClick={() => (
-                setObj(food), setDetail(!detail), setOverlay(!overlay)
-              )}
-              className={cx("boxFoodWrapper", {"boxFoodWrapperZero" : food.amount === 0 || ""})}
-            >
-              <div className={cx("boxFoodImage")}>
-                <img src={food.image_detail.path} alt="" />
+          {listDish
+            .filter((dish) => dish.category === type.name)
+            .map((food, index) => (
+              <div
+                key={index}
+                onClick={() => (
+                  setObj(food), setDetail(!detail), setOverlay(!overlay), setCartIcon(false)
+                )}
+                className={cx("boxFoodWrapper", { "boxFoodWrapperZero": food.amount === 0 || "" })}
+              >
+                <div className={cx("boxFoodImage")}>
+                  <div className={cx("ZeroAmountBanner")}>Hết Món</div>
+                  <img src={food.image_detail.path} alt="" />
+                </div>
+                <div className={cx("boxFoodAbout")}>
+                  <h4>{food.name}</h4>
+                  <p>{food.description}</p>
+                  <span>{food.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
+                </div>
               </div>
-              <div className={cx("boxFoodAbout")}>
-                <h4>{food.name}</h4>
-                <p>{food.description}</p>
-                <span>{food.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
-                <span className={cx("ZeroAmount")}>Hết Món</span>
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
-       
+
       </section>
       {cartIcon && <CartIcon />}
       {overlay && (
         <div
           className={cx("overlay")}
-          onClick={() => (setDetail(false), setOverlay(false))}
+          onClick={() => (setDetail(false), setOverlay(false), setCartIcon(true))}
         ></div>
       )}
-      {detail && <AddOrder obj={obj} listDish={listDish} />}
+      {detail && <AddOrder obj={obj} listDish={listDish} onAddSuccess={handleDetailState} />}
     </Fragment>
   );
 }

@@ -63,7 +63,8 @@
     justify-content: space-between;
     align-items: baseline;
     padding-top: 10px;
-    h3{
+
+    h3 {
         font-size: 2.5rem;
     }
 }
@@ -91,17 +92,26 @@
         min-height: 185px;
         width: 40vw;
         // border-radius: 10px;
-        box-shadow: 0px 10px 6px -6px #999999;
+        box-shadow: 0px 5px 6px 0px #999999;
         margin-bottom: 2vh;
 
         .imageBorder {
             height: 14vh;
             min-height: 120px;
+            overflow: hidden;
+
+            .ZeroAmountBanner {
+                color: transparent;
+                background-color: transparent;
+                position: absolute;
+            }
+
             img {
                 width: 100%;
                 height: 100%;
                 // border-radius: 7px;
                 object-fit: cover;
+
             }
         }
 
@@ -130,26 +140,30 @@
                 font-size: 1.2rem;
                 // font-weight: 500;
             }
-            .ZeroAmount{
-                color: transparent;
-            }
+
         }
     }
-    .boxFoodWrapperZero{
+
+    .boxFoodWrapperZero {
         background-color: #bdc3c7;
         opacity: 0.7;
         box-shadow: none;
         pointer-events: none;
-        .about_food{
-            span{
-                color: transparent;
+        position: relative;
+        overflow: hidden;
+
+        .imageBorder {
+
+            .ZeroAmountBanner {
+                color: #fff;
+                background-color: #f04d4d;
                 position: absolute;
-                margin-top: 50px;
-                // margin-left: 50px;
-            }
-            .ZeroAmount{
-                // margin-top: -25px;
-                color: #f04d4d;
+                width: 100px;
+                text-align: center;
+                rotate: -45deg;
+                margin-top: 12px;
+                margin-left: -28px;
+                font-size: 1.3rem;
             }
         }
 
@@ -175,6 +189,7 @@ nav {
 .Category_chose::-webkit-scrollbar {
     display: none;
 }
+
 .Category_chose {
     background-color: #f3f0f0;
     overflow-x: scroll;
@@ -188,6 +203,7 @@ nav {
     -ms-overflow-style: none;
     /* IE and Edge */
     scrollbar-width: none;
+
     /* Firefox */
     .active {
         background-color: #f04d4d;
@@ -201,7 +217,7 @@ nav {
         border-radius: 5px;
         min-width: 80px;
         border: none;
-        background-color: #fff;  
+        background-color: #fff;
         color: #1e90ff;
         display: inline-block;
         margin-right: 2vw
@@ -213,6 +229,7 @@ nav {
     padding-left: 3vw;
     padding-right: 3vw;
     padding-bottom: 5vh;
+
     .boxFoodWrapper {
         display: flex;
         margin-top: 20px;
@@ -223,10 +240,21 @@ nav {
         padding: 7px;
         align-items: center;
         border-radius: 15px;
+
         .boxFoodImage {
             width: 30vw;
             height: 10vh;
-            min-height: 85px;    
+            min-height: 85px;
+            position: relative;
+            overflow: hidden;
+
+            .ZeroAmountBanner {
+
+                color: transparent;
+                background-color: transparent;
+                position: absolute;
+            }
+
             img {
                 border-radius: 10px;
                 width: 100%;
@@ -243,7 +271,8 @@ nav {
             justify-content: space-between;
             flex-direction: column;
             width: 55vw;
-            h4{
+
+            h4 {
                 width: 53vw;
                 font-size: 1.8rem;
                 // text-align: center;
@@ -252,41 +281,62 @@ nav {
                 text-overflow: ellipsis;
                 display: inline-block;
             }
-            p{
+
+            p {
                 font-size: 1.3rem;
                 color: #7A7474;
             }
+
             span {
                 font-size: 1.5rem;
                 font-weight: 400;
                 margin: 0;
                 color: #f04d4d;
             }
-            .ZeroAmount{
+
+            .ZeroAmount {
                 position: absolute;
                 color: transparent;
             }
         }
     }
-    .boxFoodWrapperZero{
+
+    .boxFoodWrapperZero {
         background-color: #bdc3c7;
         opacity: 0.7;
         box-shadow: none;
         pointer-events: none;
-        .boxFoodAbout{
-            p{
+
+        .boxFoodImage {
+            .ZeroAmountBanner {
+                color: #fff;
+                background-color: #f04d4d;
+                position: absolute;
+                width: 95px;
+                text-align: center;
+                rotate: -45deg;
+                margin-top: 10px;
+                margin-left: -28px;
+                font-size: 1.3rem;
+            }
+        }
+
+        .boxFoodAbout {
+            p {
                 color: transparent;
                 position: absolute;
             }
-            span{
-            }
-            .ZeroAmount{
+
+            span {}
+
+            .ZeroAmount {
                 color: #f04d4d;
                 position: relative;
             }
         }
     }
 }
+
 .overlay {
     position: fixed;
     width: 100vw;
