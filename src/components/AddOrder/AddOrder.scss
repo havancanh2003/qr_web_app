@@ -112,19 +112,19 @@
 
     .optionCheck {
         display: flex;
+        min-height: 38px;
         width: 100%;
         padding-bottom: 3px;
         border-bottom: 1px solid #7f8c8d;
         label {
             // display: block;
-            width: 90%;
+            width: 100%;
             font-size: 1.7rem;
         }
 
         input {
-            // height: 100%;
-            // // margin-top: auto;
-            // // margin-bottom: auto;
+            margin-top: auto;
+            margin-bottom: auto;
         }
     }
 }
