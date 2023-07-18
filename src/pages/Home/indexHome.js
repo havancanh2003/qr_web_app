@@ -27,7 +27,6 @@ function Home() {
         setIsActive(false)
         // setIsActive(true)
       }
-      
     })
     .catch((error) => {
       console.log(error);
