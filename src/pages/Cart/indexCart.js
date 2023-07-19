@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import classNames from "classnames/bind";
 import style from "./Cart.scss";
@@ -18,6 +18,7 @@ function Cart() {
   const [isConfirm, setIsConfirm] = useState(false);
   const [isFail, setIsFail] = useState(false);
   const [isUnable, setIsUnable] = useState(false);
+  const [isWaiting, setIsWaiting] = useState(false);
   const [allActive, setAllActive] = useState([]);
   // const [canPushData, setCanPushData] = useState(true);
   const [foodFailName, setFoodFailName] = useState("");
@@ -57,10 +58,10 @@ function Cart() {
   useEffect(() => {
     // console.log(cartStored);
     sessionStorage.setItem("obj", JSON.stringify(cartStored));
-    if(cartStored.length === 0 ){
+    if (cartStored.length === 0) {
       setIsUnable(true);
       // console.log(cartStored);
-    }else{
+    } else {
       setIsUnable(false);
     }
   }, [cartStored]);
@@ -169,74 +170,111 @@ function Cart() {
 
 
   const submitHandler = () => {
-    if(cartStored.length === 0){
+    setIsWaiting(true)
+    if (cartStored.length === 0) {
       setIsUnable(true);
-    }else{
+    } else {
       axios
-      .get("http://117.4.194.207:3003/dish/menu/all-actived")
-      .then((response) => {
-        const availableDishes = response.data;
-        const unavailableItems = [];
+        .get("http://117.4.194.207:3003/dish/menu/all-actived")
+        .then((response) => {
+          const availableDishes = response.data;
+          const unavailableItems = [];
+          for (const cartItem of cartStored) {
+            const totalQuantity = cartStored.reduce((total, item) => {
+              if (item.id === cartItem.id) {
+                return total + item.number;
+              }
+              return total;
+            }, 0);
+            const activeItem = availableDishes.find(
+              (item) => item._id === cartItem.id
+            );
 
-        for (const cartItem of cartStored) {
-          const totalQuantity = cartStored.reduce((total, item) => {
-            if (item.id === cartItem.id) {
-              return total + item.number;
+            if (!activeItem || activeItem.amount < totalQuantity) {
+              unavailableItems.push(cartItem);
             }
-            return total;
-          }, 0);
-          const activeItem = availableDishes.find(
-            (item) => item._id === cartItem.id
-          );
-
-          if (!activeItem || activeItem.amount < totalQuantity) {
-            unavailableItems.push(cartItem);
           }
-        }
 
-        if (unavailableItems.length > 0) {
-          const firstUnavailableItem = unavailableItems[0];
-          const foodFailName = firstUnavailableItem.name;
-          const amountRemain =
-            availableDishes.find((item) => item._id === firstUnavailableItem.id)
-              ?.amount || 0;
+          if (unavailableItems.length > 0) {
+            const firstUnavailableItem = unavailableItems[0];
+            const foodFailName = firstUnavailableItem.name;
+            const amountRemain =
+              availableDishes.find((item) => item._id === firstUnavailableItem.id)
+                ?.amount || 0;
 
-          setFoodFailName(foodFailName);
-          setAmountRemain(amountRemain);
-          setIsFail(true);
-        } else {
-          axios
-            .post("http://117.4.194.207:3003/cart/create", pushData)
-            .then((response) => {
-              setIsSuccess(true);
-              console.log(response);
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+            setFoodFailName(foodFailName);
+            setAmountRemain(amountRemain);
+            setIsFail(true);
+            setIsWaiting(false)
+          } else {
+            axios
+              .post("http://117.4.194.207:3003/cart/create", pushData)
+              .then((response) => {
+                setIsSuccess(true);
+                console.log(response);
+                setIsWaiting(false)
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 
   return (
     <div>
-      {isUnable && (
-                <div className={cx("successContainer")}>
-                <div className="successBox">
-                  <h2 className={cx("successPopup")}>Giỏ hàng trống <br /> Vui lòng chọn món</h2>
-                  <button className={cx("UnableReturnButton")} onClick={cancelHandler3}>Trở về</button>
-                </div>
+      {isWaiting && (
+        <Fragment>
+          <div className={cx("loadingOverlay")}>
+            <div class="preloader">
+              <svg class="cart" role="img" aria-label="Shopping cart line animation" viewBox="0 0 128 128" width="128px" height="128px" xmlns="http://www.w3.org/2000/svg">
+                <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="8">
+                  <g class="cart__track" stroke="hsla(0,10%,10%,0.1)">
+                    <polyline points="4,4 21,4 26,22 124,22 112,64 35,64 39,80 106,80" />
+                    <circle cx="43" cy="111" r="13" />
+                    <circle cx="102" cy="111" r="13" />
+                  </g>
+                  <g class="cart__lines" stroke="currentColor">
+                    <polyline class="cart__top" points="4,4 21,4 26,22 124,22 112,64 35,64 39,80 106,80" stroke-dasharray="338 338" stroke-dashoffset="-338" />
+                    <g class="cart__wheel1" transform="rotate(-90,43,111)">
+                      <circle class="cart__wheel-stroke" cx="43" cy="111" r="13" stroke-dasharray="81.68 81.68" stroke-dashoffset="81.68" />
+                    </g>
+                    <g class="cart__wheel2" transform="rotate(90,102,111)">
+                      <circle class="cart__wheel-stroke" cx="102" cy="111" r="13" stroke-dasharray="81.68 81.68" stroke-dashoffset="81.68" />
+                    </g>
+                  </g>
+                </g>
+              </svg>
+              <div class="preloader__text">
+                <p class="preloader__msg">Đơn Hàng Của Bạn Đang Được Gửi Đi</p>
+                <p class="preloader__msg preloader__msg--last">Phản Hồi Quá Lâu, Có Thể Đã Xảy Ra Lỗi</p>
               </div>
+            </div>
+          </div>
+        </Fragment>
+      )}
+      {isUnable && (
+        <div className={cx("successContainer")}>
+          <div className="successBox">
+            <h2 className={cx("successPopup")}>Giỏ hàng trống <br /> Vui lòng chọn món</h2>
+            <button
+              className={cx("UnableReturnButton")}
+              onClick={cancelHandler3}
+            >
+              Trở về
+            </button>
+          </div>
+        </div>
       )}
       {isFail && (
         <div className={cx("successContainer")} onClick={cancelHandler2}>
           <div className="failBox">
             <h2 className={cx("failPopup")}>
-              Món {foodFailName} còn {amoutRemain} món <br/>
+              Món {foodFailName} còn {amoutRemain} món <br />
               Bạn có muốn điều chỉnh?
             </h2>
             <div className="confirmButtonGroup">
@@ -279,7 +317,11 @@ function Cart() {
         </div>
       )}
       <div className={cx("topCart")}>
-        <button className={cx("backButton")} onClick={() => navigate("/menu")}>
+        <button
+          className={cx("backButton")}
+          onClick={() => navigate("/menu")}
+          // onClick={() => {setIsWaiting(!isWaiting) }}
+        >
           <img src={leftArrow} alt="icon" />
         </button>
         <p className={cx("topTitle")}>Món Bạn Đã Chọn</p>
