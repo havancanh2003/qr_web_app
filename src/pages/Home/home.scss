@@ -1,7 +1,7 @@
 @keyframes slideFromTop {
     0%{
         opacity: 0;
-        transform: translateY(-100%);
+        transform: translateY(-20%);
     }
 
     100%{
@@ -13,7 +13,7 @@
 @keyframes slideFromLeft {
     0%{
         opacity: 0;
-        transform: translateX(-100%);
+        transform: translateX(-20%);
     }
 
     100%{
