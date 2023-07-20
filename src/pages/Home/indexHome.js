@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Fragment, useEffect, useState } from "react";
+import { io } from "socket.io-client";
 import icon from "../../assets/image/icon.png";
 import Headerhome from "../../components/DefaultLayout/Headerhome";
 import classNames from "classnames/bind";
@@ -12,9 +13,26 @@ function Home() {
   const { table } = useParams();
   const [isConfirm, setIsConfirm] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [successActived, setSuccessActived] = useState(false);
   const [isActive, setIsActive] = useState(true);
   const [isNeedHelp, setIsNeedHelp] = useState(false);
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    const socket = io(process.env.REACT_APP_API_URL);
+    socket.on('activeTable', (response) => {
+      const tableCheck = response;  
+      console.log(tableCheck);
+      if (tableCheck.isActive === true && tableCheck.name === table) {
+        console.log("hien thi thong bao");
+        setSuccessActived(true)
+        setIsActive(true)
+      }else if(tableCheck.isActive === false && tableCheck.name === table){
+        setIsActive(false)
+      }
+    });
+  }, []);
 
   useEffect(() => {
     axios
@@ -34,7 +52,7 @@ function Home() {
     sessionStorage.setItem("table", table);
   }, [table]);
   
-  console.log(isActive);
+
   const confirmHandler = () => {
     setIsConfirm(true);
   };
@@ -67,11 +85,23 @@ function Home() {
       });
   };
   
-
+  const handleSuccessActived = () => {
+    setSuccessActived(false)
+  }
 
   return (
     <Fragment>
       <Headerhome />
+      {successActived &&
+        <Fragment>
+          <div className={cx("rtOverlay")} onClick={handleSuccessActived}>
+          </div>
+          <div className={cx("rtBox")}>
+            <div className={cx("rtNote")} >Bàn Của Bạn Đã Được Kích Hoạt</div>
+            <button className={cx("rtButton")} onClick={handleSuccessActived}>Xác Nhận</button>
+          </div>
+        </Fragment>
+      }
       {isNeedHelp && (
         <div className={cx("successContainer")} onClick={cancelNeedHelpHandler}>
         <div className="needHelpBox">

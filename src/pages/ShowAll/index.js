@@ -3,6 +3,7 @@ import classNames from "classnames/bind";
 import style from "./ShowAll.scss";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { io } from "socket.io-client";
 import { Fragment } from "react";
 import leftArrow from "../../assets/image/left-arrow.png";
 import AddOrder from "../../components/AddOrder/AddOrder";
@@ -13,6 +14,7 @@ const cx = classNames.bind(style);
 function ShowAll() {
   const navigate = useNavigate();
   const activeSectionRef = useRef(null);
+  const [returnHome, setReturnHome] = useState(false);
   const [sticky, setSticky] = useState(false);
   const [detail, setDetail] = useState(false);
   const [overlay, setOverlay] = useState(false);
@@ -24,6 +26,25 @@ function ShowAll() {
 
 
   const [tester, setTester] = useState(false);
+
+  const tableStored = sessionStorage.getItem("table") || 0;
+
+  useEffect(() => {
+    const socket = io(process.env.REACT_APP_API_URL);
+    socket.on('activeTable', (response) => {
+      const tableCheck = response;
+      console.log(tableCheck);
+      if (tableCheck.isActive === false && tableCheck.name === tableStored) {
+        console.log("hien thi thong bao");
+        setReturnHome(true)
+        //thêm ui
+      }
+      const handleReturnHome = () => {
+        navigate(`/home/${tableCheck.name}`)
+      }
+    });
+  }, []);
+
 
   useEffect(() => {
     axios
@@ -118,8 +139,23 @@ function ShowAll() {
     setCartIcon(true)
   };
 
+  const handleReturnHome = () => {
+    navigate(`/home/${tableStored}`)
+    setReturnHome(false)
+  }
+
   return (
     <Fragment>
+      {returnHome &&
+        <Fragment>
+          <div className={cx("rtOverlay")} onClick={handleReturnHome}>
+          </div>
+          <div className={cx("rtBox")}>
+            <div className={cx("rtNote")} >Bàn Của Bạn Đang Không Hoạt Động</div>
+            <button className={cx("rtButton")} onClick={handleReturnHome}>Về Trang Chủ</button>
+          </div>
+        </Fragment>
+      }
       {cartIcon && <CartIcon />}
       <div className={cx("topShowAll")}>
         <button className={cx("backButton")} onClick={() => navigate("/menu")}>

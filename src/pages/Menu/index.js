@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { Fragment } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { io } from "socket.io-client";
 import classNames from "classnames/bind";
@@ -9,34 +9,42 @@ import style from "./Menu.module.scss";
 import AddOrder from "../../components/AddOrder/AddOrder";
 import meowLoading from "../../assets/image/meo-loading.jpg";
 import CartIcon from "../../components/CartIcon/index";
+
 const cx = classNames.bind(style);
 
 function Menu() {
   const [detail, setDetail] = useState(false);
   const [overlay, setOverlay] = useState(false);
+  const [tableChanged, setTableChanged] = useState(false);
+  const [returnHome, setReturnHome] = useState(false);
   const [cartIcon, setCartIcon] = useState(true);
   const [listBestSeller, setLishBestSeller] = useState([]);
   const [categories, setCategories] = useState([]);
   const [listDish, setListDish] = useState([]);
-  const [tableChanged, setTableChanged] = useState([]);
   const [obj, setObj] = useState({});
   const [type, setType] = useState();
 
+  const navigate = useNavigate();
+
+  const tableStored = sessionStorage.getItem("table") || 0;
+
   useEffect(() => {
     const socket = io(process.env.REACT_APP_API_URL);
-  
     socket.on('activeTable', (response) => {
-      console.log(response);
-      setTableChanged(response)
+      const tableCheck = response;
+      console.log(tableCheck);
+      if (tableCheck.isActive === false && tableCheck.name === tableStored) {
+        setReturnHome(true)
+      }
     });
   }, []);
 
-  useEffect(() => {
-    if(tableChanged.isActive === false){
-      console.log(tableChanged.isActive);
-      // Navigate(`/home/${tableChanged}`)
-    }
-  }, [tableChanged]);
+  // useEffect(() => {
+  //   if(tableChanged.isActive === false){
+  //     console.log(tableChanged.isActive);
+  //     // Navigate(`/home/${tableChanged}`)
+  //   }
+  // }, [tableChanged]);
 
   useEffect(() => {
     axios
@@ -64,11 +72,11 @@ function Menu() {
   }, []);
 
   if (categories.length === 0 || listDish.length === 0) {
-    return(
-    <div className={cx("loadNote")}>
-      <img src={meowLoading} alt="LOADING..."></img>
-      <p>LOADING...</p>
-    </div>  
+    return (
+      <div className={cx("loadNote")}>
+        <img src={meowLoading} alt="LOADING..."></img>
+        <p>LOADING...</p>
+      </div>
     )
   }
 
@@ -78,8 +86,24 @@ function Menu() {
     setCartIcon(true);
   };
 
+
+  const handleReturnHome = () => {
+    navigate(`/home/${tableStored}`)
+    setReturnHome(false)
+  }
+
   return (
     <Fragment>
+      {returnHome &&
+        <Fragment>
+          <div className={cx("rtOverlay")} onClick={handleReturnHome}>
+          </div>
+          <div className={cx("rtBox")}>
+            <div className={cx("rtNote")} >Bàn Của Bạn Đang Không Hoạt Động</div>
+            <button className={cx("rtButton")} onClick={handleReturnHome}>Về Trang Chủ</button>
+          </div>
+        </Fragment>
+      }
       <section className={cx("MenuBody")}>
         <div className={cx("tiltle_container")}>
           <h3>Đề Xuất Cho Bạn:</h3>
