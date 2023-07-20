@@ -1,8 +1,9 @@
 
 import { useState, useEffect } from "react";
 import { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import axios from "axios";
+import { io } from "socket.io-client";
 import classNames from "classnames/bind";
 import style from "./Menu.module.scss";
 import AddOrder from "../../components/AddOrder/AddOrder";
@@ -17,8 +18,25 @@ function Menu() {
   const [listBestSeller, setLishBestSeller] = useState([]);
   const [categories, setCategories] = useState([]);
   const [listDish, setListDish] = useState([]);
+  const [tableChanged, setTableChanged] = useState([]);
   const [obj, setObj] = useState({});
   const [type, setType] = useState();
+
+  useEffect(() => {
+    const socket = io(process.env.REACT_APP_API_URL);
+  
+    socket.on('activeTable', (response) => {
+      console.log(response);
+      setTableChanged(response)
+    });
+  }, []);
+
+  useEffect(() => {
+    if(tableChanged.isActive === false){
+      console.log(tableChanged.isActive);
+      // Navigate(`/home/${tableChanged}`)
+    }
+  }, [tableChanged]);
 
   useEffect(() => {
     axios
