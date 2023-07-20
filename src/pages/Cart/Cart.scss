@@ -46,6 +46,7 @@ body {
   min-width: 330px;
   margin-bottom: 299px;
   background-color: #f3f0f0;
+
   .cartItem {
     display: flex;
     width: 90%;
@@ -57,7 +58,8 @@ body {
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 5px 5px rgb(0 0 0 /20%);
-    .cartImage {  
+
+    .cartImage {
       margin-top: auto;
       margin-bottom: auto;
       margin-right: 5%;
@@ -82,6 +84,7 @@ body {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+
       h3 {
         width: 45vw;
         min-width: 30px;
@@ -99,6 +102,7 @@ body {
         align-items: center;
         position: sticky;
         bottom: 0;
+
         button {
           border: none;
           height: 24px;
@@ -106,6 +110,7 @@ body {
           background-color: #fff;
           border: #fe4d4d 1px solid;
           border-radius: 5px;
+
           img {
             padding-top: 3px;
             height: 14px;
@@ -125,6 +130,7 @@ body {
       right: 7%;
       min-height: 100px;
       width: 100%;
+
       button {
         padding-top: 5px;
         width: 20px;
@@ -219,6 +225,7 @@ body {
   top: 0;
   background-color: rgb(0, 0, 0, 0.5);
   z-index: 100;
+
   button {
     position: relative;
     top: 33%;
@@ -231,6 +238,7 @@ body {
     border-radius: 7px;
     margin: 0 auto 0 18vw;
   }
+
   .failBox {
     min-height: fit-content;
     position: absolute;
@@ -244,6 +252,7 @@ body {
     right: auto;
     left: 10vw;
     border-radius: 15px;
+
     .failPopup {
       padding: 5%;
       position: relative;
@@ -267,11 +276,14 @@ body {
     right: auto;
     left: 20vw;
     border-radius: 15px;
-    .returnButton{
+    animation: slideFromTop 0.3s;
+
+    .returnButton {
       top: 0;
       position: sticky;
     }
-    .UnableReturnButton{
+
+    .UnableReturnButton {
       top: 0;
       position: sticky;
       text-align: center;
@@ -298,15 +310,196 @@ body {
     display: flex;
     justify-content: space-around;
     margin-bottom: 5%;
+
     button {
       margin: 0;
     }
-    .cancelButton{
+
+    .cancelButton {
       background-color: #ffffff;
       border: 1px solid #fe4d4d;
       color: #fe4d4d;
-    } 
+    }
   }
 
- 
+
+}
+
+.loadingOverlay {
+  --hue: 223;
+	--bg: hsl(var(--hue),10%,90%);
+	--fg: hsl(var(--hue),10%,10%);
+	--primary: hsl(var(--hue),90%,55%);
+	--trans-dur: 0.3s;
+  position: fixed;
+  z-index: 150;
+  background-color: var(--bg);
+  color: var(--fg);
+  font: 1em/1.5 "DM Sans", sans-serif;
+  height: calc(100vh - 60px);
+  top: 60px;
+  width: 100vw;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  transition:
+    background-color var(--trans-dur),
+    color var(--trans-dur);
+
+}
+
+.preloader {
+  text-align: center;
+  max-width: 20em;
+  width: 100%;
+}
+
+.preloader__text {
+  position: relative;
+  height: 1.5em;
+}
+
+.preloader__msg {
+  animation: msg 0.3s 13.7s linear forwards;
+  position: absolute;
+  width: 100%;
+}
+
+.preloader__msg--last {
+  animation-direction: reverse;
+  animation-delay: 14s;
+  visibility: hidden;
+}
+
+.cart {
+  display: block;
+  margin: 0 auto 1.5em auto;
+  width: 8em;
+  height: 8em;
+}
+
+.cart__lines,
+.cart__top,
+.cart__wheel1,
+.cart__wheel2,
+.cart__wheel-stroke {
+  animation: cartLines 2s ease-in-out infinite;
+}
+
+.cart__lines {
+  stroke: var(--primary);
+}
+
+.cart__top {
+  animation-name: cartTop;
+}
+
+.cart__wheel1 {
+  animation-name: cartWheel1;
+  transform: rotate(-0.25turn);
+  transform-origin: 43px 111px;
+}
+
+.cart__wheel2 {
+  animation-name: cartWheel2;
+  transform: rotate(0.25turn);
+  transform-origin: 102px 111px;
+}
+
+.cart__wheel-stroke {
+  animation-name: cartWheelStroke
+}
+
+.cart__track {
+  stroke: hsla(var(--hue), 10%, 10%, 0.1);
+  transition: stroke var(--trans-dur);
+}
+
+/* Dark theme */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: hsl(var(--hue), 10%, 10%);
+    --fg: hsl(var(--hue), 10%, 90%);
+  }
+
+  .cart__track {
+    stroke: hsla(var(--hue), 10%, 90%, 0.1);
+  }
+}
+
+/* Animations */
+@keyframes msg {
+  from {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  99.9% {
+    opacity: 0;
+    visibility: visible;
+  }
+
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes cartLines {
+
+  from,
+  to {
+    opacity: 0;
+  }
+
+  8%,
+  92% {
+    opacity: 1;
+  }
+}
+
+@keyframes cartTop {
+  from {
+    stroke-dashoffset: -338;
+  }
+
+  50% {
+    stroke-dashoffset: 0;
+  }
+
+  to {
+    stroke-dashoffset: 338;
+  }
+}
+
+@keyframes cartWheel1 {
+  from {
+    transform: rotate(-0.25turn);
+  }
+
+  to {
+    transform: rotate(2.75turn);
+  }
+}
+
+@keyframes cartWheel2 {
+  from {
+    transform: rotate(0.25turn);
+  }
+
+  to {
+    transform: rotate(3.25turn);
+  }
+}
+
+@keyframes cartWheelStroke {
+
+  from,
+  to {
+    stroke-dashoffset: 81.68;
+  }
+
+  50% {
+    stroke-dashoffset: 40.84;
+  }
 }
