@@ -67,6 +67,7 @@ nav {
     background-color: #FFF;
 
     .navBarBox {
+        transition: scroll-left 0.3s ease;
         min-height: 47px;
         background: #fff;
         overflow-x: scroll;
@@ -92,9 +93,9 @@ nav {
     button {
         width: 29vw;
         height: 4vh;
-        border: none;
         background-color: transparent;
         border-radius: 10px;
+        border: #f04d4d 1px solid;
     }
 
     .navBarElement {
@@ -103,7 +104,6 @@ nav {
             color: #F3f0f0;
             font-size: 1.7rem;
         }
-
         text-align: center;
         background-color: transparent;
         display: inline-block;
@@ -127,17 +127,18 @@ nav {
     }
 
     .titleWrapper {
-        border-radius: 10px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
         width: 100%;
-        background: rgb(254, 77, 77);
-        background: linear-gradient(165deg, rgba(254, 77, 77, 1) 0%, transparent 70%);
+        background:rgba(254, 77, 77);
+        // background: linear-gradient(165deg, rgba(254, 77, 77, 1) 0%, transparent 70%);
     }
 
     h2 {
         border-radius: 15px;
         margin-top: 2%;
         margin-left: 2%;
-        color: #Fff;
+        color: #ecf0f1;
         font-size: 2.5rem;
     }
 }

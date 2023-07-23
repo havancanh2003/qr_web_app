@@ -387,7 +387,7 @@ body {
 }
 
 .cart__lines {
-  stroke: var(--primary);
+  stroke: #fe4d4d;
 }
 
 .cart__top {
@@ -423,7 +423,7 @@ body {
   }
 
   .cart__track {
-    stroke: hsla(var(--hue), 10%, 90%, 0.1);
+    // stroke: hsla(var(--hue), 10%, 90%, 0.1);
   }
 }
 
