@@ -111,7 +111,7 @@ function ShowAll() {
       const navBarBoxElement = document.querySelector(".navBarBox");
       if (navBarBoxElement && !manualInteraction) {
         // Smoothly scroll the navBarBox based on the scrollPosition
-        const scrollValue = scrollPosition/18;
+        const scrollValue = scrollPosition/5;
         navBarBoxElement.scrollTo({ left: scrollValue, behavior: "smooth" });
       }
     }

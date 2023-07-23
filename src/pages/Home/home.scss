@@ -106,9 +106,10 @@
     margin-right: auto;
     display: flex;
     justify-content: center;
-    box-shadow: 0 1px 0 rgb(0 0 0 /20%);
+    border-bottom: 1px solid grey;
 
     span {
+        padding: 5px;
         margin-top: 28px;
         margin-bottom: -11px;
         position: relative;
@@ -116,6 +117,7 @@
         background-color: #fff;
         font-size: 20px;
         width: 60%;
+        min-width: max-content;
         text-align: center;
         // color: #939393;
     }
@@ -125,6 +127,7 @@
 .homeButton {
     margin-top: 6vh;
     width: 75vw;
+    min-width: max-content;
     height: 75px;
     border-radius: 20px;
     font-size: 24px;
@@ -137,7 +140,7 @@
     box-shadow: 0 5px 5px rgb(0 0 0 /20%);
     margin-left: auto;
     margin-right: auto;
-
+    justify-content: center;
     img {
         width: 50px;
         height: 50px;
@@ -153,7 +156,7 @@
     margin-top: 18px;
     background-color: #FE4D4D;
     color: #FFFFFF;
-    justify-content: center;
+    min-width: 264px;
 }
 
 // p{  

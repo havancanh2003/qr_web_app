@@ -151,7 +151,6 @@ function Home() {
         <div className={cx("adsBanner")}></div>
         <p className={cx("yourTable")}>
           <span>Bạn đang ngồi bàn: {table}</span>
-          <hr />
         </p>
         <button className="homeButton" onClick={confirmHandler}>
           <img src={icon} alt="icon"></img>
