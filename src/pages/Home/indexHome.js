@@ -44,6 +44,7 @@ function Home() {
       .get(`http://117.4.194.207:3003/table/token/${token}`)
       .then((response) => {
         sessionStorage.setItem("table", response.data.name);
+        sessionStorage.setItem("token", response.data.token);
         setIsActive(response.data.isActive);
         setTable(response.data.name)
       })
