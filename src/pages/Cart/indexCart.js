@@ -8,6 +8,7 @@ import xIcon from "../../assets/image/x_icon_150997.png";
 import plusIcon from "../../assets/image/plus_icon-icons.com_66718.png";
 import minusIcon from "../../assets/image/free-minus-icon-3108-thumb.png";
 import meowLoading from "../../assets/image/barkLoading.jpg";
+import Loading from "../../components/loadingScreen/loading";
 const cx = classNames.bind(style);
 
 function Cart() {
@@ -141,8 +142,9 @@ function Cart() {
           <p className={cx("topTitle")}>Món Bạn Đã Chọn</p>
         </div>
         <div className={cx("loadNote")}>
-          <img src={meowLoading} alt="LOADING..."></img>
-          <p>LOADING...</p>
+          {/* <img src={meowLoading} alt="LOADING..."></img>
+          <p>LOADING...</p> */}
+          <Loading></Loading>
         </div>
       </div>
     )
@@ -226,7 +228,8 @@ function Cart() {
 
   return (
     <div>
-      {isWaiting && (
+      {isWaiting
+       && (
         <Fragment>
           <div className={cx("loadingOverlay")}>
             <div class="preloader">

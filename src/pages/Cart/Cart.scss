@@ -40,7 +40,7 @@ body {
 .cartBody {
   margin-top: 58px;
   padding-top: 2%;
-  min-height: 100vh;
+  min-height: 80vh;
   height: auto !important;
   // width: 110%;
   min-width: 330px;
@@ -293,7 +293,7 @@ body {
       color: #f0f0f0;
       border: none;
       border-radius: 7px;
-      margin: 5px auto 0 18vw;
+      margin: 10px auto 15px 18vw;
     }
   }
 
@@ -387,7 +387,7 @@ body {
 }
 
 .cart__lines {
-  stroke: var(--primary);
+  stroke: #fe4d4d;
 }
 
 .cart__top {
@@ -423,7 +423,7 @@ body {
   }
 
   .cart__track {
-    stroke: hsla(var(--hue), 10%, 90%, 0.1);
+    // stroke: hsla(var(--hue), 10%, 90%, 0.1);
   }
 }
 

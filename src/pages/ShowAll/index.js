@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { io } from "socket.io-client";
 import { Fragment } from "react";
+import Loading from "../../components/loadingScreen/loading";
 import leftArrow from "../../assets/image/left-arrow.png";
 import AddOrder from "../../components/AddOrder/AddOrder";
 import CartIcon from "../../components/CartIcon/index";
-import meowLoading from "../../assets/image/meo-loading.jpg";
 const cx = classNames.bind(style);
 
 function ShowAll() {
@@ -23,8 +23,8 @@ function ShowAll() {
   const [listDish, setListDish] = useState([]);
   const [obj, setObj] = useState({});
   const [activeButton, setActiveButton] = useState(null);
-
-
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [manualInteraction, setManualInteraction] = useState(false);
   const [tester, setTester] = useState(false);
 
   const tableStored = sessionStorage.getItem("table") || 0;
@@ -44,7 +44,6 @@ function ShowAll() {
       }
     });
   }, []);
-
 
   useEffect(() => {
     axios
@@ -73,8 +72,7 @@ function ShowAll() {
         setCartIcon(true);
       }
       setSticky(window.scrollY > 59);
-
-      const currentPosition = document.documentElement.scrollTop + 300;
+      const currentPosition = document.documentElement.scrollTop + 100;
 
       for (let i = 0; i < category.length; i++) {
         const cat = category[i];
@@ -96,25 +94,51 @@ function ShowAll() {
         }
       }
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [category]);
 
-  const handleClick = (name) => {
+  useEffect(() => {
+    const handleNavScroll = () => {
+      setScrollPosition(window.scrollY);
+    };
+    window.addEventListener("scroll", handleNavScroll);
+    return () => window.removeEventListener("scroll", handleNavScroll);
+  }, []);
+
+  useEffect(() => {
+    if (category.length > 0) {
+      const navBarBoxElement = document.querySelector(".navBarBox");
+      if (navBarBoxElement && !manualInteraction) {
+        // Smoothly scroll the navBarBox based on the scrollPosition
+        const scrollValue = scrollPosition/5;
+        navBarBoxElement.scrollTo({ left: scrollValue, behavior: "smooth" });
+      }
+    }
+  }, [scrollPosition, manualInteraction]);
+
+  function handleClick(name) {
     const element = document.getElementById(name);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      // Get the top offset of the target section
+      const sectionTop = element.offsetTop;
+
+      // Calculate the position to scroll, a little earlier than the target section
+      const scrollToPosition = sectionTop + 60;
+
+      // Set manualInteraction to true before scrolling
+      setManualInteraction(true);
+
+      // Scroll to the calculated position
+      window.scrollTo({ top: scrollToPosition, behavior: "smooth" });
+
+      // Delay the resetting of manualInteraction to false to ensure smooth scrolling
+      setTimeout(() => {
+        setManualInteraction(false);
+      }, 1); // Adjust the delay time as needed for smooth scrolling
     }
-  };
-
-  const handleClickTest = () => {
-    setTester(!tester);
-  };
-
-  if (tester) {
-
   }
+
 
   if (category.length === 0 || listDish.length === 0) {
     return (
@@ -126,8 +150,9 @@ function ShowAll() {
           <p className={cx("topTitle")}>Tất Cả Các Món</p>
         </div>
         <div className={cx("loadNote")}>
-          <img src={meowLoading} alt="LOADING..."></img>
-          <p>LOADING...</p>
+          {/* <img src={meowLoading} alt="LOADING..."></img>
+          <p>LOADING...</p> */}
+          <Loading></Loading>
         </div>
       </div>
     )
@@ -169,7 +194,7 @@ function ShowAll() {
           {category.map((cat, index) => (
             <div key={index} className={cx("navBarElement")}>
               <button
-                id={cat.name + "-btn"}
+                // id={"-btn"}
                 onClick={() => handleClick(cat.name)}
                 className={cx("CTA", { active: activeButton === cat.name })}
               >
@@ -177,6 +202,7 @@ function ShowAll() {
               </button>
             </div>
           ))}
+
           <div className={cx("navBarElement")}>
             {/* <span>Thêm để không cần sửa</span> */}
             {/* <span>ws</span> */}

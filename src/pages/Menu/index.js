@@ -9,6 +9,7 @@ import style from "./Menu.module.scss";
 import AddOrder from "../../components/AddOrder/AddOrder";
 import meowLoading from "../../assets/image/meo-loading.jpg";
 import CartIcon from "../../components/CartIcon/index";
+import Loading from "../../components/loadingScreen/loading";
 
 const cx = classNames.bind(style);
 
@@ -74,8 +75,9 @@ function Menu() {
   if (categories.length === 0 || listDish.length === 0) {
     return (
       <div className={cx("loadNote")}>
-        <img src={meowLoading} alt="LOADING..."></img>
-        <p>LOADING...</p>
+        {/* <img src={meowLoading} alt="LOADING..."></img>
+        <p>LOADING...</p> */}
+        <Loading></Loading>
       </div>
     )
   }
@@ -94,6 +96,7 @@ function Menu() {
 
   return (
     <Fragment>
+      
       {returnHome &&
         <Fragment>
           <div className={cx("rtOverlay")} onClick={handleReturnHome}>
