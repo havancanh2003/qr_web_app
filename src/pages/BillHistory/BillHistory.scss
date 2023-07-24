@@ -1,0 +1,38 @@
+.bhWrapper{
+    background-color: #ecf0f1;
+    min-height: calc(100vh - 60px);
+}
+
+.marginTop{
+    min-height: 20px;
+}
+
+.bhContent{
+    background-color: #fff;
+    width: 90%;
+    margin: 20px auto;
+    display: flex;
+    border: 1px black solid;
+    border-radius: 9px;
+    .bhContainer1{
+        padding: 7px;
+        width: 45%;
+    }
+    .bhContainer2{
+        padding: 7px;
+        width: 45%;
+        span{
+            color: #f04d4d;
+        }
+    }
+    .bhContainer3{
+        width: 30px;
+        height: 30px;
+        align-self: center;
+        // text-align: center;
+        img{
+            height: 100%;
+            width: 100%;
+        }
+    }
+}

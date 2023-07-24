@@ -41,7 +41,7 @@ function Home() {
 
   useEffect(() => {
     axios
-      .get(`http://117.4.194.207:3003/table/token`, token)
+      .get(`http://117.4.194.207:3003/table/token/${token}`)
       .then((response) => {
         sessionStorage.setItem("table", response.data.name);
         setIsActive(response.data.isActive);
@@ -115,8 +115,6 @@ function Home() {
   const handleSuccessActived = () => {
     setSuccessActived(false)
   }
-
-  console.log(customerName)
 
   return (
     <Fragment>
