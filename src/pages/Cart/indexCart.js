@@ -56,17 +56,15 @@ function Cart() {
   }, []);
 
   useEffect(() => {
-    // console.log(cartStored);
     sessionStorage.setItem("obj", JSON.stringify(cartStored));
     if (cartStored.length === 0) {
       setIsUnable(true);
-      // console.log(cartStored);
+
     } else {
       setIsUnable(false);
     }
   }, [cartStored]);
 
-  // console.log(cartStored); 
 
   const getTotalBill = () => {
     return cartStored.reduce(
@@ -126,8 +124,6 @@ function Cart() {
       table: tableStored,
     }));
   }, [cartStored, tableStored]);
-
-  // console.log(pushData);
   useEffect(() => {
     setIsSuccess(false);
   }, [pushData]);
@@ -149,7 +145,6 @@ function Cart() {
       </div>
     )
   }
-  // console.log(pushData);
   const confirmHandler = () => {
     setIsConfirm(true);
   };

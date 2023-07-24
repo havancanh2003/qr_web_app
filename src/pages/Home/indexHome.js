@@ -10,25 +10,30 @@ import axios from "axios";
 
 const cx = classNames.bind(style);
 function Home() {
-  const { table } = useParams();
+  const { token } = useParams();
   const [isConfirm, setIsConfirm] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [successActived, setSuccessActived] = useState(false);
   const [isActive, setIsActive] = useState(true);
   const [isNeedHelp, setIsNeedHelp] = useState(false);
+  const [inputFocused, setInputFocused] = useState(false);
+  const [table, setTable] = useState();
+  const [inputValue, setInputValue] = useState("");
+  const [customerName, setCustomerName] = useState(
+    // []
+    JSON.parse(sessionStorage.getItem("name")) || []
+  );
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const socket = io(process.env.REACT_APP_API_URL);
     socket.on('activeTable', (response) => {
-      const tableCheck = response;  
+      const tableCheck = response;
       console.log(tableCheck);
       if (tableCheck.isActive === true && tableCheck.name === table) {
-        console.log("hien thi thong bao");
         setSuccessActived(true)
         setIsActive(true)
-      }else if(tableCheck.isActive === false && tableCheck.name === table){
+      } else if (tableCheck.isActive === false && tableCheck.name === table) {
         setIsActive(false)
       }
     });
@@ -36,22 +41,22 @@ function Home() {
 
   useEffect(() => {
     axios
-    .get(`http://117.4.194.207:3003/table/detail/${table}`)
-    .then((response) => {
-      if(response.data.isActive === true){
-        setIsActive(true)
-        // setIsActive(false)
-      }else{
-        setIsActive(false)
-        // setIsActive(true)
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-    sessionStorage.setItem("table", table);
-  }, [table]);
-  
+      .get(`http://117.4.194.207:3003/table/token`, token)
+      .then((response) => {
+        sessionStorage.setItem("table", response.data.name);
+        setIsActive(response.data.isActive);
+        setTable(response.data.name)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [token]);
+
+  const setName = () => {
+    if (JSON.parse(sessionStorage.getItem("name"))) {
+      setCustomerName(JSON.parse(sessionStorage.getItem("name")));
+    }
+  }
 
   const confirmHandler = () => {
     setIsConfirm(true);
@@ -66,12 +71,34 @@ function Home() {
     setIsNeedHelp(false);
   };
   const checkActiveHandler = () => {
-    if(isActive){
+    if (isActive) {
       navigate("/menu")
-    }else{
+    } else {
       setIsNeedHelp(true)
     }
   };
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleConfirmClick = () => {
+    if (inputValue.trim() === "") {
+      setInputFocused(true);
+      setTimeout(() => {
+        setInputFocused(false);
+        //remove class after
+      }, 2000);
+    } else {
+      setInputFocused(false);
+
+      if (inputValue.trim() !== "") {
+        sessionStorage.setItem("name", JSON.stringify(inputValue));
+      }
+      setName();
+    }
+  };
+
 
   const submitHandler = () => {
     axios
@@ -84,14 +111,35 @@ function Home() {
         console.log(error);
       });
   };
-  
+
   const handleSuccessActived = () => {
     setSuccessActived(false)
   }
 
+  console.log(customerName)
+
   return (
     <Fragment>
       <Headerhome />
+      {(customerName.length === 0) &&
+        <Fragment>
+          <div className={cx('getNameOverlay')} onClick={() => { }}>
+          </div>
+          <div className={cx('getNameBox')}>
+            <div className={cx('getNameTitle')}>QR MENU</div>
+            <input
+              type="text"
+              placeholder="Nhập Tên Của Bạn:"
+              value={inputValue}
+              onChange={handleInputChange}
+              className={cx("input", { "blink-animation": inputFocused })}
+              required
+            />
+            <div className={cx('getNameNote')}><span>*</span>TÊN sẽ giúp bạn kiểm tra đơn hàng cũng như sử dụng QR MENU</div>
+            <button className={cx('getNameButton')} onClick={handleConfirmClick}>Xác Nhận</button>
+          </div>
+        </Fragment>
+      }
       {successActived &&
         <Fragment>
           <div className={cx("rtOverlay")} onClick={handleSuccessActived}>
@@ -104,18 +152,18 @@ function Home() {
       }
       {isNeedHelp && (
         <div className={cx("successContainer")} onClick={cancelNeedHelpHandler}>
-        <div className="needHelpBox">
+          <div className="needHelpBox">
 
-          <h2 className={cx("needHelpPopup")}>Bàn Chưa Được Kích Hoạt <br /> Vui Lòng Gọi Nhân Viên</h2>
-          <div className="confirmButtonGroup homeGroup">
-            <button className="cancelButton" onClick={cancelNeedHelpHandler}>Huỷ</button>
+            <h2 className={cx("needHelpPopup")}>Bàn Chưa Được Kích Hoạt <br /> Vui Lòng Gọi Nhân Viên</h2>
+            <div className="confirmButtonGroup homeGroup">
+              <button className="cancelButton" onClick={cancelNeedHelpHandler}>Huỷ</button>
 
-            {/* chưa hoàn thiện */}
-            <button onClick={cancelNeedHelpHandler}>Xác Nhận</button>
-            {/* chưa hoàn thiện  */}
+              {/* chưa hoàn thiện */}
+              <button onClick={cancelNeedHelpHandler}>Xác Nhận</button>
+              {/* chưa hoàn thiện  */}
+            </div>
           </div>
         </div>
-      </div>
       )}
       {isConfirm && (
         <div className={cx("successContainer")} onClick={cancelHandler}>
@@ -150,7 +198,12 @@ function Home() {
       <div className={cx("homePage")}>
         <div className={cx("adsBanner")}></div>
         <p className={cx("yourTable")}>
-          <span>Bạn đang ngồi bàn: {table}</span>
+          {(customerName.length !== 0) &&
+            <Fragment>
+              <span>Chào Mừng {customerName}</span>
+            </Fragment>
+          }
+          <span id="coverBottom">Bạn đang ngồi bàn: {table}</span>
         </p>
         <button className="homeButton" onClick={confirmHandler}>
           <img src={icon} alt="icon"></img>

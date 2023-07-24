@@ -274,6 +274,7 @@ nav {
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    animation: slideFromLeft 0.3s;
     .rtNote{
         margin-top: 5px;
         padding: 10px;
