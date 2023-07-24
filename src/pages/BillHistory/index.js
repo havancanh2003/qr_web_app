@@ -1,0 +1,76 @@
+import { Fragment, useEffect, useState } from "react";
+import style from "./BillHistory.scss";
+import axios from "axios";
+import classNames from "classnames/bind";
+import MoreIcon from "../../assets/image/moreIcon.png";
+import moment from "moment";
+import "moment/locale/vi";
+
+const cx = classNames.bind(style);
+
+function BillHistory() {
+    const [listBill, setListBill] = useState([]);
+    const [customerName, setCustomerName] = useState(
+        // []
+        JSON.parse(sessionStorage.getItem("name")) || []
+      );
+    const currentDate = new Date();
+
+    useEffect(() => {
+
+        const fetchData = () => {
+            const day = currentDate.getDate();
+            const month = currentDate.getMonth() + 1; // Months are zero-based, so add 1
+            const year = currentDate.getFullYear();
+            // Create the formatted date string
+            const formattedCurrentDate = `${day}/${month}/${year}`;
+            axios
+                .get(`http://117.4.194.207:3003/cart/menu/all?date=${formattedCurrentDate}`)
+                .then((response) => {
+                    setListBill(response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        };
+        fetchData();
+        const interval = setInterval(() => {
+            fetchData();
+        }, 30000);
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
+
+    console.log(listBill);
+
+    return (
+        <Fragment>
+            <div className={cx("bhWrapper")}>
+                <div className={cx("marginTop")}></div>
+                {listBill.map((bill, index) => (
+                    <div className={cx("bhContent")} key={index}>
+                        <div className={cx("bhContainer1")}>
+                            <div className={cx("bhName")}>Tên:{" " + customerName}</div>
+                            <div className={cx("bhTime")}>Thời gian:
+                            {" " + moment(bill.createAt, "DD/MM/YYYY, HH:mm:ss").format("HH:mm A")}
+                            </div>
+                            <div>Đã Gửi</div>
+                        </div>
+                        <div className={cx("bhContainer2")}>
+                            <div className={cx("bhTotalItem")}>Bàn: {bill.table}</div>
+                            <div className={cx("bhTotalBill")}>Tổng tiền:
+                            <br />
+                            <span>{bill.total.toLocaleString('vi-VN')}đ</span></div>
+                        </div>
+                        <div className={cx("bhContainer3")}>
+                            <img src={MoreIcon} alt="More"></img>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </Fragment>
+    )
+}
+
+export default BillHistory;

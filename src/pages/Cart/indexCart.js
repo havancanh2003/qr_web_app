@@ -7,7 +7,6 @@ import leftArrow from "../../assets/image/left-arrow.png";
 import xIcon from "../../assets/image/x_icon_150997.png";
 import plusIcon from "../../assets/image/plus_icon-icons.com_66718.png";
 import minusIcon from "../../assets/image/free-minus-icon-3108-thumb.png";
-import meowLoading from "../../assets/image/barkLoading.jpg";
 import Loading from "../../components/loadingScreen/loading";
 const cx = classNames.bind(style);
 
@@ -59,7 +58,6 @@ function Cart() {
     sessionStorage.setItem("obj", JSON.stringify(cartStored));
     if (cartStored.length === 0) {
       setIsUnable(true);
-
     } else {
       setIsUnable(false);
     }
