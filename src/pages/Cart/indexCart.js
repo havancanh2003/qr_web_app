@@ -26,6 +26,7 @@ function Cart() {
     note: "",
     total: "",
     table: "",
+    customer_name: "",
     order: [
       {
         dish_id: "",
@@ -36,6 +37,7 @@ function Cart() {
   });
 
   let storedSession = JSON.parse(sessionStorage.getItem("obj")) || [];
+  let customer_name_session = JSON.parse(sessionStorage.getItem("name")) || [];
 
   useEffect(() => {
     axios
@@ -62,7 +64,6 @@ function Cart() {
       setIsUnable(false);
     }
   }, [cartStored]);
-
 
   const getTotalBill = () => {
     return cartStored.reduce(
@@ -120,8 +121,10 @@ function Cart() {
       total: getTotalBill(),
       order: getOrderData(),
       table: tableStored,
+      customer_name: customer_name_session,
     }));
-  }, [cartStored, tableStored]);
+  }, [cartStored, tableStored, customer_name_session]);
+
   useEffect(() => {
     setIsSuccess(false);
   }, [pushData]);
@@ -130,7 +133,10 @@ function Cart() {
     return (
       <div>
         <div className={cx("topCart")}>
-          <button className={cx("backButton")} onClick={() => navigate("/showall")}>
+          <button
+            className={cx("backButton")}
+            onClick={() => navigate("/showall")}
+          >
             <img src={leftArrow} alt="icon" />
           </button>
           <p className={cx("topTitle")}>Món Bạn Đã Chọn</p>
@@ -141,7 +147,7 @@ function Cart() {
           <Loading></Loading>
         </div>
       </div>
-    )
+    );
   }
   const confirmHandler = () => {
     setIsConfirm(true);
@@ -158,13 +164,12 @@ function Cart() {
   };
 
   const finishHandler = () => {
-    navigate("/menu")
-    sessionStorage.removeItem("obj")
+    navigate("/menu");
+    sessionStorage.removeItem("obj");
   };
 
-
   const submitHandler = () => {
-    setIsWaiting(true)
+    setIsWaiting(true);
     if (cartStored.length === 0) {
       setIsUnable(true);
     } else {
@@ -193,20 +198,21 @@ function Cart() {
             const firstUnavailableItem = unavailableItems[0];
             const foodFailName = firstUnavailableItem.name;
             const amountRemain =
-              availableDishes.find((item) => item._id === firstUnavailableItem.id)
-                ?.amount || 0;
+              availableDishes.find(
+                (item) => item._id === firstUnavailableItem.id
+              )?.amount || 0;
 
             setFoodFailName(foodFailName);
             setAmountRemain(amountRemain);
             setIsFail(true);
-            setIsWaiting(false)
+            setIsWaiting(false);
           } else {
             axios
               .post("http://117.4.194.207:3003/cart/create", pushData)
               .then((response) => {
                 setIsSuccess(true);
                 console.log(response);
-                setIsWaiting(false)
+                setIsWaiting(false);
               })
               .catch((error) => {
                 console.log(error);
@@ -221,32 +227,65 @@ function Cart() {
 
   return (
     <div>
-      {isWaiting
-       && (
+      {isWaiting && (
         <Fragment>
           <div className={cx("loadingOverlay")}>
             <div class="preloader">
-              <svg class="cart" role="img" aria-label="Shopping cart line animation" viewBox="0 0 128 128" width="128px" height="128px" xmlns="http://www.w3.org/2000/svg">
-                <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="8">
+              <svg
+                class="cart"
+                role="img"
+                aria-label="Shopping cart line animation"
+                viewBox="0 0 128 128"
+                width="128px"
+                height="128px"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="8"
+                >
                   <g class="cart__track" stroke="hsla(0,10%,10%,0.1)">
                     <polyline points="4,4 21,4 26,22 124,22 112,64 35,64 39,80 106,80" />
                     <circle cx="43" cy="111" r="13" />
                     <circle cx="102" cy="111" r="13" />
                   </g>
                   <g class="cart__lines" stroke="currentColor">
-                    <polyline class="cart__top" points="4,4 21,4 26,22 124,22 112,64 35,64 39,80 106,80" stroke-dasharray="338 338" stroke-dashoffset="-338" />
+                    <polyline
+                      class="cart__top"
+                      points="4,4 21,4 26,22 124,22 112,64 35,64 39,80 106,80"
+                      stroke-dasharray="338 338"
+                      stroke-dashoffset="-338"
+                    />
                     <g class="cart__wheel1" transform="rotate(-90,43,111)">
-                      <circle class="cart__wheel-stroke" cx="43" cy="111" r="13" stroke-dasharray="81.68 81.68" stroke-dashoffset="81.68" />
+                      <circle
+                        class="cart__wheel-stroke"
+                        cx="43"
+                        cy="111"
+                        r="13"
+                        stroke-dasharray="81.68 81.68"
+                        stroke-dashoffset="81.68"
+                      />
                     </g>
                     <g class="cart__wheel2" transform="rotate(90,102,111)">
-                      <circle class="cart__wheel-stroke" cx="102" cy="111" r="13" stroke-dasharray="81.68 81.68" stroke-dashoffset="81.68" />
+                      <circle
+                        class="cart__wheel-stroke"
+                        cx="102"
+                        cy="111"
+                        r="13"
+                        stroke-dasharray="81.68 81.68"
+                        stroke-dashoffset="81.68"
+                      />
                     </g>
                   </g>
                 </g>
               </svg>
               <div class="preloader__text">
                 <p class="preloader__msg">Đơn Hàng Của Bạn Đang Được Gửi Đi</p>
-                <p class="preloader__msg preloader__msg--last">Phản Hồi Quá Lâu, Có Thể Đã Xảy Ra Lỗi</p>
+                <p class="preloader__msg preloader__msg--last">
+                  Phản Hồi Quá Lâu, Có Thể Đã Xảy Ra Lỗi
+                </p>
               </div>
             </div>
           </div>
@@ -255,7 +294,9 @@ function Cart() {
       {isUnable && (
         <div className={cx("successContainer")}>
           <div className="successBox">
-            <h2 className={cx("successPopup")}>Giỏ hàng trống <br /> Vui lòng chọn món</h2>
+            <h2 className={cx("successPopup")}>
+              Giỏ hàng trống <br /> Vui lòng chọn món
+            </h2>
             <button
               className={cx("UnableReturnButton")}
               onClick={cancelHandler3}
@@ -297,7 +338,9 @@ function Cart() {
           <div className={cx("successBox")}>
             <h2 className={cx("successPopup")}>Xác Nhận Đặt Món</h2>
             <div className={cx("confirmButtonGroup")}>
-              <button className={cx("cancelButton")} onClick={cancelHandler}>Huỷ</button>
+              <button className={cx("cancelButton")} onClick={cancelHandler}>
+                Huỷ
+              </button>
               <button onClick={submitHandler}>Xác Nhận</button>
             </div>
           </div>
@@ -307,7 +350,9 @@ function Cart() {
         <div className={cx("successContainer")}>
           <div className="successBox">
             <h2 className={cx("successPopup")}>Gọi món thành công</h2>
-            <button className={cx("returnButton")} onClick={finishHandler}>Trở về</button>
+            <button className={cx("returnButton")} onClick={finishHandler}>
+              Trở về
+            </button>
           </div>
         </div>
       )}
@@ -353,7 +398,9 @@ function Cart() {
               <button onClick={() => removeItem(index)}>
                 <img src={xIcon} alt="remove" />
               </button>
-              <h4>{`${(food.price * food.number).toLocaleString('vi-VN')}đ`}</h4>
+              <h4>{`${(food.price * food.number).toLocaleString(
+                "vi-VN"
+              )}đ`}</h4>
             </div>
           </div>
         ))}
@@ -363,7 +410,9 @@ function Cart() {
         <hr />
         <div className={cx("totalBill")}>
           <p>Tổng hoá đơn:</p>
-          <p id={cx("totalPrice")}>{pushData.total.toLocaleString('vi-VN')} đ</p>
+          <p id={cx("totalPrice")}>
+            {pushData.total.toLocaleString("vi-VN")} đ
+          </p>
         </div>
         <div className={cx("cartNote")}>
           <p>Ghi chú:</p>
