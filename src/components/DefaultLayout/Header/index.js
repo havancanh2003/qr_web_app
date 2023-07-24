@@ -10,8 +10,8 @@ const Header = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    const table = sessionStorage.getItem("table");
-    navigate(`/home/${table}`);
+    const token = sessionStorage.getItem("token");
+    navigate(`/home/${token}`);
   };
 
   return (
