@@ -28,6 +28,7 @@ function ShowAll() {
   const [tester, setTester] = useState(false);
 
   const tableStored = sessionStorage.getItem("table") || 0;
+  const token = sessionStorage.getItem("token") || 0;
 
   useEffect(() => {
     const socket = io(process.env.REACT_APP_API_URL);
@@ -39,9 +40,9 @@ function ShowAll() {
         setReturnHome(true)
         //thêm ui
       }
-      const handleReturnHome = () => {
-        navigate(`/home/${tableCheck.name}`)
-      }
+      // const handleReturnHome = () => {
+      //   navigate(`/home/${tableCheck.token}`)
+      // }
     });
   }, []);
 
@@ -165,7 +166,7 @@ function ShowAll() {
   };
 
   const handleReturnHome = () => {
-    navigate(`/home/${tableStored}`)
+    navigate(`/home/${token}`)
     setReturnHome(false)
   }
 

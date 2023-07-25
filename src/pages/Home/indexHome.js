@@ -26,38 +26,36 @@ function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const socket = io(process.env.REACT_APP_API_URL);
-    socket.on('activeTable', (response) => {
-      const tableCheck = response;
-      console.log(tableCheck);
-      if (tableCheck.isActive === true && tableCheck.name === table) {
-        setSuccessActived(true)
-        setIsActive(true)
-      } else if (tableCheck.isActive === false && tableCheck.name === table) {
-        setIsActive(false)
-      }
-    });
-  }, []);
-
-  useEffect(() => {
     axios
       .get(`http://117.4.194.207:3003/table/token/${token}`)
       .then((response) => {
         sessionStorage.setItem("table", response.data.name);
         sessionStorage.setItem("token", response.data.token);
         setIsActive(response.data.isActive);
-        setTable(response.data.name)
+        setTable(response.data.name);
       })
       .catch((error) => {
         console.log(error);
       });
   }, [token]);
 
+  useEffect(() => {
+    const socket = io(process.env.REACT_APP_API_URL);
+    socket.on("activeTable", (response) => {
+      if (response.isActive === true && response.name === table) {
+        setSuccessActived(true);
+        setIsActive(true);
+      } else if (response.isActive === false && response.name === table) {
+        setIsActive(false);
+      }
+    });
+  }, [table]);
+
   const setName = () => {
     if (JSON.parse(sessionStorage.getItem("name"))) {
       setCustomerName(JSON.parse(sessionStorage.getItem("name")));
     }
-  }
+  };
 
   const confirmHandler = () => {
     setIsConfirm(true);
@@ -73,9 +71,9 @@ function Home() {
   };
   const checkActiveHandler = () => {
     if (isActive) {
-      navigate("/menu")
+      navigate("/menu");
     } else {
-      setIsNeedHelp(true)
+      setIsNeedHelp(true);
     }
   };
 
@@ -100,7 +98,6 @@ function Home() {
     }
   };
 
-
   const submitHandler = () => {
     axios
       .post("http://117.4.194.207:3003/call-staff/create", { table: table })
@@ -114,18 +111,17 @@ function Home() {
   };
 
   const handleSuccessActived = () => {
-    setSuccessActived(false)
-  }
+    setSuccessActived(false);
+  };
 
   return (
     <Fragment>
       <Headerhome />
-      {(customerName.length === 0) &&
+      {customerName.length === 0 && (
         <Fragment>
-          <div className={cx('getNameOverlay')} onClick={() => { }}>
-          </div>
-          <div className={cx('getNameBox')}>
-            <div className={cx('getNameTitle')}>QR MENU</div>
+          <div className={cx("getNameOverlay")} onClick={() => {}}></div>
+          <div className={cx("getNameBox")}>
+            <div className={cx("getNameTitle")}>QR MENU</div>
             <input
               type="text"
               placeholder="Nhập Tên Của Bạn:"
@@ -134,28 +130,40 @@ function Home() {
               className={cx("input", { "blink-animation": inputFocused })}
               required
             />
-            <div className={cx('getNameNote')}><span>*</span>TÊN sẽ giúp bạn kiểm tra đơn hàng cũng như sử dụng QR MENU</div>
-            <button className={cx('getNameButton')} onClick={handleConfirmClick}>Xác Nhận</button>
+            <div className={cx("getNameNote")}>
+              <span>*</span>TÊN sẽ giúp bạn kiểm tra đơn hàng cũng như sử dụng
+              QR MENU
+            </div>
+            <button
+              className={cx("getNameButton")}
+              onClick={handleConfirmClick}
+            >
+              Xác Nhận
+            </button>
           </div>
         </Fragment>
-      }
-      {successActived &&
+      )}
+      {successActived && (
         <Fragment>
-          <div className={cx("rtOverlay")} onClick={handleSuccessActived}>
-          </div>
+          <div className={cx("rtOverlay")} onClick={handleSuccessActived}></div>
           <div className={cx("rtBox")}>
-            <div className={cx("rtNote")} >Bàn Của Bạn Đã Được Kích Hoạt</div>
-            <button className={cx("rtButton")} onClick={handleSuccessActived}>Xác Nhận</button>
+            <div className={cx("rtNote")}>Bàn Của Bạn Đã Được Kích Hoạt</div>
+            <button className={cx("rtButton")} onClick={handleSuccessActived}>
+              Xác Nhận
+            </button>
           </div>
         </Fragment>
-      }
+      )}
       {isNeedHelp && (
         <div className={cx("successContainer")} onClick={cancelNeedHelpHandler}>
           <div className="needHelpBox">
-
-            <h2 className={cx("needHelpPopup")}>Bàn Chưa Được Kích Hoạt <br /> Vui Lòng Gọi Nhân Viên</h2>
+            <h2 className={cx("needHelpPopup")}>
+              Bàn Chưa Được Kích Hoạt <br /> Vui Lòng Gọi Nhân Viên
+            </h2>
             <div className="confirmButtonGroup homeGroup">
-              <button className="cancelButton" onClick={cancelNeedHelpHandler}>Huỷ</button>
+              <button className="cancelButton" onClick={cancelNeedHelpHandler}>
+                Huỷ
+              </button>
 
               {/* chưa hoàn thiện */}
               <button onClick={cancelNeedHelpHandler}>Xác Nhận</button>
@@ -167,10 +175,11 @@ function Home() {
       {isConfirm && (
         <div className={cx("successContainer")} onClick={cancelHandler}>
           <div className="staffBox">
-
             <h2 className={cx("staffPopup")}>Bạn Muốn Gọi Hỗ Trợ?</h2>
             <div className="confirmButtonGroup homeGroup">
-              <button className="cancelButton" onClick={cancelHandler}>Huỷ</button>
+              <button className="cancelButton" onClick={cancelHandler}>
+                Huỷ
+              </button>
 
               {/* chưa hoàn thiện */}
               <button onClick={submitHandler}>Xác Nhận</button>
@@ -184,9 +193,9 @@ function Home() {
           <div className="staffBox">
             <h2 className={cx("staffPopup")}>Gửi yêu cầu thành công</h2>
             <div className="confirmButtonGroup">
-              <button
-                className="cancelButton"
-                onClick={cancelSuccesHandler}>Huỷ</button>
+              <button className="cancelButton" onClick={cancelSuccesHandler}>
+                Huỷ
+              </button>
               {/* chưa hoàn thiện */}
               <button onClick={cancelSuccesHandler}>Xác Nhận</button>
               {/* chưa hoàn thiện  */}
@@ -197,11 +206,11 @@ function Home() {
       <div className={cx("homePage")}>
         <div className={cx("adsBanner")}></div>
         <p className={cx("yourTable")}>
-          {(customerName.length !== 0) &&
+          {customerName.length !== 0 && (
             <Fragment>
               <span>Chào Mừng {customerName}</span>
             </Fragment>
-          }
+          )}
           <span id="coverBottom">Bạn đang ngồi bàn: {table}</span>
         </p>
         <button className="homeButton" onClick={confirmHandler}>

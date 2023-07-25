@@ -28,6 +28,7 @@ function Menu() {
   const navigate = useNavigate();
 
   const tableStored = sessionStorage.getItem("table") || 0;
+  const token = sessionStorage.getItem("token") || 0;
 
   useEffect(() => {
     const socket = io(process.env.REACT_APP_API_URL);
@@ -90,7 +91,7 @@ function Menu() {
 
 
   const handleReturnHome = () => {
-    navigate(`/home/${tableStored}`)
+    navigate(`/home/${token}`)
     setReturnHome(false)
   }
 
