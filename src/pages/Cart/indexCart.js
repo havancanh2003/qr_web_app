@@ -8,6 +8,7 @@ import xIcon from "../../assets/image/x_icon_150997.png";
 import plusIcon from "../../assets/image/plus_icon-icons.com_66718.png";
 import minusIcon from "../../assets/image/free-minus-icon-3108-thumb.png";
 import Loading from "../../components/loadingScreen/loading";
+import IconBill from "../../components/IconBill";
 const cx = classNames.bind(style);
 
 function Cart() {
@@ -227,6 +228,7 @@ function Cart() {
 
   return (
     <div>
+      <IconBill></IconBill>
       {isWaiting && (
         <Fragment>
           <div className={cx("loadingOverlay")}>
