@@ -13,6 +13,7 @@ const cx = classNames.bind(style);
 function BillHistory() {
   const navigate = useNavigate();
   const [listBill, setListBill] = useState([]);
+  const [listCallStaff, setListCallStaff] = useState([]);
   const customerName = JSON.parse(sessionStorage.getItem("name")) || [];
   const table = JSON.parse(sessionStorage.getItem("table")) || [];
   const [viewBill, setViewBill] = useState(true);
@@ -34,6 +35,20 @@ function BillHistory() {
         .catch((error) => {
           console.log(error);
         });
+      axios
+        .get(
+          `http://117.4.194.207:3003/call-staff/customer?table=${table}&customer_name=${customerName}`
+        )
+        .then((response) => {
+          if (response.data === "No matching carts found") {
+            setListCallStaff([]);
+          } else {
+            setListCallStaff(response.data);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     };
     fetchData();
     const interval = setInterval(() => {
@@ -45,21 +60,21 @@ function BillHistory() {
   }, []);
 
   const handleClickViewBill = () => {
-    setViewBill(true)
-    setViewRequests(false)
-  }
+    setViewBill(true);
+    setViewRequests(false);
+  };
   const handleClickViewRequests = () => {
-    setViewBill(false)
-    setViewRequests(true)
-  }
-
+    setViewBill(false);
+    setViewRequests(true);
+  };
+console.log(listCallStaff);
   return (
     <Fragment>
-      <div className={cx("backArrow")} onClick={() => navigate("/menu")} >
-          <img src={leftArrow} alt="Back"></img>
+      <div className={cx("backArrow")} onClick={() => navigate("/menu")}>
+        <img src={leftArrow} alt="Back"></img>
       </div>
 
-      < nav id="billNav">
+      <nav id="billNav">
         <div className={cx("navBox")}>
           <div className={cx("navElement")}>
             <button
@@ -74,20 +89,20 @@ function BillHistory() {
             <button
               // id={"-btn"}
               onClick={() => handleClickViewRequests()}
-              className={cx("requestButton", {picked: viewRequests === true })}
+              className={cx("requestButton", { picked: viewRequests === true })}
             >
               Yêu Cầu
             </button>
           </div>
         </div>
-      </nav >
-      {(viewBill && (listBill.length === 0)) &&
+      </nav>
+      {viewBill && listBill.length === 0 && (
         <Fragment>
-          <div className={cx("billEmptyNote")}>Không Có Hoá Đơn Nào</div>
+          <div className={cx("billEmptyNote")}>Chưa Có Hoá Đơn Nào</div>
         </Fragment>
-      }
+      )}
 
-      {(viewBill && (listBill.length !== 0)) &&
+      {viewBill && listBill.length !== 0 && (
         <Fragment>
           {listBill.map((bill, index) => (
             <div className={cx("bhContent")} key={index}>
@@ -99,10 +114,11 @@ function BillHistory() {
                 {bill.order.map((item, itemIndex) => (
                   <div className={cx("container3Content")} key={itemIndex}>
                     <div className={cx("container3Name")}>{item.dish_name}</div>
-                    <div className={cx("container3Quantity")}>{item.number}</div>
+                    <div className={cx("container3Quantity")}>
+                      {item.number}
+                    </div>
                   </div>
                 ))}
-                
               </div>
               <div className={cx("bhContainer1")}>
                 <div className={cx("bhName")}>Tên:{" " + customerName}</div>
@@ -126,17 +142,15 @@ function BillHistory() {
             </div>
           ))}
         </Fragment>
-      }
+      )}
 
-      {(viewRequests && (requests.length === 0)) &&
+      {viewRequests && requests.length === 0 && (
         <Fragment>
-          <div className={cx("billEmptyNote")}>Không Có Yêu Cầu Nào</div>
+          <div className={cx("billEmptyNote")}>Chưa Có Yêu Cầu Nào</div>
         </Fragment>
-      }
-
+      )}
     </Fragment>
-  )
-
+  );
 }
 
 export default BillHistory;

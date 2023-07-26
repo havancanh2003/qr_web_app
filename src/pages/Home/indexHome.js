@@ -8,7 +8,7 @@ import classNames from "classnames/bind";
 import style from "./home.scss";
 import axios from "axios";
 import IconBill from "../../components/IconBill";
-
+import { tab } from "@testing-library/user-event/dist/tab";
 
 const cx = classNames.bind(style);
 function Home() {
@@ -101,8 +101,12 @@ function Home() {
   };
 
   const submitHandler = () => {
+    const data = {
+      table: table,
+      customer_name: customerName,
+    };
     axios
-      .post("http://117.4.194.207:3003/call-staff/create", { table: table })
+      .post("http://117.4.194.207:3003/call-staff/create", data)
       .then((response) => {
         setIsSuccess(true);
         console.log(response);
