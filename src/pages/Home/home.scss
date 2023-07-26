@@ -103,7 +103,7 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    background-color: #fff;
+    background-color: #fdfefd;
 }
 
 // space for ads
@@ -156,9 +156,9 @@
     border-radius: 20px;
     font-size: 24px;
     font-weight: 600;
-    border: 1px solid #FE4D4D;
+    border: 1px solid #1BAC4B;
     background-color: #FFFFFF;
-    color: #FE4D4D;
+    color: #1BAC4B;
     display: flex;
     align-items: center;
     box-shadow: 0 5px 5px rgb(0 0 0 /20%);
@@ -170,15 +170,15 @@
         height: 50px;
         background-color: black;
         color: #FFFFFF;
-        margin-right: 25px;
-        margin-left: 23px;
+        margin-right: 20px;
+        margin-left: 20px;
     }
 }
 
 //overwrite for secondbutton
 #secondButton {
     margin-top: 18px;
-    background-color: #FE4D4D;
+    background-color: #1BAC4B;
     color: #FFFFFF;
     min-width: 264px;
 }

@@ -47,7 +47,7 @@
 .topTitle {
     margin-left: auto;
     margin-right: auto;
-    font-size: 25px;
+    font-size: 23px;
     font-weight: 600;
 }
 
@@ -64,12 +64,12 @@ nav {
     position: absolute;
     // display: flex;
     width: 100vw;
-    background-color: #FFF;
+    background-color: #f1f2f6;
 
     .navBarBox {
         transition: scroll-left 0.3s ease;
         min-height: 47px;
-        background: #fff;
+        background: #f1f2f6;
         overflow-x: scroll;
         white-space: nowrap;
         padding-top: 0.5rem;
@@ -95,12 +95,12 @@ nav {
         height: 4vh;
         background-color: transparent;
         border-radius: 8px;
-        border: #f04d4d 1px solid;
+        border: #1BAC4B 1px solid;
     }
 
     .navBarElement {
         .active {
-            background-color: #FE4D4D;
+            background-color: #1BAC4B;
             color: #F3f0f0;
             font-size: 1.7rem;
         }
@@ -116,7 +116,7 @@ nav {
 }
 
 .content {
-    background-color: #F3f0f0;
+    background-color:#f1f2f6;
     margin-top: 6vh;
     padding-left: 20px;
     padding-right: 20px;
@@ -130,7 +130,7 @@ nav {
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
         width: 100%;
-        background:rgba(254, 77, 77);
+        background:#1BAC4B;
         // background: linear-gradient(165deg, rgba(254, 77, 77, 1) 0%, transparent 70%);
     }
 

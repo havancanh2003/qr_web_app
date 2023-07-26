@@ -7,19 +7,19 @@
         border-radius: 30px;
         height: 60px;
         width: 60px;
-        border: 2px solid #FE4D4D;
+        border: 2px solid #1BAC4B;
         display: flex;
         z-index: 51;
         .notificationCart{
             height: 21px;
             width: 21px;
             margin: -5px 0px 0 40px;
-            background-color: #FE4D4D;
+            background-color: #1BAC4B;
             border-radius: 11px;
             position: absolute;
             z-index: 51;
             p{
-                margin:3px 0 0 2px ;
+                margin:3px 0 0 0 ;
                 color: #fff;
             }
         }

@@ -45,7 +45,7 @@ body {
   // width: 110%;
   min-width: 330px;
   margin-bottom: 299px;
-  background-color: #f3f0f0;
+  background-color: #f1f2f6;
 
   .cartItem {
     display: flex;
@@ -108,7 +108,7 @@ body {
           height: 24px;
           width: 24px;
           background-color: #fff;
-          border: #fe4d4d 1px solid;
+          border: #1BAC4B 1px solid;
           border-radius: 5px;
 
           img {
@@ -127,7 +127,7 @@ body {
       align-items: flex-end;
       position: sticky;
       left: auto;
-      right: 7%;
+      right: 27px;
       min-height: 100px;
       width: 100%;
 
@@ -145,7 +145,7 @@ body {
       h4 {
         display: inline-block;
         white-space: nowrap;
-        color: #fe4d4d;
+        color: #f04d4d;
         padding-bottom: 5px;
       }
     }
@@ -189,7 +189,7 @@ body {
       min-height: 70px;
       width: 90%;
       border-radius: 10px;
-      border: 1px solid #fe4d4d;
+      border: 1px solid #1BAC4B;
       margin: 0% 5% 0 5%;
       font-size: 16px;
       padding: 2%;
@@ -203,12 +203,12 @@ body {
 }
 
 #totalPrice {
-  color: #fe4d4d;
+  color: #f04d4d;
   margin-right: 6%;
 }
 
 .totalBillButton {
-  background-color: #fe4d4d;
+  background-color: #1BAC4B;
   color: #ffffff;
   border-radius: 10px;
   border: none;
@@ -232,7 +232,7 @@ body {
     text-align: center;
     height: 40px;
     width: 24vw;
-    background-color: #fe4d4d;
+    background-color: #1BAC4B;
     color: #f0f0f0;
     border: none;
     border-radius: 7px;
@@ -289,7 +289,7 @@ body {
       text-align: center;
       height: 40px;
       width: 24vw;
-      background-color: #fe4d4d;
+      background-color: #1BAC4B;
       color: #f0f0f0;
       border: none;
       border-radius: 7px;
@@ -317,8 +317,8 @@ body {
 
     .cancelButton {
       background-color: #ffffff;
-      border: 1px solid #fe4d4d;
-      color: #fe4d4d;
+      border: 1px solid #1BAC4B;
+      color: #1BAC4B;
     }
   }
 
@@ -347,6 +347,15 @@ body {
     color var(--trans-dur);
 
 }
+
+.cartSpecial{
+  .biWrapper{
+    img{
+        position: fixed;
+    }
+  }
+}
+
 
 .preloader {
   text-align: center;
@@ -387,7 +396,7 @@ body {
 }
 
 .cart__lines {
-  stroke: #fe4d4d;
+  stroke: #1BAC4B;
 }
 
 .cart__top {

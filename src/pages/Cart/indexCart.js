@@ -228,7 +228,10 @@ function Cart() {
 
   return (
     <div>
-      <IconBill></IconBill>
+      <div className={cx("cartSpecial")}>     
+       <IconBill></IconBill>
+       </div>
+
       {isWaiting && (
         <Fragment>
           <div className={cx("loadingOverlay")}>
@@ -362,7 +365,7 @@ function Cart() {
         <button
           className={cx("backButton")}
           onClick={() => navigate("/menu")}
-          // onClick={() => {setIsWaiting(!isWaiting) }}
+        // onClick={() => {setIsWaiting(!isWaiting) }}
         >
           <img src={leftArrow} alt="icon" />
         </button>
