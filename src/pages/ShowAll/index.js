@@ -9,6 +9,7 @@ import Loading from "../../components/loadingScreen/loading";
 import leftArrow from "../../assets/image/left-arrow.png";
 import AddOrder from "../../components/AddOrder/AddOrder";
 import CartIcon from "../../components/CartIcon/index";
+import IconBill from "../../components/IconBill";
 const cx = classNames.bind(style);
 
 function ShowAll() {
@@ -172,6 +173,7 @@ function ShowAll() {
 
   return (
     <Fragment>
+      <IconBill></IconBill>
       {returnHome &&
         <Fragment>
           <div className={cx("rtOverlay")} onClick={handleReturnHome}>

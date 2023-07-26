@@ -5,13 +5,10 @@ const cx = classNames.bind(style);
 const Headerhome = () => {
   return (
     <header className={cx("headerhome")}>
-      {/* <Sidebar className={cx("sidebar")} /> */}
-      {/* <FaChevronLeft className={cx("cart")} onClick={click} /> */}
       <img
         src="https://static.vecteezy.com/system/resources/previews/014/971/638/non_2x/food-logo-design-template-restaurant-free-png.png"
-        alt=""
+        alt="Logo"
       />
-      {/* <FaBoxTissue className={cx("cart")} /> */}
     </header>
   );
 };

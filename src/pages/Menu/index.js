@@ -7,8 +7,8 @@ import { io } from "socket.io-client";
 import classNames from "classnames/bind";
 import style from "./Menu.module.scss";
 import AddOrder from "../../components/AddOrder/AddOrder";
-import meowLoading from "../../assets/image/meo-loading.jpg";
 import CartIcon from "../../components/CartIcon/index";
+import IconBill from "../../components/IconBill";
 import Loading from "../../components/loadingScreen/loading";
 
 const cx = classNames.bind(style);
@@ -97,7 +97,7 @@ function Menu() {
 
   return (
     <Fragment>
-      
+      <IconBill></IconBill>
       {returnHome &&
         <Fragment>
           <div className={cx("rtOverlay")} onClick={handleReturnHome}>

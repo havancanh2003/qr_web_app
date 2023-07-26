@@ -7,6 +7,8 @@ import Headerhome from "../../components/DefaultLayout/Headerhome";
 import classNames from "classnames/bind";
 import style from "./home.scss";
 import axios from "axios";
+import IconBill from "../../components/IconBill";
+
 
 const cx = classNames.bind(style);
 function Home() {
@@ -117,6 +119,7 @@ function Home() {
   return (
     <Fragment>
       <Headerhome />
+      <IconBill></IconBill>
       {customerName.length === 0 && (
         <Fragment>
           <div className={cx("getNameOverlay")} onClick={() => {}}></div>
@@ -131,7 +134,7 @@ function Home() {
               required
             />
             <div className={cx("getNameNote")}>
-              <span>*</span>TÊN sẽ giúp bạn kiểm tra đơn hàng cũng như sử dụng
+              <span>* TÊN</span> sẽ giúp bạn kiểm tra đơn hàng cũng như sử dụng
               QR MENU
             </div>
             <button
