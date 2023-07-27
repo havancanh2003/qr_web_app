@@ -123,7 +123,7 @@ function Home() {
   return (
     <Fragment>
       <Headerhome />
-      <IconBill></IconBill>
+      {customerName.length !== 0 && <IconBill></IconBill>}
       {customerName.length === 0 && (
         <Fragment>
           <div className={cx("getNameOverlay")} onClick={() => {}}></div>

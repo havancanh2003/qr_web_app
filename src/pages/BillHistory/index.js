@@ -67,7 +67,7 @@ function BillHistory() {
     setViewBill(false);
     setViewRequests(true);
   };
-console.log(listCallStaff);
+  console.log(listCallStaff);
   return (
     <Fragment>
       <div className={cx("backArrow")} onClick={() => navigate("/menu")}>
@@ -91,7 +91,7 @@ console.log(listCallStaff);
               onClick={() => handleClickViewRequests()}
               className={cx("requestButton", { picked: viewRequests === true })}
             >
-              Yêu Cầu
+              Yêu Cầu Đã Gửi
             </button>
           </div>
         </div>
@@ -144,9 +144,34 @@ console.log(listCallStaff);
         </Fragment>
       )}
 
-      {viewRequests && requests.length === 0 && (
+      {viewRequests && listCallStaff.length === 0 && (
         <Fragment>
           <div className={cx("billEmptyNote")}>Chưa Có Yêu Cầu Nào</div>
+        </Fragment>
+      )}
+
+      {viewRequests && listCallStaff.length !== 0 && (
+        <Fragment>
+          {listCallStaff.map((request, index) => (
+            <div className={cx("rqContent")} key={index}>
+              <div className={cx("rqItem")}>
+                <div className={cx("rqName")}>Khách Hàng: {request.customer_name}</div>
+                <div className={cx("rqTable")}>Bàn: {request.table}</div>
+
+              </div>
+              <div className={cx("rqTime")}>
+                Thời gian:
+                <span>
+                  {" " +
+                    moment(request.createdAt, "DD/MM/YYYY, HH:mm:ss").format(
+                      "HH:mm A"
+                    )}
+                </span>
+
+              </div>
+              {/* <div className={cx("rqStatus")}>Trạng Thái: Đã Gửi</div> */}
+            </div>
+          ))}
         </Fragment>
       )}
     </Fragment>

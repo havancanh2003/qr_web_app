@@ -19,18 +19,19 @@
 
 #billNav {
     position: relative;
+    background-color: transparent;
 }
 
 nav {
     .navBox {
         display: flex;
-        margin-left: 20%;
+        margin-left: 5%;
         margin-top: 20px;
 
-        .navElement {
+        .navElement {    
             button {
-                width: 30vw;
-                min-width: 100px;
+                width: 45vw;
+                min-width: 101px;
             }
             .billButton{
                 border-top-right-radius: 0;
@@ -41,7 +42,7 @@ nav {
                 border-bottom-left-radius: 0;
             }
             .picked {
-                background-color: #f04d4d;
+                background-color: #1BAC4B;
                 color: #fff;
             }
 
@@ -111,6 +112,31 @@ nav {
                 width: 25%;
                 text-align: center;
             }
+        }
+    }
+}
+
+.rqContent{
+    display: flex;
+    width: 85%;
+    margin: 20px auto;
+    border: 1px solid ;
+    border-radius: 8px;
+    .rqItem{
+        width: 75%;
+        padding: 5px;
+        .rqName{
+            word-wrap: break-word;
+        }
+        
+    }
+    .rqTime{
+        border-left: 1px dashed;
+        width: 25%;
+        min-width: 82px;
+        padding: 5px;
+        span{
+            color: #f04d4d;
         }
     }
 }

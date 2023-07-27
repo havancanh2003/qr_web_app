@@ -2,6 +2,9 @@
     background-color: #fdfefd;
     // padding: 20px 5% 20vh 5%;
     // position: relative;
+    nav{
+        background-color: transparent;
+    }
 }
 
 .loadNote {
@@ -191,7 +194,7 @@ nav {
 }
 
 .Category_chose {
-    background-color: #f3f0f0;
+    // background-color: #f3f0f0;
     overflow-x: scroll;
     white-space: nowrap;
     padding-top: 0.5rem;
