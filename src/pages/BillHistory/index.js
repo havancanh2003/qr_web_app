@@ -64,10 +64,12 @@ function BillHistory() {
     setViewBill(false);
     setViewRequests(true);
   };
-  
-  const handleClickCancelBill = () => {
-    console.log("Huy don");
-  }
+
+  // const handleClickCancelBill = () => {
+  //   console.log("Huy don");
+  // }
+
+  console.log(listBill);
 
   return (
     <Fragment>
@@ -121,9 +123,19 @@ function BillHistory() {
                     </div>
                     <div className={cx("container3TotalPrice1")}>Thành Tiền: </div>
                     <div className={cx("container3TotalPrice2")}>{(item.dish_price * item.number).toLocaleString("vi-VN")}đ</div>
-
                   </div>
                 ))}
+                {bill.note !== "" && (
+                  <div className={cx("container3Note")}>
+                    Ghi Chú: <span>{bill.note}</span>
+                  </div>
+                )}
+                {bill.note === "" && (
+                  <div className={cx("container3Note")}>
+                    Không Có Ghi Chú
+                  </div>
+                )}
+
               </div>
               <div className={cx("bhContainer1")}>
                 <div className={cx("bhName")}>Tên:{" " + customerName}</div>
@@ -148,11 +160,11 @@ function BillHistory() {
                   <Fragment>
                     <div className={cx("bhStatusBillWaiting")}>Đang Chờ</div>
                     <div className="bhCancelButton" >
-                      <button
+                      {/* <button
                         onClick={handleClickCancelBill}
                       > 
                         Huỷ Đơn
-                      </button>
+                      </button> */}
                     </div>
                   </Fragment>
                 )}
