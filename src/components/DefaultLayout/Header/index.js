@@ -3,7 +3,7 @@ import style from "./Header.module.scss";
 import classNames from "classnames/bind";
 // import { FaBoxTissue, FaArtstation } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-  
+import logo from "../../../assets/image/logo192.png"
 
 
 const cx = classNames.bind(style);
@@ -20,7 +20,7 @@ const Header = () => {
     <header>
 
       <img
-        src="https://static.vecteezy.com/system/resources/previews/014/971/638/non_2x/food-logo-design-template-restaurant-free-png.png"
+        src={logo}
         alt="Logo"
         onClick={handleClick}
       />

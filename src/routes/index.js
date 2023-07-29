@@ -6,11 +6,11 @@ import Home from "../pages/Home/indexHome";
 import { Fragment } from "react";
 
 export const publicRoutes = [
-  { path: "/home/:token", component: Home, layout: null },
-  { path: "/menu", component: Menu },
+  { path: "/home/:token", component: Home },
+  // { path: "/menu", component: Menu },
 
   { path: "/cart", component: Cart, layout: null },
-  { path: "/showall", component: ShowAll, layout: null },
+  { path: "/showall", component: ShowAll },
 
   { path: "/billhistory", component: BillHistory },
   { path: "*", component: Fragment, layout: null },

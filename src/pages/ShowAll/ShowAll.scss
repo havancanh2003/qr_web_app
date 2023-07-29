@@ -65,6 +65,7 @@ nav {
     // display: flex;
     width: 100vw;
     background-color: #f1f2f6;
+    top: 60px;
 
     .navBarBox {
         transition: scroll-left 0.3s ease;
@@ -92,7 +93,8 @@ nav {
 
     button {
         width: 29vw;
-        height: 4vh;
+        min-width: 90px;
+        height: 34px;
         background-color: transparent;
         border-radius: 8px;
         border: #1BAC4B 1px solid;
@@ -117,7 +119,7 @@ nav {
 
 .content {
     background-color:#f1f2f6;
-    margin-top: 6vh;
+    margin-top: 47px;
     padding-left: 20px;
     padding-right: 20px;
     position: relative;

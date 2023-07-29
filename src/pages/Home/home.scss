@@ -3,13 +3,13 @@
         scale: 1;
     }
     25%{
-        scale: 1.2;
+        scale: 1.1;
     }
     50% {
       scale: 1;
     }
     75%{
-        scale: 1.2;
+        scale: 1.1;
     }
     100% {
       scale: 1;
@@ -57,7 +57,7 @@
         right: auto;
         left: 15vw;
         border-radius: 15px;
-        animation: slideFromLeft 0.3s;
+        animation: slideFromTop 0.3s;
 
         .staffPopup {
             height: 60px;

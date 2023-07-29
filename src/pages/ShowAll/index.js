@@ -126,7 +126,7 @@ function ShowAll() {
       const sectionTop = element.offsetTop;
 
       // Calculate the position to scroll, a little earlier than the target section
-      const scrollToPosition = sectionTop + 60;
+      const scrollToPosition = sectionTop + 59;
 
       // Set manualInteraction to true before scrolling
       setManualInteraction(true);
@@ -145,12 +145,12 @@ function ShowAll() {
   if (category.length === 0 || listDish.length === 0) {
     return (
       <div>
-        <div className={cx("topShowAll")}>
+        {/* <div className={cx("topShowAll")}>
           <button className={cx("backButton")} onClick={() => navigate("/showall")}>
             <img src={leftArrow} alt="icon" />
           </button>
           <p className={cx("topTitle")}>Tất Cả Các Món</p>
-        </div>
+        </div> */}
         <div className={cx("loadNote")}>
           {/* <img src={meowLoading} alt="LOADING..."></img>
           <p>LOADING...</p> */}
@@ -185,12 +185,12 @@ function ShowAll() {
         </Fragment>
       }
       {cartIcon && <CartIcon />}
-      <div className={cx("topShowAll")}>
+      {/* <div className={cx("topShowAll")}>
         <button className={cx("backButton")} onClick={() => navigate("/menu")}>
           <img src={leftArrow} alt="icon" />
         </button>
         <p className={cx("topTitle")}>Tất Cả Các Món</p>
-      </div>
+      </div> */}
 
       <nav className={`${sticky ? "sticky" : ""}`}>
         <div className={cx("navBarBox")}>
