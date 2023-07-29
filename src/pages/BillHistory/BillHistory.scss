@@ -1,7 +1,7 @@
 .backArrow{
     position: absolute;
     z-index: 100;
-    top: 13px;
+    top: 20px;
     left: 15px;
     img{
         height: 30px;
@@ -20,6 +20,7 @@
 #billNav {
     position: relative;
     background-color: transparent;
+    top: 10px;
 }
 
 nav {
@@ -27,7 +28,6 @@ nav {
         display: flex;
         margin-left: 5%;
         margin-top: 20px;
-
         .navElement {    
             button {
                 width: 45vw;
@@ -68,14 +68,39 @@ nav {
     .bhContainer1 {
         padding: 7px;
         width: 50%;
+        div{
+            padding: 5px;
+        }
     }
 
     .bhContainer2 {
         padding: 7px;
         width: 50%;
-
+        text-align: end;
+        div{
+            padding: 5px;
+        }
         span {
             color: #f04d4d;
+        }
+        .bhStatusBillCancel{
+            color: #f04d4d;
+            text-decoration: line-through;
+        }
+        .bhStatusBillWaiting{
+            color: #3498db;
+        }
+        .bhCancelButton{
+            button{
+                border: none;
+                padding: 7px 10px;
+                background-color: #f04d4d;
+                color: #ecf0f1;
+                border-radius: 5px;
+            }
+        }
+        .bhStatusBillDone{
+            color: #1BAC4B;
         }
     }
 
@@ -86,7 +111,7 @@ nav {
         min-height: 60px;
         // margin-top: 20px;
         padding: 10px;
-        padding-bottom: 20px;
+        padding-bottom: 10px;
         border-bottom: 1px solid;
         .container3Title{
             display: flex;
@@ -102,8 +127,10 @@ nav {
             }
         }
         .container3Content {
+            border-bottom: #f04d4d dashed 1px;
             display: flex;
             justify-content: space-between;
+            flex-wrap: wrap;
             padding: 5px 0;
             .container3Name{
                 width: 75%;
@@ -112,6 +139,16 @@ nav {
                 width: 25%;
                 text-align: center;
             }
+            .container3TotalPrice1{
+                font-size: 1.3rem;
+                align-self: center;
+            }
+            .container3TotalPrice2{
+                color: #f04d4d;
+            }
+        }
+        :last-child{
+            border-bottom: none;
         }
     }
 }

@@ -3,7 +3,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Fragment, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import icon from "../../assets/image/icon.png";
-import Headerhome from "../../components/DefaultLayout/Headerhome";
 import classNames from "classnames/bind";
 import style from "./home.scss";
 import axios from "axios";
@@ -73,7 +72,7 @@ function Home() {
   };
   const checkActiveHandler = () => {
     if (isActive) {
-      navigate("/menu");
+      navigate("/showall");
     } else {
       setIsNeedHelp(true);
     }
@@ -122,7 +121,6 @@ function Home() {
 
   return (
     <Fragment>
-      <Headerhome />
       {customerName.length !== 0 && <IconBill></IconBill>}
       {customerName.length === 0 && (
         <Fragment>

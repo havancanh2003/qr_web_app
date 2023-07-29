@@ -26,9 +26,7 @@ function BillHistory() {
           `http://117.4.194.207:3003/cart/history/all?table=${table}&customer_name=${customerName}`
         )
         .then((response) => {
-          if (response.data === "No matching carts found") {
-            setListBill([]);
-          } else {
+          if (response.data !== "No matching carts found") {
             setListBill(response.data);
           }
         })
@@ -40,10 +38,9 @@ function BillHistory() {
           `http://117.4.194.207:3003/call-staff/customer?table=${table}&customer_name=${customerName}`
         )
         .then((response) => {
-          if (response.data === "No matching carts found") {
-            setListCallStaff([]);
-          } else {
+          if (response.data !== "No matching call staff found") {
             setListCallStaff(response.data);
+            // console.log(response.data);
           }
         })
         .catch((error) => {
@@ -67,10 +64,14 @@ function BillHistory() {
     setViewBill(false);
     setViewRequests(true);
   };
-  console.log(listCallStaff);
+  
+  const handleClickCancelBill = () => {
+    console.log("Huy don");
+  }
+
   return (
     <Fragment>
-      <div className={cx("backArrow")} onClick={() => navigate("/menu")}>
+      <div className={cx("backArrow")} onClick={() => navigate("/showall")}>
         <img src={leftArrow} alt="Back"></img>
       </div>
 
@@ -110,6 +111,7 @@ function BillHistory() {
                 <div className={cx("container3Title")}>
                   <div className={cx("container3Name")}>Tên Món</div>
                   <div className={cx("container3Quantity")}>Số Lượng</div>
+
                 </div>
                 {bill.order.map((item, itemIndex) => (
                   <div className={cx("container3Content")} key={itemIndex}>
@@ -117,6 +119,9 @@ function BillHistory() {
                     <div className={cx("container3Quantity")}>
                       {item.number}
                     </div>
+                    <div className={cx("container3TotalPrice1")}>Thành Tiền: </div>
+                    <div className={cx("container3TotalPrice2")}>{(item.dish_price * item.number).toLocaleString("vi-VN")}đ</div>
+
                   </div>
                 ))}
               </div>
@@ -129,16 +134,36 @@ function BillHistory() {
                       "HH:mm A"
                     )}
                 </div>
-                <div>Đã Gửi</div>
+                <div className={cx("bhTotalItem")}>Bàn: {bill.table}</div>
+                {/* <div>Đã Gửi</div> */}
               </div>
               <div className={cx("bhContainer2")}>
-                <div className={cx("bhTotalItem")}>Bàn: {bill.table}</div>
+                {/* <div className={cx("bhTotalItem")}>Bàn: {bill.table}</div> */}
                 <div className={cx("bhTotalBill")}>
                   Tổng tiền:
-                  <br />
-                  <span>{bill.total.toLocaleString("vi-VN")}đ</span>
+
+                  <span>{" " + bill.total.toLocaleString("vi-VN")}đ</span>
                 </div>
+                {bill.status === "IN_PROGRESS" && (
+                  <Fragment>
+                    <div className={cx("bhStatusBillWaiting")}>Đang Chờ</div>
+                    <div className="bhCancelButton" >
+                      <button
+                        onClick={handleClickCancelBill}
+                      > 
+                        Huỷ Đơn
+                      </button>
+                    </div>
+                  </Fragment>
+                )}
+                {bill.status === "CANCEL" && (
+                  <div className={cx("bhStatusBillCancel")}>Đã Huỷ</div>
+                )}
+                {bill.status === "COMPLETE" && (
+                  <div className={cx("bhStatusBillDone")}>Đã Xong </div>
+                )}
               </div>
+
             </div>
           ))}
         </Fragment>
@@ -169,7 +194,6 @@ function BillHistory() {
                 </span>
 
               </div>
-              {/* <div className={cx("rqStatus")}>Trạng Thái: Đã Gửi</div> */}
             </div>
           ))}
         </Fragment>

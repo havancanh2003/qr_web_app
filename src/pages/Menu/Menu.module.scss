@@ -1,8 +1,9 @@
 .MenuBody {
     background-color: #fdfefd;
+
     // padding: 20px 5% 20vh 5%;
     // position: relative;
-    nav{
+    nav {
         background-color: transparent;
     }
 }
@@ -11,7 +12,7 @@
     padding: 0;
     height: 100vh;
     width: 100vw;
-    background-color:#ecf0f1;
+    background-color: #ecf0f1;
 
     img {
         height: 200px;
@@ -68,15 +69,17 @@
     padding-top: 10px;
 
     h3 {
-        font-size: 2.5rem;
+        font-size: 2.1rem;
     }
 }
 
 .tiltle_container a {
     font-size: 1.5rem;
-    color: red;
+    color: #1BAC4B;
     margin-top: 2px;
     margin-right: 1vw;
+    text-decoration: none;
+    font-weight: 500;
 }
 
 .food_best_deal {

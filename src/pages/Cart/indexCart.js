@@ -165,7 +165,7 @@ function Cart() {
   };
 
   const finishHandler = () => {
-    navigate("/menu");
+    navigate("/showall");
     sessionStorage.removeItem("obj");
   };
 
@@ -364,7 +364,7 @@ function Cart() {
       <div className={cx("topCart")}>
         <button
           className={cx("backButton")}
-          onClick={() => navigate("/menu")}
+          onClick={() => navigate("/showall")}
         // onClick={() => {setIsWaiting(!isWaiting) }}
         >
           <img src={leftArrow} alt="icon" />
