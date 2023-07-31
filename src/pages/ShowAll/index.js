@@ -30,15 +30,16 @@ function ShowAll() {
 
   const tableStored = sessionStorage.getItem("table") || 0;
   const token = sessionStorage.getItem("token") || 0;
+  const cashierId = sessionStorage.getItem("cashierId") || 0;
 
   useEffect(() => {
     const socket = io(process.env.REACT_APP_API_URL);
-    socket.on('activeTable', (response) => {
+    socket.on("activeTable", (response) => {
       const tableCheck = response;
       console.log(tableCheck);
       if (tableCheck.isActive === false && tableCheck.name === tableStored) {
         console.log("hien thi thong bao");
-        setReturnHome(true)
+        setReturnHome(true);
         //thêm ui
       }
       // const handleReturnHome = () => {
@@ -49,7 +50,7 @@ function ShowAll() {
 
   useEffect(() => {
     axios
-      .get("http://117.4.194.207:3003/category/all")
+      .get(`http://117.4.194.207:3003/category/allByCashier/${cashierId}`)
       .then((response) => {
         setCategory(response.data);
       })
@@ -57,7 +58,7 @@ function ShowAll() {
         console.log(error);
       });
     axios
-      .get("http://117.4.194.207:3003/dish/menu/all-actived")
+      .get(`http://117.4.194.207:3003/dish/menu/activedByCashier/${cashierId}`)
       .then((response) => {
         setListDish(response.data);
       })
@@ -113,7 +114,7 @@ function ShowAll() {
       const navBarBoxElement = document.querySelector(".navBarBox");
       if (navBarBoxElement && !manualInteraction) {
         // Smoothly scroll the navBarBox based on the scrollPosition
-        const scrollValue = scrollPosition/(category.length);
+        const scrollValue = scrollPosition / category.length;
         navBarBoxElement.scrollTo({ left: scrollValue, behavior: "smooth" });
       }
     }
@@ -141,7 +142,6 @@ function ShowAll() {
     }
   }
 
-
   if (category.length === 0 || listDish.length === 0) {
     return (
       <div>
@@ -157,33 +157,34 @@ function ShowAll() {
           <Loading></Loading>
         </div>
       </div>
-    )
+    );
   }
 
   const handleDetailState = () => {
     setDetail(false);
     setOverlay(false);
-    setCartIcon(true)
+    setCartIcon(true);
   };
 
   const handleReturnHome = () => {
-    navigate(`/home/${token}`)
-    setReturnHome(false)
-  }
+    navigate(`/home/${token}`);
+    setReturnHome(false);
+  };
 
   return (
     <Fragment>
       <IconBill></IconBill>
-      {returnHome &&
+      {returnHome && (
         <Fragment>
-          <div className={cx("rtOverlay")} onClick={handleReturnHome}>
-          </div>
+          <div className={cx("rtOverlay")} onClick={handleReturnHome}></div>
           <div className={cx("rtBox")}>
-            <div className={cx("rtNote")} >Bàn Của Bạn Đang Không Hoạt Động</div>
-            <button className={cx("rtButton")} onClick={handleReturnHome}>Về Trang Chủ</button>
+            <div className={cx("rtNote")}>Bàn Của Bạn Đang Không Hoạt Động</div>
+            <button className={cx("rtButton")} onClick={handleReturnHome}>
+              Về Trang Chủ
+            </button>
           </div>
         </Fragment>
-      }
+      )}
       {cartIcon && <CartIcon />}
       {/* <div className={cx("topShowAll")}>
         <button className={cx("backButton")} onClick={() => navigate("/menu")}>
@@ -225,11 +226,16 @@ function ShowAll() {
                 .map((food, index) => (
                   <div
                     key={index}
-                    className={cx("boxFoodWrapper", { "boxFoodWrapperZero": food.amount === 0 || "" })}
+                    className={cx("boxFoodWrapper", {
+                      boxFoodWrapperZero: food.amount === 0 || "",
+                    })}
                     onClick={() => (
-                      setObj(food), setDetail(!detail), setOverlay(!overlay), setCartIcon(false)
-                    )
-                    }>
+                      setObj(food),
+                      setDetail(!detail),
+                      setOverlay(!overlay),
+                      setCartIcon(false)
+                    )}
+                  >
                     <div className={cx("box_food_1")}>
                       <div className={cx("ZeroAmountBanner")}>Hết Món</div>
                       <img src={food.image_detail.path} alt="" />
@@ -238,9 +244,13 @@ function ShowAll() {
                       <h3>{food.name}</h3>
                       <p>{food.description}</p>
                       {/* <span className={cx("ZeroAmount")}>Hết Món</span> */}
-                      <span className={cx("foodPrice")}>{food.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
+                      <span className={cx("foodPrice")}>
+                        {food.price.toLocaleString("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        })}
+                      </span>
                     </div>
-
                   </div>
                 ))}
             </div>
@@ -250,10 +260,18 @@ function ShowAll() {
       {overlay && (
         <div
           className={cx("overlay")}
-          onClick={() => (setDetail(false), setOverlay(false), setCartIcon(true))}
+          onClick={() => (
+            setDetail(false), setOverlay(false), setCartIcon(true)
+          )}
         ></div>
       )}
-      {detail && <AddOrder obj={obj} listDish={listDish} onAddSuccess={handleDetailState} />}
+      {detail && (
+        <AddOrder
+          obj={obj}
+          listDish={listDish}
+          onAddSuccess={handleDetailState}
+        />
+      )}
     </Fragment>
   );
 }

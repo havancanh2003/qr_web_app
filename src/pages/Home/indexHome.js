@@ -19,6 +19,7 @@ function Home() {
   const [isNeedHelp, setIsNeedHelp] = useState(false);
   const [inputFocused, setInputFocused] = useState(false);
   const [table, setTable] = useState();
+  const [cashierId, setCashierId] = useState();
   const [inputValue, setInputValue] = useState("");
   const [customerName, setCustomerName] = useState(
     // []
@@ -32,8 +33,10 @@ function Home() {
       .then((response) => {
         sessionStorage.setItem("table", response.data.name);
         sessionStorage.setItem("token", response.data.token);
+        sessionStorage.setItem("cashierId", response.data.cashier_id);
         setIsActive(response.data.isActive);
         setTable(response.data.name);
+        setCashierId(response.data.cashier_id);
       })
       .catch((error) => {
         console.log(error);
@@ -104,8 +107,10 @@ function Home() {
       table: table,
       customer_name: customerName,
     };
+    console.log(data);
+    console.log(cashierId);
     axios
-      .post("http://117.4.194.207:3003/call-staff/create", data)
+      .post(`http://117.4.194.207:3003/call-staff/create/${cashierId}`, data)
       .then((response) => {
         setIsSuccess(true);
         console.log(response);

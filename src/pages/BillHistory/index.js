@@ -15,15 +15,18 @@ function BillHistory() {
   const [listBill, setListBill] = useState([]);
   const [listCallStaff, setListCallStaff] = useState([]);
   const customerName = JSON.parse(sessionStorage.getItem("name")) || [];
-  const table = JSON.parse(sessionStorage.getItem("table")) || [];
   const [viewBill, setViewBill] = useState(true);
   const [viewRequests, setViewRequests] = useState(false);
   const [requests, setRequests] = useState([]);
+
+  const table = JSON.parse(sessionStorage.getItem("table")) || [];
+  const cashierId = sessionStorage.getItem("cashierId") || 0;
+
   useEffect(() => {
     const fetchData = () => {
       axios
         .get(
-          `http://117.4.194.207:3003/cart/history/all?table=${table}&customer_name=${customerName}`
+          `http://117.4.194.207:3003/cart/history/all/${cashierId}?table=${table}&customer_name=${customerName}`
         )
         .then((response) => {
           if (response.data !== "No matching carts found") {
@@ -35,7 +38,7 @@ function BillHistory() {
         });
       axios
         .get(
-          `http://117.4.194.207:3003/call-staff/customer?table=${table}&customer_name=${customerName}`
+          `http://117.4.194.207:3003/call-staff/customer/${cashierId}?table=${table}&customer_name=${customerName}`
         )
         .then((response) => {
           if (response.data !== "No matching call staff found") {
@@ -113,7 +116,6 @@ function BillHistory() {
                 <div className={cx("container3Title")}>
                   <div className={cx("container3Name")}>Tên Món</div>
                   <div className={cx("container3Quantity")}>Số Lượng</div>
-
                 </div>
                 {bill.order.map((item, itemIndex) => (
                   <div className={cx("container3Content")} key={itemIndex}>
@@ -121,8 +123,12 @@ function BillHistory() {
                     <div className={cx("container3Quantity")}>
                       {item.number}
                     </div>
-                    <div className={cx("container3TotalPrice1")}>Thành Tiền: </div>
-                    <div className={cx("container3TotalPrice2")}>{(item.dish_price * item.number).toLocaleString("vi-VN")}đ</div>
+                    <div className={cx("container3TotalPrice1")}>
+                      Thành Tiền:{" "}
+                    </div>
+                    <div className={cx("container3TotalPrice2")}>
+                      {(item.dish_price * item.number).toLocaleString("vi-VN")}đ
+                    </div>
                   </div>
                 ))}
                 {bill.note !== "" && (
@@ -131,11 +137,8 @@ function BillHistory() {
                   </div>
                 )}
                 {bill.note === "" && (
-                  <div className={cx("container3Note")}>
-                    Không Có Ghi Chú
-                  </div>
+                  <div className={cx("container3Note")}>Không Có Ghi Chú</div>
                 )}
-
               </div>
               <div className={cx("bhContainer1")}>
                 <div className={cx("bhName")}>Tên:{" " + customerName}</div>
@@ -153,13 +156,12 @@ function BillHistory() {
                 {/* <div className={cx("bhTotalItem")}>Bàn: {bill.table}</div> */}
                 <div className={cx("bhTotalBill")}>
                   Tổng tiền:
-
                   <span>{" " + bill.total.toLocaleString("vi-VN")}đ</span>
                 </div>
                 {bill.status === "IN_PROGRESS" && (
                   <Fragment>
                     <div className={cx("bhStatusBillWaiting")}>Đang Chờ</div>
-                    <div className="bhCancelButton" >
+                    <div className="bhCancelButton">
                       {/* <button
                         onClick={handleClickCancelBill}
                       > 
@@ -175,7 +177,6 @@ function BillHistory() {
                   <div className={cx("bhStatusBillDone")}>Đã Xong </div>
                 )}
               </div>
-
             </div>
           ))}
         </Fragment>
@@ -192,9 +193,10 @@ function BillHistory() {
           {listCallStaff.map((request, index) => (
             <div className={cx("rqContent")} key={index}>
               <div className={cx("rqItem")}>
-                <div className={cx("rqName")}>Khách Hàng: {request.customer_name}</div>
+                <div className={cx("rqName")}>
+                  Khách Hàng: {request.customer_name}
+                </div>
                 <div className={cx("rqTable")}>Bàn: {request.table}</div>
-
               </div>
               <div className={cx("rqTime")}>
                 Thời gian:
@@ -204,7 +206,6 @@ function BillHistory() {
                       "HH:mm A"
                     )}
                 </span>
-
               </div>
             </div>
           ))}

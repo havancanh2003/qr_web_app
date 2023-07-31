@@ -39,10 +39,11 @@ function Cart() {
 
   let storedSession = JSON.parse(sessionStorage.getItem("obj")) || [];
   let customer_name_session = JSON.parse(sessionStorage.getItem("name")) || [];
+  const cashierId = sessionStorage.getItem("cashierId") || 0;
 
   useEffect(() => {
     axios
-      .get("http://117.4.194.207:3003/dish/menu/all-actived")
+      .get(`http://117.4.194.207:3003/dish/menu/activedByCashier/${cashierId}`)
       .then((response) => {
         setAllActive(response.data);
       })
@@ -175,7 +176,9 @@ function Cart() {
       setIsUnable(true);
     } else {
       axios
-        .get("http://117.4.194.207:3003/dish/menu/all-actived")
+        .get(
+          `http://117.4.194.207:3003/dish/menu/activedByCashier/${cashierId}`
+        )
         .then((response) => {
           const availableDishes = response.data;
           const unavailableItems = [];
@@ -209,7 +212,10 @@ function Cart() {
             setIsWaiting(false);
           } else {
             axios
-              .post("http://117.4.194.207:3003/cart/create", pushData)
+              .post(
+                `http://117.4.194.207:3003/cart/create/${cashierId}`,
+                pushData
+              )
               .then((response) => {
                 setIsSuccess(true);
                 console.log(response);
@@ -228,9 +234,9 @@ function Cart() {
 
   return (
     <div>
-      <div className={cx("cartSpecial")}>     
-       <IconBill></IconBill>
-       </div>
+      <div className={cx("cartSpecial")}>
+        <IconBill></IconBill>
+      </div>
 
       {isWaiting && (
         <Fragment>
@@ -365,7 +371,7 @@ function Cart() {
         <button
           className={cx("backButton")}
           onClick={() => navigate("/showall")}
-        // onClick={() => {setIsWaiting(!isWaiting) }}
+          // onClick={() => {setIsWaiting(!isWaiting) }}
         >
           <img src={leftArrow} alt="icon" />
         </button>
