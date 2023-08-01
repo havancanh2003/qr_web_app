@@ -109,12 +109,14 @@ function ShowAll() {
     return () => window.removeEventListener("scroll", handleNavScroll);
   }, []);
 
+  console.log(listDish);
+
   useEffect(() => {
     if (category.length > 0) {
       const navBarBoxElement = document.querySelector(".navBarBox");
       if (navBarBoxElement && !manualInteraction) {
         // Smoothly scroll the navBarBox based on the scrollPosition
-        const scrollValue = scrollPosition / category.length;
+        const scrollValue = scrollPosition / listDish.length;
         navBarBoxElement.scrollTo({ left: scrollValue, behavior: "smooth" });
       }
     }
@@ -138,6 +140,7 @@ function ShowAll() {
       // Delay the resetting of manualInteraction to false to ensure smooth scrolling
       setTimeout(() => {
         setManualInteraction(false);
+        
       }, 1); // Adjust the delay time as needed for smooth scrolling
     }
   }
