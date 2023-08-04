@@ -76,10 +76,12 @@ function ShowAll() {
       }
       setSticky(window.scrollY > 59);
       const currentPosition = document.documentElement.scrollTop + 100;
-
-      for (let i = 0; i < category.length; i++) {
-        const cat = category[i];
+     
+      let activeSection = null;
+      for (let i = -1; i < category.length; i++) {
+        const cat = i === -1 ? { name: "Top Bán Chạy" } : category[i];
         const section = document.getElementById(cat.name);
+
         if (section) {
           const sectionTop = section.offsetTop;
           const sectionHeight = section.offsetHeight;
@@ -90,7 +92,8 @@ function ShowAll() {
           ) {
             if (activeSectionRef.current !== cat.name) {
               activeSectionRef.current = cat.name;
-              setActiveButton(cat.name);
+              setActiveButton(cat.name === "Top Bán Chạy" ? "Top Bán Chạy" : cat.name);
+              console.log(activeSectionRef.current);
             }
             break;
           }
@@ -108,8 +111,6 @@ function ShowAll() {
     window.addEventListener("scroll", handleNavScroll);
     return () => window.removeEventListener("scroll", handleNavScroll);
   }, []);
-
-  console.log(listDish);
 
   useEffect(() => {
     if (category.length > 0) {
@@ -140,7 +141,7 @@ function ShowAll() {
       // Delay the resetting of manualInteraction to false to ensure smooth scrolling
       setTimeout(() => {
         setManualInteraction(false);
-        
+
       }, 1); // Adjust the delay time as needed for smooth scrolling
     }
   }
@@ -198,6 +199,15 @@ function ShowAll() {
 
       <nav className={`${sticky ? "sticky" : ""}`}>
         <div className={cx("navBarBox")}>
+          <div className={cx("navBarElement")}>
+            <button
+              // id={"-btn"}
+              onClick={() => handleClick("Top Bán Chạy")}
+              className={cx("CTA", { active: activeButton === "Top Bán Chạy" })}
+            >
+              Top Bán Chạy
+            </button>
+          </div>
           {category.map((cat, index) => (
             <div key={index} className={cx("navBarElement")}>
               <button
@@ -218,6 +228,44 @@ function ShowAll() {
       </nav>
 
       <div className={cx("content")}>
+        <div id="Top Bán Chạy" className={cx("targetScroll")}>
+          <div className={cx("titleWrapper")}>
+            <h2>Top Bán Chạy</h2>
+          </div>
+          <div className={cx("showAllBodyBS")}>
+              {listDish
+                .filter((dish) => (dish.isBestSeller === true))
+                .map((dish, index) => (
+                  <div
+                    key={index}
+                    className={cx("boxFoodWrapperBS", {
+                      boxFoodWrapperZeroBS: dish.amount === 0 || "",
+                    })}
+                    onClick={() => (
+                      setObj(dish),
+                      setDetail(!detail),
+                      setOverlay(!overlay),
+                      setCartIcon(false)
+                    )}
+                  >
+                    <div className={cx("box_food_1BS")}>
+                      <div className={cx("ZeroAmountBannerBS")}>Hết Món</div>
+                      <img src={dish.image_detail.path} alt="image" />
+                    </div>
+                    <div className={cx("foodDescriptionBS")}>
+                      <h3>{dish.name}</h3>
+                      {/* <p>{dish.description}</p> */}
+                      <span className={cx("foodPriceBS")}>
+                        {dish.price.toLocaleString("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        })}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+            </div>
+        </div>
         {category.map((cat, index) => (
           <div key={index} id={cat.name} className={cx("targetScroll")}>
             <div className={cx("titleWrapper")}>
