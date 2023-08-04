@@ -29,7 +29,7 @@ function BillHistory() {
           `http://117.4.194.207:3003/cart/history/all/${cashierId}?table=${table}&customer_name=${customerName}`
         )
         .then((response) => {
-          if (response.data !== "No carts created") {
+          if (response.data !== "No carts created" && response.data !== "No matching carts found") {
             setListBill(response.data);
           }
         })
@@ -41,7 +41,7 @@ function BillHistory() {
           `http://117.4.194.207:3003/call-staff/customer/${cashierId}?table=${table}&customer_name=${customerName}`
         )
         .then((response) => {
-          if (response.data !== "No call staff created") {
+          if (response.data !== "No call staff created" && response.data !== "No matching call staff found") {
             setListCallStaff(response.data);
             // console.log(response.data);
           }
@@ -72,7 +72,7 @@ function BillHistory() {
   //   console.log("Huy don");
   // }
 
-  console.log(listCallStaff);
+  console.log(listBill);
 
   return (
     <Fragment>
