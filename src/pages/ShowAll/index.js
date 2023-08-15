@@ -36,7 +36,6 @@ function ShowAll() {
     const socket = io(process.env.REACT_APP_API_URL);
     socket.on("activeTable", (response) => {
       const tableCheck = response;
-      console.log(tableCheck);
       if (tableCheck.isActive === false && tableCheck.name === tableStored) {
         console.log("hien thi thong bao");
         setReturnHome(true);
@@ -208,7 +207,7 @@ function ShowAll() {
               Top Bán Chạy
             </button>
           </div>
-          {category.map((cat, index) => (
+          {category.filter(cat => listDish.some(food => food.category === cat.name)).map((cat, index) => (
             <div key={index} className={cx("navBarElement")}>
               <button
                 // id={"-btn"}
@@ -266,7 +265,7 @@ function ShowAll() {
                 ))}
             </div>
         </div>
-        {category.map((cat, index) => (
+        {category.filter(cat => listDish.some(food => food.category === cat.name)).map((cat, index) => (
           <div key={index} id={cat.name} className={cx("targetScroll")}>
             <div className={cx("titleWrapper")}>
               <h2>{cat.name}</h2>
