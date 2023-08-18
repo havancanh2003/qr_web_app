@@ -87,12 +87,12 @@ function ShowAll() {
 
           if (
             currentPosition >= sectionTop &&
-            currentPosition < sectionTop + sectionHeight - 100
+            currentPosition < sectionTop + sectionHeight
           ) {
+            console.log(currentPosition);
             if (activeSectionRef.current !== cat.name) {
               activeSectionRef.current = cat.name;
-              setActiveButton(cat.name === "Top Bán Chạy" ? "Top Bán Chạy" : cat.name);
-              console.log(activeSectionRef.current);
+              setActiveButton(cat.name === "Top Bán Chạy" ? "Top Bán Chạy" : cat.name)
             }
             break;
           }
@@ -116,7 +116,7 @@ function ShowAll() {
       const navBarBoxElement = document.querySelector(".navBarBox");
       if (navBarBoxElement && !manualInteraction) {
         // Smoothly scroll the navBarBox based on the scrollPosition
-        const scrollValue = scrollPosition / listDish.length;
+        const scrollValue = scrollPosition / (category.length + 1); 
         navBarBoxElement.scrollTo({ left: scrollValue, behavior: "smooth" });
       }
     }
