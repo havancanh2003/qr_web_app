@@ -76,7 +76,7 @@ function BillHistory() {
 
   return (
     <Fragment>
-      <div className={cx("backArrow")} onClick={() => navigate("/showall")}>
+      <div className={cx("backArrow")} onClick={() => navigate("/home")}>
         <img src={leftArrow} alt="Back"></img>
       </div>
 
