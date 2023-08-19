@@ -43,7 +43,7 @@ function Cart() {
 
   useEffect(() => {
     axios
-      .get(`http://117.4.194.207:3003/dish/menu/activedByCashier/${cashierId}`)
+      .get(`${process.env.REACT_APP_API_URL}/dish/menu/activedByCashier/${cashierId}`)
       .then((response) => {
         setAllActive(response.data);
       })
@@ -177,7 +177,7 @@ function Cart() {
     } else {
       axios
         .get(
-          `http://117.4.194.207:3003/dish/menu/activedByCashier/${cashierId}`
+          `${process.env.REACT_APP_API_URL}/dish/menu/activedByCashier/${cashierId}`
         )
         .then((response) => {
           const availableDishes = response.data;
@@ -213,7 +213,7 @@ function Cart() {
           } else {
             axios
               .post(
-                `http://117.4.194.207:3003/cart/create/${cashierId}`,
+                `${process.env.REACT_APP_API_URL}/cart/create/${cashierId}`,
                 pushData
               )
               .then((response) => {

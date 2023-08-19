@@ -49,7 +49,7 @@ function ShowAll() {
 
   useEffect(() => {
     axios
-      .get(`http://117.4.194.207:3003/category/allByCashier/${cashierId}`)
+      .get(`${process.env.REACT_APP_API_URL}/category/allByCashier/${cashierId}`)
       .then((response) => {
         setCategory(response.data);
       })
@@ -57,7 +57,7 @@ function ShowAll() {
         console.log(error);
       });
     axios
-      .get(`http://117.4.194.207:3003/dish/menu/activedByCashier/${cashierId}`)
+      .get(`${process.env.REACT_APP_API_URL}/dish/menu/activedByCashier/${cashierId}`)
       .then((response) => {
         setListDish(response.data);
       })

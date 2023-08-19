@@ -29,7 +29,7 @@ function Home() {
 
   useEffect(() => {
     axios
-      .get(`http://117.4.194.207:3003/table/token/${token}`)
+      .get(`${process.env.REACT_APP_API_URL}/table/token/${token}`)
       .then((response) => {
         sessionStorage.setItem("table", response.data.name);
         sessionStorage.setItem("token", response.data.token);
@@ -110,7 +110,7 @@ function Home() {
     console.log(data);
     console.log(cashierId);
     axios
-      .post(`http://117.4.194.207:3003/call-staff/create/${cashierId}`, data)
+      .post(`${process.env.REACT_APP_API_URL}/call-staff/create/${cashierId}`, data)
       .then((response) => {
         setIsSuccess(true);
         console.log(response);

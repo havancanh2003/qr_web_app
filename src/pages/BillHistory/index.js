@@ -26,7 +26,7 @@ function BillHistory() {
     const fetchData = () => {
       axios
         .get(
-          `http://117.4.194.207:3003/cart/history/all/${cashierId}?table=${table}&customer_name=${customerName}`
+          `${process.env.REACT_APP_API_URL}/cart/history/all/${cashierId}?table=${table}&customer_name=${customerName}`
         )
         .then((response) => {
           if (response.data !== "No carts created" && response.data !== "No matching carts found") {
@@ -38,7 +38,7 @@ function BillHistory() {
         });
       axios
         .get(
-          `http://117.4.194.207:3003/call-staff/customer/${cashierId}?table=${table}&customer_name=${customerName}`
+          `${process.env.REACT_APP_API_URL}/call-staff/customer/${cashierId}?table=${table}&customer_name=${customerName}`
         )
         .then((response) => {
           if (response.data !== "No call staff created" && response.data !== "No matching call staff found") {
