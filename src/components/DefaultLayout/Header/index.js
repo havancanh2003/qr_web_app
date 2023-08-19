@@ -19,11 +19,12 @@ const Header = () => {
   return (
     <header>
 
-      <img
+      {/* <img
         src={logo}
         alt="Logo"
         onClick={handleClick}
-      />
+      /> */}
+      <div className={cx("LOGO")} onClick={handleClick}>Bún Cá 29+</div>
       
     </header>
   );
