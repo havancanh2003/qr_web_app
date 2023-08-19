@@ -20,8 +20,8 @@ function BillHistory() {
   const [requests, setRequests] = useState([]);
 
   const table = JSON.parse(sessionStorage.getItem("table")) || [];
-  const token = JSON.parse(sessionStorage.getItem("token")) || [];
   const cashierId = sessionStorage.getItem("cashierId") || 0;
+  const token = sessionStorage.getItem("token");
 
   useEffect(() => {
     const fetchData = () => {
