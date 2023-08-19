@@ -22,14 +22,17 @@ function BillHistory() {
   const table = JSON.parse(sessionStorage.getItem("table")) || [];
   const cashierId = sessionStorage.getItem("cashierId") || 0;
 
-  useEffect(() => { 
+  useEffect(() => {
     const fetchData = () => {
       axios
         .get(
           `${process.env.REACT_APP_API_URL}/cart/history/all/${cashierId}?table=${table}&customer_name=${customerName}`
         )
         .then((response) => {
-          if (response.data !== "No carts created" && response.data !== "No matching carts found") {
+          if (
+            response.data !== "No carts created" &&
+            response.data !== "No matching carts found"
+          ) {
             setListBill(response.data);
           }
         })
@@ -41,7 +44,10 @@ function BillHistory() {
           `${process.env.REACT_APP_API_URL}/call-staff/customer/${cashierId}?table=${table}&customer_name=${customerName}`
         )
         .then((response) => {
-          if (response.data !== "No call staff created" && response.data !== "No matching call staff found") {
+          if (
+            response.data !== "No call staff created" &&
+            response.data !== "No matching call staff found"
+          ) {
             setListCallStaff(response.data);
             // console.log(response.data);
           }
@@ -76,7 +82,10 @@ function BillHistory() {
 
   return (
     <Fragment>
-      <div className={cx("backArrow")} onClick={() => navigate("/home")}>
+      <div
+        className={cx("backArrow")}
+        onClick={() => navigate(`/home/${token}`)}
+      >
         <img src={leftArrow} alt="Back"></img>
       </div>
 
@@ -108,7 +117,7 @@ function BillHistory() {
         </Fragment>
       )}
 
-      {(viewBill && listBill.length !== 0) && (
+      {viewBill && listBill.length !== 0 && (
         <Fragment>
           {listBill.map((bill, index) => (
             <div className={cx("bhContent")} key={index}>
