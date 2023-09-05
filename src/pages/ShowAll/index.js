@@ -28,9 +28,9 @@ function ShowAll() {
   const [manualInteraction, setManualInteraction] = useState(false);
   const [tester, setTester] = useState(false);
 
+  const group_id = sessionStorage.getItem("group_id") || 0;
   const tableStored = sessionStorage.getItem("table") || 0;
   const token = sessionStorage.getItem("token") || 0;
-  const cashierId = sessionStorage.getItem("cashierId") || 0;
 
   useEffect(() => {
     const socket = io(process.env.REACT_APP_API_URL);
@@ -49,7 +49,7 @@ function ShowAll() {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/category/allByCashier/${cashierId}`)
+      .get(`${process.env.REACT_APP_API_URL}/category/allByCashier/${group_id}`)
       .then((response) => {
         setCategory(response.data);
       })
@@ -57,7 +57,7 @@ function ShowAll() {
         console.log(error);
       });
     axios
-      .get(`${process.env.REACT_APP_API_URL}/dish/menu/activedByCashier/${cashierId}`)
+      .get(`${process.env.REACT_APP_API_URL}/dish/menu/activedByCashier/${group_id}`)
       .then((response) => {
         setListDish(response.data);
       })
@@ -89,7 +89,6 @@ function ShowAll() {
             currentPosition >= sectionTop &&
             currentPosition < sectionTop + sectionHeight
           ) {
-            console.log(currentPosition);
             if (activeSectionRef.current !== cat.name) {
               activeSectionRef.current = cat.name;
               setActiveButton(cat.name === "Top Bán Chạy" ? "Top Bán Chạy" : cat.name)

@@ -31,9 +31,10 @@ function Home() {
     axios
       .get(`${process.env.REACT_APP_API_URL}/table/token/${token}`)
       .then((response) => {
+        console.log(response.data);
+        sessionStorage.setItem("group_id", response.data.group_id);
         sessionStorage.setItem("table", response.data.name);
         sessionStorage.setItem("token", response.data.token);
-        sessionStorage.setItem("cashierId", response.data.cashier_id);
         setIsActive(response.data.isActive);
         setTable(response.data.name);
         setCashierId(response.data.cashier_id);

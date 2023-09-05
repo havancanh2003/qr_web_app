@@ -39,11 +39,11 @@ function Cart() {
 
   let storedSession = JSON.parse(sessionStorage.getItem("obj")) || [];
   let customer_name_session = JSON.parse(sessionStorage.getItem("name")) || [];
-  const cashierId = sessionStorage.getItem("cashierId") || 0;
+  const group_id = sessionStorage.getItem("group_id") || 0;
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/dish/menu/activedByCashier/${cashierId}`)
+      .get(`${process.env.REACT_APP_API_URL}/dish/menu/activedByCashier/${group_id}`)
       .then((response) => {
         setAllActive(response.data);
       })
@@ -177,7 +177,7 @@ function Cart() {
     } else {
       axios
         .get(
-          `${process.env.REACT_APP_API_URL}/dish/menu/activedByCashier/${cashierId}`
+          `${process.env.REACT_APP_API_URL}/dish/menu/activedByCashier/${group_id}`
         )
         .then((response) => {
           const availableDishes = response.data;
@@ -213,7 +213,7 @@ function Cart() {
           } else {
             axios
               .post(
-                `${process.env.REACT_APP_API_URL}/cart/create/${cashierId}`,
+                `${process.env.REACT_APP_API_URL}/cart/create/${group_id}`,
                 pushData
               )
               .then((response) => {
