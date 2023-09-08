@@ -27,6 +27,7 @@ function Home() {
   );
   const navigate = useNavigate();
 
+  const group_id = sessionStorage.getItem("group_id") || 0;
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/table/token/${token}`)
@@ -108,10 +109,8 @@ function Home() {
       table: table,
       customer_name: customerName,
     };
-    console.log(data);
-    console.log(cashierId);
     axios
-      .post(`${process.env.REACT_APP_API_URL}/call-staff/create/${cashierId}`, data)
+      .post(`${process.env.REACT_APP_API_URL}/call-staff/create/${group_id}`, data)
       .then((response) => {
         setIsSuccess(true);
         console.log(response);

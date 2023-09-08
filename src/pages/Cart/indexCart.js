@@ -19,6 +19,7 @@ const cx = classNames.bind(style);
 function Cart() {
   const navigate = useNavigate();
   const [copyText, setCopyText] = useState("");
+  const [cart_id, setCart_id] = useState("");
   const [choosePaymentMethod, setChoosePaymentMethod] = useState("");
   const [pickedPaymentMethod, setPickedPaymentMethod] = useState("");
   const [cartStored, setCartStored] = useState([]);
@@ -34,13 +35,12 @@ function Cart() {
   const [showBankInforName, setShowBankInforName] = useState("");
   const [amoutRemain, setAmountRemain] = useState(0);
   const [paymentImage, setPaymentImage] = useState({
-    image: "",
+    image_payment: null,
   });
   const [pushData, setPushData] = useState({
     note: "",
     total: "",
     table: "",
-    image_payment_id: "",
     customer_name: "",
     order: [
       {
@@ -188,57 +188,7 @@ function Cart() {
 
   const handleNeedChoosePaymentMethod = () => {
     console.log("Chọn Cách Thanh Toán");
-    // setIsWaiting(true);
-    if (cartStored.length === 0) {
-      setIsUnable(true);
-    } else {
-      axios
-        .get(
-          `${process.env.REACT_APP_API_URL}/dish/menu/activedByCashier/${group_id}`
-        )
-        .then((response) => {
-          const availableDishes = response.data;
-          const unavailableItems = [];
-          for (const cartItem of cartStored) {
-            const totalQuantity = cartStored.reduce((total, item) => {
-              if (item.id === cartItem.id) {
-                return total + item.number;
-              }
-              return total;
-            }, 0);
-            const activeItem = availableDishes.find(
-              (item) => item._id === cartItem.id
-            );
-
-            if (!activeItem || activeItem.amount < totalQuantity) {
-              unavailableItems.push(cartItem);
-            }
-          }
-
-          if (unavailableItems.length > 0) {
-            const firstUnavailableItem = unavailableItems[0];
-            const foodFailName = firstUnavailableItem.name;
-            const amountRemain =
-              availableDishes.find(
-                (item) => item._id === firstUnavailableItem.id
-              )?.amount || 0;
-
-            setFoodFailName(foodFailName);
-            setAmountRemain(amountRemain);
-            setIsFail(true);
-            // setIsWaiting(false);
-          } else {
-            setChoosePaymentMethod("Pick")
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  };
-
-  const sendBill = (payMethod) => {
-    // setIsWaiting(true);
+    setIsWaiting(true);
     if (cartStored.length === 0) {
       setIsUnable(true);
     } else {
@@ -278,49 +228,26 @@ function Cart() {
             setIsFail(true);
             setIsWaiting(false);
           } else {
-            if (payMethod === "MONEY") {
-              console.log("tiền mặt");
-              //   axios
-              //     .post(
-              //       `${process.env.REACT_APP_API_URL}/cart/create/${group_id}`,
-              //       pushData
-              //     )
-              //     .then((response) => {
-              //       // setIsSuccess(true);
-              //       console.log(response.data._id);
-              //       setIsWaiting(false);
-              //     })
-              //     .catch((error) => {
-              //       console.log(error);
-              //     });
-              // }
-              if (payMethod === "BANK") {
-                console.log("Chuyển Khoản");
-                console.log(paymentImage);
-                // axios
-                //   .post(
-                //     `${process.env.REACT_APP_API_URL}/cart/create/${group_id}`,
-                //     pushData
-                //   )
-                //   .then((response) => {
-                //     // setIsSuccess(true);
-                //     console.log(response.data._id);
-                //     setIsWaiting(false);
-                //   })
-                //   .catch((error) => {
-                //     console.log(error);
-                //   });
-                // axios
-                //   .put(`${process.env.REACT_APP_API_URL}/cart/payByCustomer/${cart_id}`)
-              }
-            }
+            setChoosePaymentMethod("Pick")
+            axios
+              .post(
+                `${process.env.REACT_APP_API_URL}/cart/create/${group_id}`,
+                pushData
+              )
+              .then((response) => {
+                navigate(`/paymentmethod/${response.data._id}`)
+                setIsWaiting(false);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
           }
         })
         .catch((error) => {
           console.log(error);
         });
     }
-  }
+  };
 
   const handleBackButton = () => {
     if (choosePaymentMethod === "") {
@@ -331,60 +258,6 @@ function Cart() {
       setPickedPaymentMethod("")
       setShowBankInforName("")
       setShowGuide(false)
-    }
-  }
-
-  const handlePickedBank = (value) => {
-    setShowBankInforName(value)
-  }
-
-  const handlePickedPaymentMethod = (value) => {
-    setPickedPaymentMethod(value)
-    if (value !== "BANK") {
-      setShowBankInforName("")
-    }
-    if (value === "BANK" && pickedPaymentMethod !== "BANK") {
-      setShowGuide(true)
-    }
-  }
-
-  const handleCopyClick = (value) => {
-    if (document.queryCommandSupported('copy')) {
-      console.log("coppied");
-      const textArea = document.createElement('textarea');
-      textArea.value = value;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textArea);
-      setCopyText(value)
-    } else {
-      console.log("cant copy");
-    }
-  };
-
-  const handleUnderStood = () => {
-    setShowGuide(false)
-  }
-
-  function handleFileInputChange(event) {
-    const fileInput = event.target;
-    const fileLabel = document.getElementById("file-label");
-    const file = event.target.files[0];
-    if (fileInput.files && fileInput.files.length > 0) {
-      // setState({ ...state, [event.target.name]: file });
-      setPushData({ ...pushData, image_payment_id: file })
-      fileLabel.innerText = fileInput.files[0].name;
-    } else {
-      fileLabel.innerText = "Ấn Để Chọn Ảnh";
-    }
-
-    if (event.target.files.length > 0) {
-      // File has been selected, add the active class
-      setIsActive(true);
-    } else {
-      // No file selected, remove the active class
-      setIsActive(false);
     }
   }
 
@@ -603,149 +476,6 @@ function Cart() {
               Gọi Món
             </button>
           </div>
-        </Fragment>
-      )}
-      {choosePaymentMethod === "Pick" && (
-        <Fragment>
-          <div className={cx("choosePaymentBody")}>
-            <div className={cx("margintop")}></div>
-            {showGuide && (
-              <Fragment>
-                <div className={cx("guideOverlay")}>
-                </div>
-                <div className={cx("guideBox")}>
-                  <div className={cx("guideTitle")}>Hướng Dẫn</div>
-                  <div className={cx("guideStep1")}>Bước 1: Chọn Ngân Hàng</div>
-                  <div className={cx("guideStep2")}>Bước 2: Chụp Ảnh Hoá Đơn Giao Dịch</div>
-                  <div className={cx("guideStep3")}>Bước 3: Chọn Ảnh Rồi Ấn Gửi Hoá Đơn</div>
-                  <div className={cx("understoodConfirmButton")} onClick={handleUnderStood}>Xác Nhận</div>
-                </div>
-              </Fragment>
-            )}
-            <div className={cx("PayByMoneyBox")} onClick={() => handlePickedPaymentMethod("MONEY")}>
-              <div className={cx("PayByMoneyIconBorder")}>
-                <img src={payByMoneyIcon} alt="$"></img>
-              </div>
-              <div className={cx("PayByMoneyTitle")}>Thanh Toán Bằng Tiền Mặt</div>
-              {pickedPaymentMethod === "MONEY" && (
-                <Fragment>
-                  <div className={cx("PickedIcon")}>
-                    <img src={tickIcon} alt="picked"></img>
-                  </div>
-                </Fragment>
-              )}
-            </div>
-            <div className={cx("PayByBankBox")} onClick={() => handlePickedPaymentMethod("BANK")}>
-              <div className={cx("PayByBankTopContainer")}>
-                <div className={cx("PayByBankIconBorder")}>
-                  <img src={payByBankIcon} alt="$"></img>
-                </div>
-                <div className={cx("PayByBankTitle")}>Chuyển Khoản Ngân Hàng</div>
-                {pickedPaymentMethod === "BANK" && (
-                  <Fragment>
-                    <div className={cx("PickedIcon")}>
-                      <img src={tickIcon} alt="picked"></img>
-                    </div>
-                  </Fragment>
-                )}
-              </div>
-              {pickedPaymentMethod === "BANK" && (
-                <Fragment>
-                  <div className={cx("PayByBankBottomContainer")}>
-                    {/* list danh sach bank */}
-                    <div className={cx("BankListItem")}>
-                      <div className={cx("BankName")} onClick={() => handlePickedBank("TP BANK")}>TP BANK</div>
-                      {showBankInforName === "TP BANK" && (
-                        <Fragment>
-                          <div className={cx("BankQRCode")}>
-                            <img src={cloneBankQR}></img>
-                          </div>
-                          <div className={cx("BankID")}>20869042001
-                            <img
-                              src={copyIcon}
-                              alt="copy"
-                              onClick={() => handleCopyClick("20869042001")}
-                            ></img></div>
-                          <div className={cx("BankOwnerName")}>TONG CHAU BINH</div>
-                        </Fragment>
-                      )}
-                    </div>
-
-
-                    {/* clone test */}
-                    <div className={cx("BankListItem")}>
-                      <div className={cx("BankName")} onClick={() => handlePickedBank("BIDV")}>BIDV</div>
-                      {showBankInforName === "BIDV" && (
-                        <Fragment>
-                          <div className={cx("BankQRCode")}>
-                            <img src={cloneBankQR}></img>
-                          </div>
-                          <div className={cx("BankID")}>
-                            20869042001
-                            <img
-                              src={copyIcon}
-                              alt="copy"
-                              onClick={() => handleCopyClick("20869042001")}
-                            ></img>
-                          </div>
-                          <div className={cx("BankOwnerName")}>TONG CHAU BINH BIDV</div>
-                        </Fragment>
-                      )}
-                    </div>
-
-                    <div className={cx("BankListItem")}>
-                      <div className={cx("BankName")} onClick={() => handlePickedBank("VIETINBANK")}>VIETINBANK</div>
-                      {showBankInforName === "VIETINBANK" && (
-                        <Fragment>
-                          <div className={cx("BankQRCode")}>
-                            <img src={cloneBankQR}></img>
-                          </div>
-                          <div className={cx("BankID")}>
-                            20869042001
-                            <img
-                              src={copyIcon}
-                              alt="copy"
-                              onClick={() => handleCopyClick("20869042001")}
-                            ></img>
-                          </div>
-                          <div className={cx("BankOwnerName")}>TONG CHAU BINH VIETINBANK</div>
-                        </Fragment>
-                      )}
-                    </div>
-
-                    {/* clone test */}
-                    <div className={cx("AddImage", { active: isActive })}>
-                      {/* <label htmlFor="image_detail">Ảnh Minh Hoạ:</label> */}
-                      <div className="custom-file">
-                        <input
-                          onChange={handleFileInputChange}
-                          type="file"
-                          id="image_detail"
-                          name="image_detail"
-                          accept="image/png,image/jpeg,image/jpg"
-                          required
-                          className="custom-file-input"
-                        />
-                        <label
-                          id="file-label"
-                          className="custom-file-label"
-                          htmlFor="image_detail"
-                        >
-                          Thêm Ảnh Giao Dịch
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </Fragment>
-
-              )}
-            </div>
-          </div>
-        </Fragment>
-      )}
-      {pickedPaymentMethod !== "" && (
-        <Fragment>
-          <button id="confirmPaymentButton" onClick={() => { sendBill(pickedPaymentMethod) }}>Gửi Hoá Đơn</button>
         </Fragment>
       )}
     </div>

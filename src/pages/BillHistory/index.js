@@ -20,13 +20,13 @@ function BillHistory() {
   const [requests, setRequests] = useState([]);
 
   const table = JSON.parse(sessionStorage.getItem("table")) || [];
-  const cashierId = sessionStorage.getItem("cashierId") || 0;
+  const group_id = sessionStorage.getItem("group_id") || 0;
 
-  useEffect(() => { 
+  useEffect(() => {
     const fetchData = () => {
       axios
         .get(
-          `${process.env.REACT_APP_API_URL}/cart/history/all/${cashierId}?table=${table}&customer_name=${customerName}`
+          `${process.env.REACT_APP_API_URL}/cart/history/all/${group_id}?table=${table}&customer_name=${customerName}`
         )
         .then((response) => {
           if (response.data !== "No carts created" && response.data !== "No matching carts found") {
@@ -38,7 +38,7 @@ function BillHistory() {
         });
       axios
         .get(
-          `${process.env.REACT_APP_API_URL}/call-staff/customer/${cashierId}?table=${table}&customer_name=${customerName}`
+          `${process.env.REACT_APP_API_URL}/call-staff/customer/${group_id}?table=${table}&customer_name=${customerName}`
         )
         .then((response) => {
           if (response.data !== "No call staff created" && response.data !== "No matching call staff found") {
@@ -67,12 +67,6 @@ function BillHistory() {
     setViewBill(false);
     setViewRequests(true);
   };
-
-  // const handleClickCancelBill = () => {
-  //   console.log("Huy don");
-  // }
-
-  console.log(listBill);
 
   return (
     <Fragment>
@@ -160,19 +154,18 @@ function BillHistory() {
                 </div>
                 {bill.status === "IN_PROGRESS" && (
                   <Fragment>
-                    <div className={cx("bhStatusBillWaiting")}>Đang Chờ</div>
-                    <div className="bhCancelButton">
-                      {/* <button
-                        onClick={handleClickCancelBill}
-                      > 
-                        Huỷ Đơn
-                      </button> */}
-                    </div>
+                    <div className={cx("bhStatusBillWaiting")}>Đang Làm</div>
+                  </Fragment>
+                )}
+                {bill.status === "WAITPAY" && (
+                  <Fragment>
+                    <div className={cx("bhStatusBillWaiting")} style={{ color: "#e74c3c" }}>CHƯA THU TIỀN</div>
                   </Fragment>
                 )}
                 {bill.status === "CANCEL" && (
                   <div className={cx("bhStatusBillCancel")}>Đã Huỷ</div>
                 )}
+
                 {bill.status === "COMPLETE" && (
                   <div className={cx("bhStatusBillDone")}>Đã Xong </div>
                 )}
