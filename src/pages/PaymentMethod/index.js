@@ -295,9 +295,12 @@ function PaymentMethod() {
 
     return (
         <div>
-            <div className={cx("cartSpecial")}>
-                <IconBill></IconBill>
-            </div>
+            {choosePaymentMethod === "" && (
+                <div className={cx("cartSpecial")}>
+                    <IconBill></IconBill>
+                </div>
+            )}
+
             {isWaiting && (
                 <Fragment>
                     <div className={cx("loadingOverlay")}>
@@ -414,13 +417,32 @@ function PaymentMethod() {
                     </div>
                 </div>
             )}
+            {needImage && (
+                <div className={cx("successContainer")} onClick={cancelHandler2}>
+                    <div className="failBox">
+                        <h2 className={cx("failPopup")}>
+                        Hãy Thêm Ảnh Giao Dịch
+                        </h2>
+                        <div className="confirmButtonGroup">
+                            <button
+                                className={cx("cancelButton")}
+                                onClick={() => {
+                                    setNeedImage(false);
+                                }}
+                            >
+                                Xác Nhận
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
             <div className={cx("topCart")}>
-                <button
+                {/* <button
                     className={cx("backButton")}
                     onClick={handleBackButton}
                 >
                     <img src={leftArrow} alt="icon" />
-                </button>
+                </button> */}
                 {choosePaymentMethod === "" && (
                     <p className={cx("topTitle")}>Món Bạn Đã Chọn</p>
                 )}
