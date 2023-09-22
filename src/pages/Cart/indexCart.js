@@ -82,11 +82,13 @@ function Cart() {
   }, [cartStored]);
 
   const getTotalBill = () => {
-    return cartStored.reduce(
-      (total, food) => total + food.price * food.number,
-      0
-    );
+    return cartStored.reduce((total, food) => {
+      const mainItemPrice = food.price * food.number;
+      const optionPrices = food.options.reduce((optionTotal, opt) => optionTotal + (opt.price || 0), 0);
+      return total + mainItemPrice + optionPrices;
+    }, 0);
   };
+
   const getOrderData = () => {
     return cartStored.map((food) => ({
       dish_id: food.id,
@@ -416,37 +418,48 @@ function Cart() {
           <div className={cx("cartBody")}>
             {cartStored.map((food, index) => (
               <div className={cx("cartItem")} key={index}>
-                <div className={cx("cartImage")}>
-                  <img src={food.img} alt="ảnh" />
-                </div>
-                <div className={cx("cartInfo")}>
-                  <h3>{food.name}</h3>
-                  <h5>{food.options}</h5>
-                  <div className={cx("itemQuantity")}>
-                    <button
-                      className={cx("decrease")}
-                      onClick={() => decreaseQuantity(index)}
-                    >
-                      <img src={minusIcon} alt="minus" />
+                <div className={cx("row-flex")}>
+                  <div className={cx("cartImage")}>
+                    <img src={food.img} alt="ảnh" />
+                  </div>
+                  <div className={cx("cartInfo")}>
+                    <h3>{food.name}</h3>
+                    <div className={cx("itemQuantity")}>
+                      <button
+                        className={cx("decrease")}
+                        onClick={() => decreaseQuantity(index)}
+                      >
+                        <img src={minusIcon} alt="minus" />
+                      </button>
+                      <h4 className={cx("quantity")} id={cx(food.id)}>
+                        {food.number}
+                      </h4>
+                      <button
+                        className={cx("increase")}
+                        onClick={() => increaseQuantity(index)}
+                      >
+                        <img src={plusIcon} alt="plus" />
+                      </button>
+                    </div>
+                  </div>
+                  <div className={cx("cartAssets")}>
+                    <button onClick={() => removeItem(index)}>
+                      <img src={xIcon} alt="remove" />
                     </button>
-                    <h4 className={cx("quantity")} id={cx(food.id)}>
-                      {food.number}
+                    <h4>
+                      {`${(food.number * food.price + food.options.reduce((acc, opt) => acc + (opt.price || 0), 0)).toLocaleString("vi-VN")}đ`}
                     </h4>
-                    <button
-                      className={cx("increase")}
-                      onClick={() => increaseQuantity(index)}
-                    >
-                      <img src={plusIcon} alt="plus" />
-                    </button>
                   </div>
                 </div>
-                <div className={cx("cartAssets")}>
-                  <button onClick={() => removeItem(index)}>
-                    <img src={xIcon} alt="remove" />
-                  </button>
-                  <h4>{`${(food.price * food.number).toLocaleString(
-                    "vi-VN"
-                  )}đ`}</h4>
+                <div className={cx("cartItemOption")}>
+                  {food.options.map((opt, index) => (
+                    <div className="optItem">
+                      <div className={cx("row-flex")}>
+                        <div className={cx("optName")}>{opt.name}</div>
+                        <div className={cx("optPrice")}> +{opt.price === null ? "0đ" : `${opt.price.toLocaleString("vn-VN", { currency: "VND" })}đ`}</div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             ))}

@@ -76,11 +76,13 @@ body {
       margin: 10px;
     }
 
-    .guideStep1, .guideStep2, .guideStep3 {
+    .guideStep1,
+    .guideStep2,
+    .guideStep3 {
       margin: 10px 0 10px 15px;
     }
-    
-    .understoodConfirmButton{
+
+    .understoodConfirmButton {
       position: absolute;
       background-color: #2ed573;
       width: 50%;
@@ -176,7 +178,7 @@ body {
     .PayByBankBottomContainer {
       min-height: 80vh;
 
-      .AddImage{
+      .AddImage {
         font-size: 1.7rem;
         // font-weight: 600;
         border: none;
@@ -185,28 +187,33 @@ body {
         background-color: #f04d4d;
         color: #fff;
         border-radius: 10px;
-        .custom-file{
+
+        .custom-file {
+
           // padding: 10px;
-          label{
+          label {
             display: block;
             padding: 10px;
             width: 100%;
           }
         }
       }
-      .active{
+
+      .active {
         background-color: #2ed573;
       }
 
-      input{
+      input {
         display: none;
       }
+
       .BankListItem {
         min-width: 300px;
         width: 90%;
         margin: 10px auto;
         border: 1px solid #bdc3c7;
         border-radius: 10px;
+
         .BankName {
           padding: 10px;
         }
@@ -268,10 +275,10 @@ body {
   background-color: #f1f2f6;
 
   .cartItem {
-    display: flex;
     width: 90%;
     min-width: 320px;
     min-height: 100px;
+    // height: 12vh;
     margin-top: 3%;
     margin-left: auto;
     margin-right: auto;
@@ -279,94 +286,112 @@ body {
     border-radius: 10px;
     box-shadow: 0 5px 5px rgb(0 0 0 /20%);
 
-    .cartImage {
-      margin-top: auto;
-      margin-bottom: auto;
-      margin-right: 5%;
-      margin-left: 5%;
-      height: 80px;
-
-      img {
-        height: 80px;
-        width: 80px;
-        object-fit: cover;
-        border-radius: 5px;
-        background-color: #1abc9c;
-      }
-    }
-
-    .cartInfo {
-      position: relative;
-      margin-top: 7px;
-      margin-bottom: auto;
-      min-width: fit-content;
-      min-height: 84px;
+    .row-flex {
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
 
-      h3 {
-        width: 45vw;
-        min-width: 30px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: inline-block;
+      .cartImage {
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-right: 5%;
+        margin-left: 5%;
+        height: 80px;
+
+        img {
+          height: 80px;
+          width: 80px;
+          object-fit: cover;
+          border-radius: 5px;
+          background-color: #1abc9c;
+        }
       }
 
-      .itemQuantity {
-        padding-top: 5px;
+      .cartInfo {
+        // position: relative;
+        height: 100%;
+        margin-bottom: auto;
+        min-width: fit-content;
+        min-height: 84px;
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
-        width: 80px;
-        align-items: center;
-        position: sticky;
-        bottom: 0;
 
-        button {
-          border: none;
-          height: 24px;
-          width: 24px;
-          background-color: #fff;
-          border: #1BAC4B 1px solid;
-          border-radius: 5px;
+        h3 {
+          margin-top: 7px;
+          width: 45vw;
+          min-width: 30px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: inline-block;
+        }
 
-          img {
-            padding-top: 3px;
-            height: 14px;
-            width: 14px;
+        .itemQuantity {
+          padding-top: 5px;
+          display: flex;
+          justify-content: space-between;
+          width: 80px;
+          align-items: center;
+          position: sticky;
+          bottom: 0;
+          margin-bottom: 10px;
+
+          button {
+            border: none;
+            height: 24px;
+            width: 24px;
+            background-color: #fff;
+            border: #1BAC4B 1px solid;
+            border-radius: 5px;
+
+            img {
+              padding-top: 3px;
+              height: 14px;
+              width: 14px;
+            }
           }
         }
       }
-    }
 
-    .cartAssets {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: flex-end;
-      position: sticky;
-      left: auto;
-      right: 27px;
-      min-height: 100px;
-      width: 100%;
+      .cartAssets {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-end;
+        position: sticky;
+        left: auto;
+        right: 30px;
+        min-height: 100px;
+        width: 100%;
 
-      button {
-        padding-top: 5px;
-        width: 20px;
-        border: none;
-        background-color: transparent;
+        button {
+          padding-top: 5px;
+          width: 20px;
+          border: none;
+          background-color: transparent;
 
-        img {
-          height: 25px;
+          img {
+            height: 25px;
+          }
+        }
+
+        h4 {
+          display: inline-block;
+          white-space: nowrap;
+          color: #f04d4d;
+          padding-bottom: 5px;
         }
       }
+    }
 
-      h4 {
-        display: inline-block;
-        white-space: nowrap;
-        color: #f04d4d;
-        padding-bottom: 5px;
+    .cartItemOption {
+      padding: 5px 0;
+      .optItem {
+        width: calc(100% - 30px);
+        margin: 5px 0 0 5%;
+        .row-flex{
+          display: flex;
+          justify-content: space-between;
+        }
       }
     }
   }

@@ -1,6 +1,6 @@
 import React from "react";
 import { Fragment } from "react";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import classNames from "classnames/bind";
 import style from "./AddOrder.scss";
 import plusIcon from "../../assets/image/plus_icon-icons.com_66718.png";
@@ -9,21 +9,22 @@ import tickIcon from "../../assets/image/Flat_tick_icon.svg.png";
 const cx = classNames.bind(style);
 
 const AddOrder = (props) => {
-  const op = props.obj.options;
+  const opt = props.obj.options;
   const lishDish = props.listDish;
   const [add, setAdd] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [notEnoughQuantity, setNotEnoughQuantity] = useState(false);
-  const [check, setCheck] = useState("");
   const [foodFailName, setFoodFailName] = useState("");
   const [amoutRemain, setAmountRemain] = useState(0);
+  const [optionList, setOptionList] = useState([]);
   const arrayFood = [];
+
 
   useEffect(() => {
     let timer;
     if (add) {
       timer = setTimeout(() => {
-        props.onAddSuccess(); 
+        props.onAddSuccess();
       }, 1000);
     }
     return () => {
@@ -31,6 +32,29 @@ const AddOrder = (props) => {
     };
   }, [add, props]);
 
+  function handleSelectOption(optionName, optionPrice) {
+    // Check if the option already exists in the list
+    const optionExists = optionList.some((option) => option.name === optionName && option.price === optionPrice);
+
+    if (optionExists) {
+      // If the option exists, remove it from the list
+      const updatedOptionList = optionList.filter((option) => !(option.name === optionName && option.price === optionPrice));
+      setOptionList(updatedOptionList);
+    } else {
+      if (optionPrice === 0) {
+        // If the optionPrice is 0, remove any existing options with the same name
+        const updatedOptionList = optionList.filter((option) => option.name !== optionName);
+        setOptionList(updatedOptionList);
+      } else {
+        // If the option doesn't exist, add it to the list
+        const newOption = { name: optionName, price: optionPrice };
+        setOptionList([...optionList, newOption]);
+      }
+    }
+  }
+
+
+  console.log(optionList);
 
   function addDetail() {
     let food = {
@@ -40,7 +64,7 @@ const AddOrder = (props) => {
       price: props.obj.price,
       category: props.obj.category,
       number: quantity,
-      options: check,
+      options: optionList,
     };
     let data = JSON.parse(sessionStorage.getItem("obj"));
     if (data === null) {
@@ -60,7 +84,7 @@ const AddOrder = (props) => {
     setAdd(true);
   }
 
-  function cancelHandler(){
+  function cancelHandler() {
     setNotEnoughQuantity(false)
   }
 
@@ -115,7 +139,7 @@ const AddOrder = (props) => {
                 <p>{props.obj.description}</p>
                 {/* <span>{props.obj.price}đ</span> */}
                 <div className={cx("quantity")}>
-                  <button onClick={decrease} 
+                  <button onClick={decrease}
                   >
                     <img src={minusIcon} alt="minus"></img>
                   </button>
@@ -130,18 +154,26 @@ const AddOrder = (props) => {
               </div>
             </div>
             <div className={cx("optionContainer")}>
-              {op.map((item, index) => (
-                <div key={item} className={cx("optionCheck")}>
-                  <label htmlFor={index}>{item}</label>
-                  <input
-                    onClick={() => setCheck(item)}
-                    type="radio"
-                    name="check"
-                    value={item}
-                    id={index}
-                  />
-                </div>
-              ))}
+              {opt.map((item, index) => {
+                const isSelected = optionList.some(
+                  (option) => option.name === item.name && option.price === item.price
+                );
+
+                return (
+                  <div
+                    key={item._id}
+                    className={cx("optionItem", { selectedOption: isSelected })}
+                    onClick={() => handleSelectOption(item.name, item.price)}
+                  >
+                    <div className={cx("optionName")}>{item.name}</div>
+                    <div className={cx("optionPrice")}>
+                      {item.price === null ? "0đ" : `${item.price.toLocaleString("vn-VN", { currency: "VND" })}đ`}
+                    </div>
+
+                  </div>
+                );
+              })}
+
             </div>
             <div className={cx("addCart")}>
               <button onClick={addDetail}>Thêm Vào Giỏ Hàng</button>
@@ -163,10 +195,10 @@ const AddOrder = (props) => {
                 </p>
                 <p className={cx("notEnoughNote")}>
                   Bạn có muốn điều chỉnh?
-                  </p>
-                  <button onClick={cancelHandler}>
-                    Trở về
-                  </button>
+                </p>
+                <button onClick={cancelHandler}>
+                  Trở về
+                </button>
               </div>
             </div>
           )}

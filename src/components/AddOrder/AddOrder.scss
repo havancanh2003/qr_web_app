@@ -115,29 +115,25 @@
 .optionContainer {
     margin-top: 3rem;
     margin-bottom: 11rem;
-    width: 84vw;
+    width: 85vw;
     height: fit-content;
-
-    :first-child {
-        padding-top: 4px;
-    }
-
-    .optionCheck {
+    .optionItem{
+        margin-bottom: 5px;
+        padding: 5px 0;
         display: flex;
-        min-height: 38px;
+        justify-content: space-between;
         width: 100%;
-        padding-bottom: 3px;
-        border-bottom: 1px solid #7f8c8d;
-        label {
-            // display: block;
-            width: 100%;
-            font-size: 1.7rem;
+        border-bottom: 1px dashed black;
+        .optionName{
+            padding-left: 10px;
         }
-
-        input {
-            margin-top: auto;
-            margin-bottom: auto;
+        .optionPrice{
+            padding-right: 10px;
         }
+    }
+    .selectedOption{
+        background-color: #2ecc71;
+        border-radius: 10px;
     }
 }
 
