@@ -3,15 +3,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import classNames from "classnames/bind";
 import style from "../Cart/Cart.scss";
 import axios from "axios";
+import { VietQR } from "vietqr";
 import leftArrow from "../../assets/image/left-arrow.png";
-import xIcon from "../../assets/image/x_icon_150997.png";
 import payByMoneyIcon from "../../assets/image/moneyicon.png";
 import payByBankIcon from "../../assets/image/bankicon.png";
 import tickIcon from "../../assets/image/tick icon.png";
-import cloneBankQR from "../../assets/image/clone QR.png";
 import copyIcon from "../../assets/image/copyICON.png";
-import plusIcon from "../../assets/image/plus_icon-icons.com_66718.png";
-import minusIcon from "../../assets/image/free-minus-icon-3108-thumb.png";
 import Loading from "../../components/loadingScreen/loading";
 import IconBill from "../../components/IconBill";
 const cx = classNames.bind(style);
@@ -30,9 +27,13 @@ function PaymentMethod() {
     const [isWaiting, setIsWaiting] = useState(false);
     const [showGuide, setShowGuide] = useState(false);
     const [isActive, setIsActive] = useState(false);
+    const [qrGenerated, setQrGenerated] = useState(false);
     const [allActive, setAllActive] = useState([]);
     const [foodFailName, setFoodFailName] = useState("");
-    const [showBankInforName, setShowBankInforName] = useState("");
+    const [bankBin, setBankBin] = useState("");
+    const [bankNumber, setBankNumber] = useState("20869042001");
+    const [qrURL, setQrURL] = useState(null);
+    const [showBankInforName, setShowBankInforName] = useState("TpBank");
     const [needImageMsg, setNeedImageMsg] = useState("");
     const [amoutRemain, setAmountRemain] = useState(0);
     const [paymentImage, setPaymentImage] = useState({
@@ -57,6 +58,11 @@ function PaymentMethod() {
     let cart_id = paymentid;
     const group_id = sessionStorage.getItem("group_id") || 0;
 
+    const vietQR = new VietQR({
+        clientID: '4244e11f-e282-4e3c-af39-6d9749c99e44',
+        apiKey: '2f317b30-113a-45c5-aaf7-192d8926a15f',
+    });
+    //get active dish
     useEffect(() => {
         axios
             .get(`${process.env.REACT_APP_API_URL}/dish/menu/activedByCashier/${group_id}`)
@@ -67,6 +73,54 @@ function PaymentMethod() {
                 console.log(error);
             });
     }, []);
+
+    //get bank bin
+    useEffect(() => {
+        if (showBankInforName && bankNumber) {
+            vietQR
+                .getBanks()
+                .then((banks) => {
+                    let filtedBank = banks.data.filter(bank => bank.shortName === showBankInforName);
+                    if (filtedBank.length > 0) {
+                        setBankBin(filtedBank[0].bin)
+                    } else {
+                        console.error('Bank not found:', showBankInforName);
+                    }
+                })
+                .catch((err) => {
+                    console.error('Error fetching banks:', err);
+                })
+        }
+    }, [showBankInforName]);
+
+    //get qr
+    useEffect(() => {
+        setQrGenerated(false)
+        if (bankBin !== null) {
+            vietQR
+                .genQRCodeBase64({
+                    "accountNumber": bankNumber,
+                    "accountName": "TONG CHAU BINH",
+                    "bank": bankBin,
+                    "amount": getTotalBill(),
+                    "addInfo": `Thanh Toan Ban ${tableStored}`,
+                    "format": "text",
+                    "template": "compact"
+                })
+                .then((data) => {
+                    console.log(data);
+                    if (data.data.data) {
+                        setQrURL(data.data.data.qrDataURL);
+                        setQrGenerated(true);
+                    }
+                })
+                .catch((err) => {
+                    console.error('Error generating QR code:', err);
+                });
+        };
+    }, [bankBin]);
+
+    
 
     const tableStored = sessionStorage.getItem("table") || 0;
     // const tableStored = 5;
@@ -185,7 +239,6 @@ function PaymentMethod() {
                         setIsWaiting(false);
                     } else {
                         if (payMethod === "MONEY") {
-                            console.log("tiền mặt");
                             axios
                                 .put(`${process.env.REACT_APP_API_URL}/cart/selectCashMethod/${cart_id}`)
                                 .then((response) => {
@@ -235,8 +288,9 @@ function PaymentMethod() {
         navigate("/showall")
     }
 
-    const handlePickedBank = (value) => {
-        setShowBankInforName(value)
+    const handlePickedBank = (name, number) => {
+        setShowBankInforName(name);
+        setBankNumber(number)
     }
 
     const handlePickedPaymentMethod = (value) => {
@@ -421,7 +475,7 @@ function PaymentMethod() {
                 <div className={cx("successContainer")} onClick={cancelHandler2}>
                     <div className="failBox">
                         <h2 className={cx("failPopup")}>
-                        Hãy Thêm Ảnh Giao Dịch
+                            Hãy Thêm Ảnh Giao Dịch
                         </h2>
                         <div className="confirmButtonGroup">
                             <button
@@ -486,7 +540,7 @@ function PaymentMethod() {
                                 <div className={cx("PayByBankIconBorder")}>
                                     <img src={payByBankIcon} alt="$"></img>
                                 </div>
-                                <div className={cx("PayByBankTitle")}>Chuyển Khoản Ngân Hàng</div>
+                                <div className={cx("PayByBankTitle")}>Chuyển Khoản Bằng Mã QR</div>
                                 {pickedPaymentMethod === "BANK" && (
                                     <Fragment>
                                         <div className={cx("PickedIcon")}>
@@ -500,12 +554,14 @@ function PaymentMethod() {
                                     <div className={cx("PayByBankBottomContainer")}>
                                         {/* list danh sach bank */}
                                         <div className={cx("BankListItem")}>
-                                            <div className={cx("BankName")} onClick={() => handlePickedBank("TP BANK")}>TP BANK</div>
-                                            {showBankInforName === "TP BANK" && (
+                                            <div className={cx("BankName")} onClick={() => handlePickedBank("TPBank", "20869042001")}>TPBank</div>
+                                            {showBankInforName === "TPBank" && (
                                                 <Fragment>
-                                                    <div className={cx("BankQRCode")}>
-                                                        <img src={cloneBankQR}></img>
-                                                    </div>
+                                                    {qrGenerated && (
+                                                        <div className={cx("BankQRCode")}>
+                                                            <img src={qrURL} alt="QR-CODE"></img>
+                                                        </div>
+                                                    )}
                                                     <div className={cx("BankID")}>20869042001
                                                         <img
                                                             src={copyIcon}
@@ -517,37 +573,17 @@ function PaymentMethod() {
                                             )}
                                         </div>
 
-
-                                        {/* clone test */}
                                         <div className={cx("BankListItem")}>
-                                            <div className={cx("BankName")} onClick={() => handlePickedBank("BIDV")}>BIDV</div>
-                                            {showBankInforName === "BIDV" && (
+                                            <div className={cx("BankName")} onClick={() => handlePickedBank("VietinBank", "105869252053")}>VietinBank</div>
+                                            {showBankInforName === "VietinBank" && (
                                                 <Fragment>
-                                                    <div className={cx("BankQRCode")}>
-                                                        <img src={cloneBankQR}></img>
-                                                    </div>
+                                                    {qrGenerated && (
+                                                        <div className={cx("BankQRCode")}>
+                                                            <img src={qrURL} alt="QR-CODE"></img>
+                                                        </div>
+                                                    )}
                                                     <div className={cx("BankID")}>
-                                                        20869042001
-                                                        <img
-                                                            src={copyIcon}
-                                                            alt="copy"
-                                                            onClick={() => handleCopyClick("20869042001")}
-                                                        ></img>
-                                                    </div>
-                                                    <div className={cx("BankOwnerName")}>TONG CHAU BINH BIDV</div>
-                                                </Fragment>
-                                            )}
-                                        </div>
-
-                                        <div className={cx("BankListItem")}>
-                                            <div className={cx("BankName")} onClick={() => handlePickedBank("VIETINBANK")}>VIETINBANK</div>
-                                            {showBankInforName === "VIETINBANK" && (
-                                                <Fragment>
-                                                    <div className={cx("BankQRCode")}>
-                                                        <img src={cloneBankQR}></img>
-                                                    </div>
-                                                    <div className={cx("BankID")}>
-                                                        20869042001
+                                                        105869252053
                                                         <img
                                                             src={copyIcon}
                                                             alt="copy"
