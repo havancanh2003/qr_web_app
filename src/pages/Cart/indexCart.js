@@ -84,7 +84,7 @@ function Cart() {
   const getTotalBill = () => {
     return cartStored.reduce((total, food) => {
       const mainItemPrice = food.price * food.number;
-      const optionPrices = food.options.reduce((optionTotal, opt) => optionTotal + (opt.price || 0), 0);
+      const optionPrices = food.number * food.options.reduce((optionTotal, opt) => optionTotal + (opt.price || 0), 0);
       return total + mainItemPrice + optionPrices;
     }, 0);
   };
@@ -447,7 +447,7 @@ function Cart() {
                       <img src={xIcon} alt="remove" />
                     </button>
                     <h4>
-                      {`${(food.number * food.price + food.options.reduce((acc, opt) => acc + (opt.price || 0), 0)).toLocaleString("vi-VN")}đ`}
+                      {`${(food.number * food.price + food.number * food.options.reduce((acc, opt) => acc + (opt.price || 0), 0)).toLocaleString("vi-VN")}đ`}
                     </h4>
                   </div>
                 </div>
@@ -455,8 +455,8 @@ function Cart() {
                   {food.options.map((opt, index) => (
                     <div className="optItem">
                       <div className={cx("row-flex")}>
-                        <div className={cx("optName")}>{opt.name}</div>
-                        <div className={cx("optPrice")}> +{opt.price === null ? "0đ" : `${opt.price.toLocaleString("vn-VN", { currency: "VND" })}đ`}</div>
+                        <div className={cx("optName")}>{opt.name} x{food.number}</div>
+                        <div className={cx("optPrice")}> +{opt.price === null ? "0đ" : `${(food.number * opt.price).toLocaleString("vn-VN", { currency: "VND" })}đ`}</div>
                       </div>
                     </div>
                   ))}

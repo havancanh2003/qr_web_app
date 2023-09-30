@@ -121,7 +121,7 @@ function BillHistory() {
                       Thành Tiền:{" "}
                     </div>
                     <div className={cx("container3TotalPrice2")}>
-                      {(item.dish_price * item.number).toLocaleString("vi-VN")}đ
+                      {(bill.total).toLocaleString("vi-VN")}đ
                     </div>
                   </div>
                 ))}
