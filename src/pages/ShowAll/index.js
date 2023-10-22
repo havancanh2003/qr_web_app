@@ -75,7 +75,7 @@ function ShowAll() {
       }
       setSticky(window.scrollY > 59);
       const currentPosition = document.documentElement.scrollTop + 100;
-     
+
       let activeSection = null;
       for (let i = -1; i < category.length; i++) {
         const cat = i === -1 ? { name: "Top Bán Chạy" } : category[i];
@@ -115,7 +115,7 @@ function ShowAll() {
       const navBarBoxElement = document.querySelector(".navBarBox");
       if (navBarBoxElement && !manualInteraction) {
         // Smoothly scroll the navBarBox based on the scrollPosition
-        const scrollValue = scrollPosition / (category.length + 1); 
+        const scrollValue = scrollPosition / (category.length + 1);
         navBarBoxElement.scrollTo({ left: scrollValue, behavior: "smooth" });
       }
     }
@@ -147,15 +147,7 @@ function ShowAll() {
   if (category.length === 0 || listDish.length === 0) {
     return (
       <div>
-        {/* <div className={cx("topShowAll")}>
-          <button className={cx("backButton")} onClick={() => navigate("/showall")}>
-            <img src={leftArrow} alt="icon" />
-          </button>
-          <p className={cx("topTitle")}>Tất Cả Các Món</p>
-        </div> */}
         <div className={cx("loadNote")}>
-          {/* <img src={meowLoading} alt="LOADING..."></img>
-          <p>LOADING...</p> */}
           <Loading></Loading>
         </div>
       </div>
@@ -188,13 +180,13 @@ function ShowAll() {
         </Fragment>
       )}
       {cartIcon && <CartIcon />}
-      {/* <div className={cx("topShowAll")}>
-        <button className={cx("backButton")} onClick={() => navigate("/menu")}>
-          <img src={leftArrow} alt="icon" />
-        </button>
-        <p className={cx("topTitle")}>Tất Cả Các Món</p>
-      </div> */}
 
+      <button
+        className={cx("backButtonShowAll")}
+        onClick={handleReturnHome}
+      >
+        <img src={leftArrow} alt="icon" />
+      </button>
       <nav className={`${sticky ? "sticky" : ""}`}>
         <div className={cx("navBarBox")}>
           <div className={cx("navBarElement")}>
@@ -231,38 +223,38 @@ function ShowAll() {
             <h2>Top Bán Chạy</h2>
           </div>
           <div className={cx("showAllBodyBS")}>
-              {listDish
-                .filter((dish) => (dish.isBestSeller === true))
-                .map((dish, index) => (
-                  <div
-                    key={index}
-                    className={cx("boxFoodWrapperBS", {
-                      boxFoodWrapperZeroBS: dish.amount === 0 || "",
-                    })}
-                    onClick={() => (
-                      setObj(dish),
-                      setDetail(!detail),
-                      setOverlay(!overlay),
-                      setCartIcon(false)
-                    )}
-                  >
-                    <div className={cx("box_food_1BS")}>
-                      <div className={cx("ZeroAmountBannerBS")}>Hết Món</div>
-                      <img src={dish.image_detail.path} alt="image" />
-                    </div>
-                    <div className={cx("foodDescriptionBS")}>
-                      <h3>{dish.name}</h3>
-                      {/* <p>{dish.description}</p> */}
-                      <span className={cx("foodPriceBS")}>
-                        {dish.price.toLocaleString("vi-VN", {
-                          style: "currency",
-                          currency: "VND",
-                        })}
-                      </span>
-                    </div>
+            {listDish
+              .filter((dish) => (dish.isBestSeller === true))
+              .map((dish, index) => (
+                <div
+                  key={index}
+                  className={cx("boxFoodWrapperBS", {
+                    boxFoodWrapperZeroBS: dish.amount === 0 || "",
+                  })}
+                  onClick={() => (
+                    setObj(dish),
+                    setDetail(!detail),
+                    setOverlay(!overlay),
+                    setCartIcon(false)
+                  )}
+                >
+                  <div className={cx("box_food_1BS")}>
+                    <div className={cx("ZeroAmountBannerBS")}>Hết Món</div>
+                    <img src={dish.image_detail.path} alt="image" />
                   </div>
-                ))}
-            </div>
+                  <div className={cx("foodDescriptionBS")}>
+                    <h3>{dish.name}</h3>
+                    {/* <p>{dish.description}</p> */}
+                    <span className={cx("foodPriceBS")}>
+                      {dish.price.toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </span>
+                  </div>
+                </div>
+              ))}
+          </div>
         </div>
         {category.filter(cat => listDish.some(food => food.category === cat.name)).map((cat, index) => (
           <div key={index} id={cat.name} className={cx("targetScroll")}>
