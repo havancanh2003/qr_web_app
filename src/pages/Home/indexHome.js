@@ -1,243 +1,96 @@
-import * as React from "react";
+import React from "react";
+import styles from "./home.scss";
 import { useParams, useNavigate } from "react-router-dom";
-import { Fragment, useEffect, useState } from "react";
-import { io } from "socket.io-client";
-import icon from "../../assets/image/icon.png";
-import classNames from "classnames/bind";
-import style from "./home.scss";
+import classNames from "classnames";
 import axios from "axios";
-import IconBill from "../../components/IconBill";
-import { tab } from "@testing-library/user-event/dist/tab";
-
-const cx = classNames.bind(style);
-function Home() {
+import { Fragment } from "react";
+import InteractionItem from "../../components/InteractionItem/index";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
+import banner1 from "../../assets/image/banner1.png";
+import banner2 from "../../assets/image/banner2.png";
+import banner3 from "../../assets/image/banner3.png";
+import billing from "../../assets/image/Icon/billing.png";
+import comment from "../../assets/image/Icon/comment.png";
+import person from "../../assets/image/Icon/user.png";
+import food from "../../assets/image/Icon/fast-food.png";
+import location from "../../assets/image/Icon/maps-and-flags.png";
+const cx = classNames.bind(styles);
+function HomePage() {
   const { token } = useParams();
-  const [isConfirm, setIsConfirm] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [successActived, setSuccessActived] = useState(false);
-  const [isActive, setIsActive] = useState(true);
-  const [isNeedHelp, setIsNeedHelp] = useState(false);
-  const [inputFocused, setInputFocused] = useState(false);
-  const [table, setTable] = useState();
-  const [cashierId, setCashierId] = useState();
-  const [inputValue, setInputValue] = useState("");
-  const [customerName, setCustomerName] = useState(
-    // []
-    JSON.parse(sessionStorage.getItem("name")) || []
-  );
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/table/token/${token}`)
-      .then((response) => {
-        sessionStorage.setItem("table", response.data.name);
-        sessionStorage.setItem("token", response.data.token);
-        sessionStorage.setItem("cashierId", response.data.cashier_id);
-        setIsActive(response.data.isActive);
-        setTable(response.data.name);
-        setCashierId(response.data.cashier_id);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [token]);
-
-  useEffect(() => {
-    const socket = io(process.env.REACT_APP_API_URL);
-    socket.on("activeTable", (response) => {
-      if (response.isActive === true && response.name === table) {
-        setSuccessActived(true);
-        setIsActive(true);
-      } else if (response.isActive === false && response.name === table) {
-        setIsActive(false);
-      }
-    });
-  }, [table]);
-
-  const setName = () => {
-    if (JSON.parse(sessionStorage.getItem("name"))) {
-      setCustomerName(JSON.parse(sessionStorage.getItem("name")));
-    }
+  const options = {
+    delay: 2000,
+    // jump: true,
   };
 
-  const confirmHandler = () => {
-    setIsConfirm(true);
-  };
-  const cancelHandler = () => {
-    setIsConfirm(false);
-  };
-  const cancelSuccesHandler = () => {
-    setIsSuccess(false);
-  };
-  const cancelNeedHelpHandler = () => {
-    setIsNeedHelp(false);
-  };
-  const checkActiveHandler = () => {
-    if (isActive) {
-      navigate("/showall");
-    } else {
-      setIsNeedHelp(true);
-    }
-  };
-
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value);
-  };
-
-  const handleConfirmClick = () => {
-    if (inputValue.trim() === "") {
-      setInputFocused(true);
-      setTimeout(() => {
-        setInputFocused(false);
-        //remove class after
-      }, 2000);
-    } else {
-      setInputFocused(false);
-
-      if (inputValue.trim() !== "") {
-        sessionStorage.setItem("name", JSON.stringify(inputValue));
-      }
-      setName();
-    }
-  };
-
-  const submitHandler = () => {
-    const data = {
-      table: table,
-      customer_name: customerName,
-    };
-    console.log(data);
-    console.log(cashierId);
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/call-staff/create/${cashierId}`, data)
-      .then((response) => {
-        setIsSuccess(true);
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const handleSuccessActived = () => {
-    setSuccessActived(false);
-  };
-
+  const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay(options)]);
   return (
-    <Fragment>
-      {customerName.length !== 0 && <IconBill></IconBill>}
-      {customerName.length === 0 && (
+    <div className={cx("page_home_restaurant")}>
+      <div className={cx("page--content")}>
         <Fragment>
-          <div className={cx("getNameOverlay")} onClick={() => {}}></div>
-          <div className={cx("getNameBox")}>
-            <div className={cx("getNameTitle")}>QR MENU</div>
-            <input
-              type="text"
-              placeholder="Nhập Tên Của Bạn:"
-              value={inputValue}
-              onChange={handleInputChange}
-              className={cx("input", { "blink-animation": inputFocused })}
-              required
+          <div className={cx("restaurant-info-container")}>
+            <div className={cx("name")}>Tên Nhà Hàng</div>
+            <div className={cx("address")}>
+              <img src={location} alt="ICON" />
+              Địa chỉ nhà hàng ở 123 123 123
+            </div>
+          </div>
+          <div className={cx("banner-container")}>
+            <div className="embla" ref={emblaRef}>
+              <div className="embla__container">
+                <div className="embla__slide">
+                  <img src={banner1} alt="Banner 1" />
+                </div>
+                <div className="embla__slide">
+                  <img src={banner2} alt="Banner 2" />
+                </div>
+                <div className="embla__slide">
+                  <img src={banner3} alt="Banner 3" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className={cx("flag-1-1")}>
+            <div className={cx("user-info")}>
+              <div className={cx("hello")}>Chào buổi chiều </div>
+              <div className={cx("name")}>Tên Khách Hàng</div>
+            </div>
+            <div className={cx("table-info")}>
+              <div className={cx("text")}>
+                Chúng tôi sẽ trả đồ cho bạn tại bàn:{" "}
+              </div>
+              <div className={cx("table")}>A10</div>
+            </div>
+          </div>
+          <div className={cx("interaction--container")}>
+            <InteractionItem
+              iconName={billing}
+              description="Gọi thanh toán"
+              backgroundColor="#FFB72B"
             />
-            <div className={cx("getNameNote")}>
-              <span>* TÊN</span> sẽ giúp bạn kiểm tra đơn hàng cũng như sử dụng
-              QR MENU
+            <InteractionItem
+              iconName={person}
+              description="Gọi nhân viên"
+              backgroundColor="#92B4EC"
+            />
+            <InteractionItem
+              iconName={comment}
+              description="Đánh giá"
+              backgroundColor="#AACB73"
+            />
+          </div>
+          <div className={cx("menu-navigate-button")}>
+            <div className={cx("image-icon")}>
+              <img src={food} alt="ICON" />
             </div>
-            <button
-              className={cx("getNameButton")}
-              onClick={handleConfirmClick}
-            >
-              Xác Nhận
-            </button>
+            <div className={cx("text-description-menu")}>
+              Xem Menu - Gọi món
+            </div>
           </div>
         </Fragment>
-      )}
-      {successActived && (
-        <Fragment>
-          <div className={cx("rtOverlay")} onClick={handleSuccessActived}></div>
-          <div className={cx("rtBox")}>
-            <div className={cx("rtNote")}>Bàn Của Bạn Đã Được Kích Hoạt</div>
-            <button className={cx("rtButton")} onClick={handleSuccessActived}>
-              Xác Nhận
-            </button>
-          </div>
-        </Fragment>
-      )}
-      {isNeedHelp && (
-        <div className={cx("successContainer")} onClick={cancelNeedHelpHandler}>
-          <div className="needHelpBox">
-            <h2 className={cx("needHelpPopup")}>
-              Bàn Chưa Được Kích Hoạt <br /> Vui Lòng Gọi Nhân Viên
-            </h2>
-            <div className="confirmButtonGroup homeGroup">
-              <button className="cancelButton" onClick={cancelNeedHelpHandler}>
-                Huỷ
-              </button>
-
-              {/* chưa hoàn thiện */}
-              <button onClick={cancelNeedHelpHandler}>Xác Nhận</button>
-              {/* chưa hoàn thiện  */}
-            </div>
-          </div>
-        </div>
-      )}
-      {isConfirm && (
-        <div className={cx("successContainer")} onClick={cancelHandler}>
-          <div className="staffBox">
-            <h2 className={cx("staffPopup")}>Bạn Muốn Gọi Hỗ Trợ?</h2>
-            <div className="confirmButtonGroup homeGroup">
-              <button className="cancelButton" onClick={cancelHandler}>
-                Huỷ
-              </button>
-
-              {/* chưa hoàn thiện */}
-              <button onClick={submitHandler}>Xác Nhận</button>
-              {/* chưa hoàn thiện  */}
-            </div>
-          </div>
-        </div>
-      )}
-      {isSuccess && (
-        <div className={cx("successContainer")} onClick={cancelSuccesHandler}>
-          <div className="staffBox">
-            <h2 className={cx("staffPopup")}>Gửi yêu cầu thành công</h2>
-            <div className="confirmButtonGroup">
-              <button className="cancelButton" onClick={cancelSuccesHandler}>
-                Huỷ
-              </button>
-              {/* chưa hoàn thiện */}
-              <button onClick={cancelSuccesHandler}>Xác Nhận</button>
-              {/* chưa hoàn thiện  */}
-            </div>
-          </div>
-        </div>
-      )}
-      <div className={cx("homePage")}>
-        <div className={cx("adsBanner")}></div>
-        <p className={cx("yourTable")}>
-          {customerName.length !== 0 && (
-            <Fragment>
-              <span>Chào Mừng {customerName}</span>
-            </Fragment>
-          )}
-          <span id="coverBottom">Bạn đang ngồi bàn: {table}</span>
-        </p>
-        <button className="homeButton" onClick={confirmHandler}>
-          <img src={icon} alt="icon"></img>
-          <span>Gọi Nhân Viên</span>
-        </button>
-        <button
-          className="homeButton"
-          id="secondButton"
-          onClick={checkActiveHandler}
-        >
-          Xem Menu - Gọi Món
-        </button>
-        <p id="introduce">Powed by 4Flex</p>
       </div>
-    </Fragment>
+    </div>
   );
 }
 
-export default Home;
+export default HomePage;
