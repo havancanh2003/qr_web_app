@@ -17,6 +17,7 @@ import food from "../../assets/image/Icon/fast-food.png";
 import location from "../../assets/image/Icon/maps-and-flags.png";
 const cx = classNames.bind(styles);
 function HomePage() {
+  const navigate = useNavigate();
   const { token } = useParams();
   const options = {
     delay: 2000,
@@ -59,7 +60,7 @@ function HomePage() {
               <div className={cx("text")}>
                 Chúng tôi sẽ trả đồ cho bạn tại bàn:{" "}
               </div>
-              <div className={cx("table")}>A10</div>
+              <div className={cx("table")}>{token}</div>
             </div>
           </div>
           <div className={cx("interaction--container")}>
@@ -79,7 +80,10 @@ function HomePage() {
               backgroundColor="#AACB73"
             />
           </div>
-          <div className={cx("menu-navigate-button")}>
+          <div
+            className={cx("menu-navigate-button")}
+            onClick={() => navigate("/menu")}
+          >
             <div className={cx("image-icon")}>
               <img src={food} alt="ICON" />
             </div>
