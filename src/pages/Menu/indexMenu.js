@@ -33,6 +33,7 @@ function Menu() {
   const [maxPages, setMaxPages] = useState(1);
 
   // Khởi tạo trạng thái cho danh sách dish và danh sách category
+  const [categoryLoaded, setCategoryLoaded] = useState(false);
   const [dishList, setDishList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
 
@@ -43,16 +44,16 @@ function Menu() {
   const [currentCategoryId, setCurrentCategoryId] = useState(0);
 
   //get all category list
+  // Fetch category list
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/v1/category/all`, config)
       .then((response) => {
         const data = response.data;
-        if (!!data) {
-          if (data.status === 200) {
-            setCategoryList(data.listCategories);
-            setCurrentCategoryId(data.listCategories[0].id);
-          }
+        if (data && data.status === 200) {
+          setCategoryList(data.listCategories);
+          setCurrentCategoryId(data.listCategories[0].id);
+          setCategoryLoaded(true); // Indicate that categories are loaded
         }
       })
       .catch((error) => {
@@ -60,21 +61,18 @@ function Menu() {
       });
   }, []);
 
-  //get INIT dish list
+  // Fetch initial dish list
   useEffect(() => {
+    if (!categoryLoaded) return; // Ensure categories are loaded before proceeding
+
     const fetchDishes = async () => {
       let url = `${process.env.REACT_APP_API_URL}/v1/dish/searchDishes?page=1&pageSize=10`;
       if (searchText !== "") {
         url += `&search=${searchText}`;
-      } else if (
-        currentPage === 1 &&
-        categoryList.length > 0 &&
-        currentCategoryId === 0
-      ) {
-        url += `&category_id=${categoryList[0].id}`;
       } else {
         url += `&category_id=${currentCategoryId}`;
       }
+
       try {
         const response = await axios.get(url, config);
         const data = response.data;
@@ -91,7 +89,7 @@ function Menu() {
     };
 
     fetchDishes();
-  }, [searchText, currentCategoryId]);
+  }, [searchText, currentCategoryId, categoryLoaded]);
 
   //load next page
   useEffect(() => {
