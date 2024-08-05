@@ -308,7 +308,6 @@ function Menu() {
               <div className={classNames("price-and-plus")}>
                 <div className={classNames("dish-price")}>
                   {dish.price.toLocaleString("vi-VN", {
-                    style: "currency",
                     currency: "VND",
                   })}
                 </div>
