@@ -23,6 +23,7 @@
     }
     .order-title {
       font-size: 20px;
+      margin-left: 20px;
     }
     .order-clear {
       font-size: 12px;
@@ -37,6 +38,11 @@
   }
   .order-footer-area {
     height: 115px;
+  }
+  .order-is-empty-container {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 20px;
   }
   .item-container {
     z-index: 0;

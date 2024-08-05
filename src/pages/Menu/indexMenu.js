@@ -15,9 +15,9 @@ import rightArrow from "../../assets/image/Icon/right-arrow.png";
 const cx = classNames.bind(styles);
 function Menu() {
   const navigate = useNavigate();
-  const token =
-    localStorage.getItem("token") ||
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6InRpZXAiLCJwaG9uZW51bWJlciI6IjA5NjE0MTk4MzI5IiwiZW1haWwiOiJob2FuZ3h1YW50aWVwQGdtYWlsLmNvbSIsImFnZSI6MTgsImFkZHJlc3MiOiJOYW0gxJDhu4tuaCIsInBhc3N3b3JkIjoiJDJiJDA4JE9SbXB2a3BYNzhQeXVNR2ZVU3U5SnV4bVFjeEFZZXFCbHNrWFcwNDU5b1dSNWowOWlQODdpIiwiY3JlYXRlZEF0IjoiMjAyNC0wOC0wNFQwNjo1MjozNS4wMDBaIiwidXBkYXRlZEF0IjoiMjAyNC0wOC0wNFQwNjo1MjozNS4wMDBaIiwiaWF0IjoxNzIyNzg0NTQ1LCJleHAiOjE3MjI4NzA5NDV9.Ppv4Ju0j9dQtTs2Nnb71FZMVqYkG3qZPtnWF6XY5ANg";
+  const testToken =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwibmFtZSI6Imh1eSIsInBob25lbnVtYmVyIjoiOTk5OTk5OSIsImVtYWlsIjoibmd1eWVucXVhbmdodXltdDFAZ21haWwuY29tIiwiYWdlIjoyMCwiYWRkcmVzcyI6Ik5hbSDEkOG7i25oIiwicGFzc3dvcmQiOiIkMmIkMDgkN243SDRyR1RoeEtyQnpHZlNRTUJIdVpTemNIaXg3dVhrVW1mem95RGJrRFhYMnlCaC4wUnEiLCJjcmVhdGVkQXQiOiIyMDI0LTA4LTA0VDA3OjAyOjEwLjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDI0LTA4LTA0VDA3OjAyOjEwLjAwMFoiLCJpYXQiOjE3MjI4ODAwMzUsImV4cCI6MTcyMzEzOTIzNX0.htOR7x6r8Va2fm2XR1oGIAiV-CU46AqkUX-pYKZL3fk";
+  const token = localStorage.getItem("token") || testToken;
   const config = {
     headers: { Authorization: `Bearer ${token}` },
   };
@@ -62,67 +62,35 @@ function Menu() {
 
   //get INIT dish list
   useEffect(() => {
-    setDishList([]);
-    if (currentPage === 1 && dishList.length === 0 && searchText === "") {
-      //get init dish list
-      axios
-        .get(
-          `${process.env.REACT_APP_API_URL}/v1/dish/searchDishes?page=${currentPage}&pageSize=10`,
-          config
-        )
-        .then((response) => {
-          const data = response.data;
-          if (!!data) {
-            if (data.status === 200) {
-              setDishList(data.data.dishes);
-              setMaxPages(data.data.pagesNumber);
-            }
+    const fetchDishes = async () => {
+      let url = `${process.env.REACT_APP_API_URL}/v1/dish/searchDishes?page=1&pageSize=10`;
+      if (searchText !== "") {
+        url += `&search=${searchText}`;
+      } else if (
+        currentPage === 1 &&
+        categoryList.length > 0 &&
+        currentCategoryId === 0
+      ) {
+        url += `&category_id=${categoryList[0].id}`;
+      } else {
+        url += `&category_id=${currentCategoryId}`;
+      }
+      try {
+        const response = await axios.get(url, config);
+        const data = response.data;
+        if (data && data.status === 200) {
+          setDishList(data.data.dishes);
+          setMaxPages(data.data.pagesNumber);
+          if (searchText !== "") {
+            setCurrentCategoryId(0); // Reset category ID when searching
           }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else if (searchText !== "") {
-      //get dish by search
-      axios
-        .get(
-          `${process.env.REACT_APP_API_URL}/v1/dish/searchDishes?page=${currentPage}&search=${searchText}&pageSize=10`,
-          config
-        )
-        .then((response) => {
-          const data = response.data;
-          if (!!data) {
-            if (data.status === 200) {
-              setCurrentCategoryId(0);
-              setDishList(data.data.dishes);
-              setMaxPages(data.data.pagesNumber);
-            }
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      //get dish by category
-      setCurrentPage(1);
-      axios
-        .get(
-          `${process.env.REACT_APP_API_URL}/v1/dish/searchDishes?page=1&categoryId=${currentCategoryId}&pageSize=10`,
-          config
-        )
-        .then((response) => {
-          const data = response.data;
-          if (!!data) {
-            if (data.status === 200) {
-              setDishList(data.data.dishes);
-              setMaxPages(data.data.pagesNumber);
-            }
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+        }
+      } catch (error) {
+        console.error("Failed to fetch dishes:", error);
+      }
+    };
+
+    fetchDishes();
   }, [searchText, currentCategoryId]);
 
   //load next page
@@ -130,7 +98,7 @@ function Menu() {
     if (currentPage > 1) {
       axios
         .get(
-          `${process.env.REACT_APP_API_URL}/v1/dish/searchDishes?page=${currentPage}&pageSize=10`,
+          `${process.env.REACT_APP_API_URL}/v1/dish/searchDishes?page=${currentPage}&pageSize=10&category_id=${currentCategoryId}`,
           config
         )
         .then((response) => {
@@ -208,6 +176,10 @@ function Menu() {
   };
 
   const handleSelectCategory = (category) => {
+    // Scroll to the top of the page
+    window.scrollTo(0, 0);
+
+    // Set the current category ID after scrolling
     setCurrentCategoryId(category.id);
   };
 

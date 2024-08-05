@@ -8,8 +8,11 @@ import close from "../../assets/image/Icon/close grey.png";
 const cx = classNames.bind(styles);
 
 function Order() {
+  const navigate = useNavigate();
+
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [reloadCart, setReloadCart] = useState(false);
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem("cart")) || [];
     setCartItems(items);
@@ -19,23 +22,32 @@ function Order() {
       0
     );
     setTotalPrice(total);
-  }, []);
+  }, [reloadCart]);
 
   const removeItem = (index) => {
     const newCart = [...cartItems];
     newCart.splice(index, 1);
     setCartItems(newCart);
     localStorage.setItem("cart", JSON.stringify(newCart));
+    setReloadCart(!reloadCart);
+  };
+
+  const clearCart = () => {
+    setCartItems([]); // Cập nhật state để rỗng
+    setTotalPrice(0); // Đặt tổng tiền về 0
+    localStorage.setItem("cart", JSON.stringify([])); // Cập nhật Local Storage
   };
 
   return (
     <div className={cx("page-order-restaurant")}>
       <div className={cx("order-top-bar")}>
-        <div className={cx("order-return")}>
+        <div className={cx("order-return")} onClick={() => navigate("/menu")}>
           <img src={leftArrow} alt="Back"></img>
         </div>
         <div className={cx("order-title")}>Các món đang chọn</div>
-        <div className={cx("order-clear")}>Xoá giỏ</div>
+        <div className={cx("order-clear")} onClick={() => clearCart()}>
+          Xoá giỏ
+        </div>
       </div>
       <div className={cx("order-header-area")}></div>
       {cartItems.map((item, index) => (
@@ -63,15 +75,20 @@ function Order() {
           </div>
         </div>
       ))}
-
-      <div className={cx("bill-price-container")}>
-        <div className={cx("bill-text")}>Tổng tiền:</div>
-        <div className={cx("bill-total-price")}>
-          {totalPrice.toLocaleString("vi-VN", {
-            currency: "VND",
-          })}
+      {totalPrice !== 0 && (
+        <div className={cx("bill-price-container")}>
+          <div className={cx("bill-text")}>Tổng tiền:</div>
+          <div className={cx("bill-total-price")}>
+            {totalPrice.toLocaleString("vi-VN", {
+              currency: "VND",
+            })}
+          </div>
         </div>
-      </div>
+      )}
+      {totalPrice === 0 && (
+        <div className={cx("order-is-empty-container")}>Giỏ hàng trống</div>
+      )}
+
       <div className={cx("order-footer-area")}></div>
       <div className={cx("confirm-container")}>
         <div className={cx("confirm-button")}>Gửi yêu cầu gọi món</div>
