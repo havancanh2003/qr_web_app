@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./home.scss";
 import { useParams, useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import axios from "axios";
 import { Fragment } from "react";
+import RequestName from "../../components/RequestName";
 import InteractionItem from "../../components/InteractionItem/index";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
@@ -19,14 +20,29 @@ const cx = classNames.bind(styles);
 function HomePage() {
   const navigate = useNavigate();
   const { token } = useParams();
+  const [showRequestName, setShowRequestName] = useState(false);
   const options = {
     delay: 2000,
     // jump: true,
   };
 
+  useEffect(() => {
+    const storedName = localStorage.getItem("cusName");
+    if (!storedName) {
+      setShowRequestName(true);
+    }
+  }, []);
+
+  const handleNameSubmitted = (name) => {
+    console.log("Name submitted:", name);
+    // Additional actions after name submission, like navigating to another page
+    setShowRequestName(false);
+  };
+
   const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay(options)]);
   return (
     <div className={cx("page_home_restaurant")}>
+      {showRequestName && <RequestName callback={handleNameSubmitted} />}
       <div className={cx("page--content")}>
         <Fragment>
           <div className={cx("restaurant-info-container")}>
