@@ -76,7 +76,7 @@ function HomePage() {
               <div className={cx("text")}>
                 Chúng tôi sẽ trả đồ cho bạn tại bàn:{" "}
               </div>
-              <div className={cx("table")}>{token}</div>
+              <div className={cx("table")}>{}2B</div>
             </div>
           </div>
           <div className={cx("interaction--container")}>
