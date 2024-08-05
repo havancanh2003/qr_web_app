@@ -77,6 +77,8 @@ function Menu() {
         const response = await axios.get(url, config);
         const data = response.data;
         if (data && data.status === 200) {
+          console.log(data);
+
           setDishList(data.data.dishes);
           setMaxPages(data.data.pagesNumber);
           if (searchText !== "") {
@@ -269,8 +271,8 @@ function Menu() {
       <div className={cx("menu-content-body")}>
         <div className={cx("header-area")}></div>
         <div className={cx("dish-list-container")}>
-          {dishList.map((dish) => (
-            <div key={dish.id} className={classNames("dish-container")}>
+          {dishList.map((dish, index) => (
+            <div key={dish.id + index} className={classNames("dish-container")}>
               <div className={classNames("image-container")}>
                 <img src={dish.image} alt="Ảnh" onError={handleImageError} />
               </div>
@@ -317,6 +319,9 @@ function Menu() {
               </div>
             </div>
           ))}
+          {dishList.length === 0 && (
+            <div className={cx("empty-category")}>Không có sản phẩm </div>
+          )}
         </div>
         {cartItems.length > 0 && (
           <div
